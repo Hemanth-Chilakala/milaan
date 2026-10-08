@@ -1,0 +1,18 @@
+[project]
+name = "milaan"
+version = "0.1.0"
+requires-python = ">=3.12"
+description = "Evidence-backed payment reconciliation inside Exasol Personal"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["db: requires a running Exasol Personal deployment"]

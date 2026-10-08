@@ -1,0 +1,20 @@
+# Rates are probabilities per ordinary payment event, excluding the fixed showcase.
+# A batch event produces several payments; rates by source record differ accordingly.
+break_rates:
+  TIMING: 0.005
+  FEE_NETTING: 0.004
+  BATCH_SETTLEMENT: 0.001
+  REF_TRUNCATED: 0.006
+  NAME_MISMATCH: 0.004
+  PARTIAL_PAYMENT: 0.005
+  SPLIT_PAYMENT: 0.004
+  DUPLICATE_POSTING: 0.004
+  NACH_BOUNCE_MISPOSTED: 0.005
+  UNIDENTIFIED_CREDIT: 0.004
+  MISSING_IN_BANK: 0.005
+  REFUND_REVERSAL: 0.003
+fictional_holidays:
+  - '2026-10-02'
+  - '2026-10-20'
+batch_size: 5
+fee_basis_points: 80
