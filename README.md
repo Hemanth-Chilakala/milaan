@@ -39,7 +39,7 @@ The video uses locally generated synthetic narration. The publisher can add an u
 Bulk IMPORT, SQL normalisation, joins, aggregation, window functions, similarity and subset-sum UDFs, explanations and scoring execute inside Exasol Personal. Python orchestrates SQL and displays aggregates or 50-row pages; it does not retrieve millions of transactions for matching.
 
 <!-- MEASUREMENTS_START -->
-10,000,000 source records reconciled in **114.49s** on **4 cores / 15.62 GiB RAM**. **98.502%** of source records were grouped; seeded link precision and recall were **100.000% / 99.959%**, with **0 false links**. The headline uses the live-recorded run when available. See [all measured benchmarks](docs/benchmarks.md) for separate import, pass and explanation timings.
+10,000,000 source records reconciled in **203.88s** on **4 cores / 15.62 GiB RAM**. **98.502%** of source records were grouped; seeded link precision and recall were **100.000% / 99.959%**, with **0 false links**. The headline uses the live-recorded run when available. See [all measured benchmarks](docs/benchmarks.md) for separate import, pass and explanation timings.
 <!-- MEASUREMENTS_END -->
 
 The data is synthetic. Real operational accuracy requires independently labelled partner datasets; no production accuracy or close-time improvement is claimed.

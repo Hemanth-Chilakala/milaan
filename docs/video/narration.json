@@ -9,7 +9,7 @@
   },
   {
     "seconds": 45,
-    "text": "Here are ten million source records across four files. Reconciliation runs inside Exasol Personal. The timer shows the real elapsed time as each pass completes. Exact reference matching comes first, followed by gateway batches, fee-aware matching, business-day tolerance, name similarity and bounded split payments. The recorded run took 114.49 seconds, including result validation and SQL accuracy scoring. 98.50 percent of source records belong to matched groups. Every record is checked for conflicting group membership. The dashboard retrieves small result sets rather than moving millions of records into Python."
+    "text": "Here are ten million source records across four files. Reconciliation runs inside Exasol Personal. The timer shows the real elapsed time as each pass completes. Exact reference matching comes first, followed by gateway batches, fee-aware matching, business-day tolerance, name similarity and bounded split payments. The recorded run took 203.88 seconds, including result validation and SQL accuracy scoring. 98.50 percent of source records belong to matched groups. Every record is checked for conflicting group membership. The dashboard retrieves small result sets rather than moving millions of records into Python."
   },
   {
     "seconds": 40,

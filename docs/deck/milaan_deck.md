@@ -79,13 +79,13 @@ Ground truth enters only the SQL scoring path. Python orchestrates; the database
 
 | Pass | Receipt links | Time |
 |---|---:|---:|
-| EXACT | 3,164,644 | 13.16s |
-| PG_BATCH | 35,303 | 11.42s |
-| FEE_AWARE | 1,079,439 | 8.88s |
-| TOLERANT | 43,689 | 2.75s |
-| FUZZY | 16,025 | 2.26s |
-| SPLIT_MERGE | 44,100 | 16.95s |
-| CLASSIFY | 0 | 22.27s |
+| EXACT | 3,164,644 | 25.34s |
+| PG_BATCH | 35,303 | 18.67s |
+| FEE_AWARE | 1,079,439 | 17.20s |
+| TOLERANT | 43,689 | 6.47s |
+| FUZZY | 16,025 | 4.78s |
+| SPLIT_MERGE | 44,100 | 31.60s |
+| CLASSIFY | 0 | 39.61s |
 
 Passes use remaining keys only. One-to-many and many-to-one relationships share a single group ID.
 
@@ -93,7 +93,7 @@ Passes use remaining keys only. One-to-many and many-to-one relationships share 
 
 # Why Exasol Personal
 
-<div class='big'>114.49 seconds</div>
+<div class='big'>203.88 seconds</div>
 
 **10,000,000 source records** across four files.
 
@@ -116,7 +116,7 @@ Rank by amount × business-day age × risk. Inspect source evidence. Accept a re
 
 <div class='metrics'><div><strong>100.000%</strong><br>precision</div><div><strong>99.959%</strong><br>recall</div><div><strong>98.502%</strong><br>source records grouped</div></div>
 
-0 false links · 1,779 missed expected links · 105,343 exceptions
+0 false links · 1,779 missed expected links · 103,564 exceptions
 
 Conflict validation rejects records assigned to multiple groups. These seeded results do not establish real-world accuracy; corruption patterns and distinct loans are deliberately constrained.
 

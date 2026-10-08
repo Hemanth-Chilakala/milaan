@@ -140,6 +140,38 @@ style: |
         flags=re.S,
     )
     readme.write_text(text)
+    if recording.exists():
+        report = ROOT / "docs/benchmarks.md"
+        section = (
+            "\n<!-- RECORDING_START -->\n"
+            "## Final recorded demonstration\n\n"
+            f"Run `{live['run_id']}` reconciled **10,000,000 source records in {seconds:.3f}s**. "
+            f"It measured **{score['PRECISION_VALUE'] * 100:.3f}% precision**, "
+            f"**{score['RECALL_VALUE'] * 100:.3f}% recall** and **{auto:.3f}% source membership**, "
+            f"with {score['FALSE_POSITIVE']:,} false links, {score['FALSE_NEGATIVE']:,} missed links "
+            f"and {rowcount:,} exceptions.\n\n"
+            "The earlier size-comparison table remains an observation from its original runs. "
+            "This later run is the headline used by the README, deck and narration. "
+            "The browser and recorder shared the measured host; no isolated-compute or cold-cache claim is made. "
+            "Later classification groups low-confidence payer cases into one review item, so its exception count differs from the initial benchmark. "
+            "The under-one-minute aspiration was not achieved.\n\n"
+            "| Pass | Receipt links | Recorded seconds |\n|---|---:|---:|\n"
+            + pass_rows
+            + "\n\nThe exact run, scores and native profiles are in [recording.json](video/recording.json). "
+            "The video visibly compresses the reconciliation footage to fit the three-minute submission limit.\n"
+            "<!-- RECORDING_END -->\n"
+        )
+        report_text = report.read_text()
+        if "<!-- RECORDING_START -->" in report_text:
+            report_text = re.sub(
+                r"\n<!-- RECORDING_START -->.*?<!-- RECORDING_END -->\n?",
+                lambda _: section,
+                report_text,
+                flags=re.S,
+            )
+        else:
+            report_text += section
+        report.write_text(report_text)
     print(
         f"Prepared deck and {sum(len(t.split()) for _, t in segments)} narration words from measured evidence"
     )

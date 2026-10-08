@@ -1,5 +1,6 @@
 """Assemble 2:45 footage, offline neural narration and burned-in captions."""
 
+import argparse
 import json
 import subprocess
 from pathlib import Path
@@ -30,6 +31,9 @@ def duration(path):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--segment", type=int, choices=range(7), help="Rebuild one segment")
+    selected = parser.parse_args().segment
     folder = ROOT / "private/recording"
     meta = json.loads((folder / "shots.json").read_text())
     segments = json.loads((ROOT / "docs/video/narration.json").read_text())
@@ -47,6 +51,12 @@ def main():
     ]
     clips = []
     for index, (segment, source) in enumerate(zip(segments, sources, strict=True)):
+        clip = folder / f"clip-{index}.mp4"
+        if selected is not None and index != selected:
+            if not clip.exists():
+                raise RuntimeError("Build the complete video before rebuilding one segment")
+            clips.append(clip)
+            continue
         seconds = segment["seconds"]
         textfile = folder / f"narration-{index}.txt"
         textfile.write_text(segment["text"])
@@ -102,11 +112,11 @@ def main():
             end = offset * seconds / len(words)
             cues.append(f"{number}\n{timestamp(start)} --> {timestamp(end)}\n" + " ".join(group))
         subtitle.write_text("\n\n".join(cues) + "\n")
-        clip = folder / f"clip-{index}.mp4"
         # Keep captions in a reserved band so they cannot cover dashboard evidence.
         frame = "scale=1920:864:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:44:color=0x142e28"
         caption = f"subtitles={subtitle}:force_style='FontName=DejaVu Sans,FontSize=14,Outline=1,MarginV=14'"
         if isinstance(source, Path):
+            video_map = "0:v:0"
             command = [
                 "ffmpeg",
                 "-v",
@@ -130,31 +140,51 @@ def main():
                 if factor < 0.95
                 else ""
             )
+            prelude = min(2, shot["start"]) if source == "reconciliation" else 0
             command = [
                 "ffmpeg",
                 "-v",
                 "error",
                 "-y",
                 "-ss",
-                str(shot["start"]),
+                str(shot["start"] - prelude),
                 "-t",
-                str(length),
+                str(length + prelude),
                 "-i",
                 meta["video"],
                 "-i",
                 str(adjusted),
-                "-vf",
-                f"setpts={factor}*PTS,fps=30,{frame},{caption}{label}",
             ]
+            if source == "reconciliation":
+                # Give both the unreconciled count and completed KPIs time to read.
+                work_end = length + prelude - 3
+                work_factor = (seconds - 10) / (length - 3)
+                filters = (
+                    "[0:v]split=3[before][during][after];"
+                    f"[before]trim=end={prelude},setpts={5 / prelude}*(PTS-STARTPTS)[opening];"
+                    f"[during]trim=start={prelude}:end={work_end},setpts={work_factor}*(PTS-STARTPTS)[work];"
+                    f"[after]trim=start={work_end},setpts={5 / 3}*(PTS-STARTPTS)[closing];"
+                    "[opening][work][closing]concat=n=3:v=1:a=0,"
+                    f"fps=30,{frame},{caption}{label}[visual]"
+                )
+                command += ["-filter_complex", filters]
+                video_map = "[visual]"
+            else:
+                command += ["-vf", f"setpts={factor}*PTS,fps=30,{frame},{caption}{label}"]
+                video_map = "0:v:0"
         run(
             command
             + [
                 "-map",
-                "0:v:0",
+                video_map,
                 "-map",
                 "1:a:0",
                 "-t",
                 str(seconds),
+                "-r",
+                "30",
+                "-video_track_timescale",
+                "15360",
                 "-c:v",
                 "libx264",
                 "-preset",
