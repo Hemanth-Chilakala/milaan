@@ -48,9 +48,9 @@ def exceptions(category="All", channel="All", age="All", amount="All", offset=0)
     if amount in bands:
         where.append("e.amount_paise " + bands[amount])
     return query(
-        'SELECT e.*,x.explanation FROM MILAAN_RES."EXCEPTION" e LEFT JOIN MILAAN_RES.EXPLANATION x ON e.exception_id=x.exception_id WHERE '
+        'WITH page_records AS (SELECT e.*,x.explanation FROM MILAAN_RES."EXCEPTION" e LEFT JOIN MILAAN_RES.EXPLANATION x ON e.exception_id=x.exception_id WHERE '
         + " AND ".join(where)
-        + " ORDER BY e.priority_score DESC,e.exception_id LIMIT 50 OFFSET {offset!d}",
+        + " ORDER BY e.priority_score DESC,e.exception_id LIMIT 50 OFFSET {offset!d}), latest_review AS (SELECT * FROM MILAAN_AUDIT.DECISION QUALIFY ROW_NUMBER() OVER (PARTITION BY run_id,exception_id ORDER BY created_at DESC,decision_id DESC)=1) SELECT p.*,a.decision_action review_action,a.assignee review_assignee FROM page_records p LEFT JOIN latest_review a ON p.exception_id=a.exception_id AND p.run_id=a.run_id ORDER BY p.priority_score DESC,p.exception_id",
         params,
     )
 
