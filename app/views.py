@@ -88,6 +88,10 @@ def home(data):
         f"Four source files · synthetic business date {data['AS_OF_DATE']} · amounts in INR. Exception exposure includes accounting breaks; it is not a cash balance."
     )
     st.divider()
+    if st.session_state.get("completed_run"):
+        st.success(
+            "Results and evidence-backed explanations are ready. Open the exceptions queue to review priority items."
+        )
     if data.get("RUN") and data["RUN"]["STATUS"] != "COMPLETE":
         st.warning(
             f"The latest run is {data['RUN']['STATUS'].lower()}. Current results may be incomplete; run reconciliation to finish a close."
@@ -125,9 +129,8 @@ def home(data):
             expanded=True,
         )
         st.cache_data.clear()
-        st.success(
-            "Results and evidence-backed explanations are ready. Open the exceptions queue to review priority items."
-        )
+        st.session_state["completed_run"] = result
+        st.rerun()
     run = data.get("RUN")
     if run:
         rows = query(

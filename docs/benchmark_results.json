@@ -1,0 +1,546 @@
+{
+  "measured_at_utc": "2026-10-08T16:40:54.569455+00:00",
+  "logical_cpus": 4,
+  "ram_bytes": 16770494464,
+  "database": "Exasol Personal 2026.2.0-nano.3",
+  "results": [
+    {
+      "run_id": "eb36626d-8531-43f0-8379-3e86abff81de",
+      "seconds": 16.546379730999888,
+      "passes": {
+        "EXACT": 2.048583623000013,
+        "PG_BATCH": 1.6632885970002462,
+        "FEE_AWARE": 1.39010283899961,
+        "TOLERANT": 0.3722477199999048,
+        "FUZZY": 0.5119793979997667,
+        "SPLIT_MERGE": 1.9199929500000508,
+        "CLASSIFY": 2.9347202339999967
+      },
+      "score": {
+        "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 438576,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 0,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 1.0,
+        "AUTO_MATCH_RATE": 0.985396,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "source_rows": 1000000,
+      "generation_seconds": 5.719699993278482e-05,
+      "load_total_seconds": 16.421180729000298,
+      "imports": {
+        "ledger": 1.1725905440002862,
+        "bank_statement": 1.5248958020001737,
+        "pg_settlement": 3.302403895000225,
+        "nach_returns": 0.11927798599981543,
+        "ground_truth": 1.1188502370000606,
+        "calendar": 0.07197042100006001
+      },
+      "explanation_seconds": 0.7214602560002277,
+      "exceptions": [
+        {
+          "CATEGORY": "DUPLICATE_POSTING",
+          "N": 1749
+        },
+        {
+          "CATEGORY": "MISSING_IN_BANK",
+          "N": 2158
+        },
+        {
+          "CATEGORY": "MISSING_IN_LEDGER",
+          "N": 1
+        },
+        {
+          "CATEGORY": "NACH_BOUNCE_MISPOSTED",
+          "N": 2221
+        },
+        {
+          "CATEGORY": "PARTIAL_PAYMENT",
+          "N": 2213
+        },
+        {
+          "CATEGORY": "UNIDENTIFIED_CREDIT",
+          "N": 1829
+        }
+      ],
+      "scores": [
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "BATCH_SETTLEMENT",
+          "TRUE_POSITIVE": 2416,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "CLEAN",
+          "TRUE_POSITIVE": 420212,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "DUPLICATE_POSTING",
+          "TRUE_POSITIVE": 1749,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "FEE_NETTING",
+          "TRUE_POSITIVE": 1852,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "MISSING_IN_BANK",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "NACH_BOUNCE_MISPOSTED",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "NAME_MISMATCH",
+          "TRUE_POSITIVE": 1762,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "PARTIAL_PAYMENT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "REFUND_REVERSAL",
+          "TRUE_POSITIVE": 1295,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "REF_TRUNCATED",
+          "TRUE_POSITIVE": 2707,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "SPLIT_PAYMENT",
+          "TRUE_POSITIVE": 4360,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "TIMING",
+          "TRUE_POSITIVE": 2223,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "BREAK_TYPE": "UNIDENTIFIED_CREDIT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        }
+      ],
+      "pass_details": [
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "PASS_NAME": "EXACT",
+          "SECONDS": 2.048583623000013,
+          "LINKS_ADDED": 316563,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.019\", \"CPU\": \"23.3\", \"TEMP_DB_RAM_PEAK\": \"73.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": null, \"DURATION\": \"0.083\", \"CPU\": \"56.2\", \"TEMP_DB_RAM_PEAK\": \"14.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": null, \"DURATION\": \"0.061\", \"CPU\": \"54.3\", \"TEMP_DB_RAM_PEAK\": \"14.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.139\", \"CPU\": \"49.5\", \"TEMP_DB_RAM_PEAK\": \"54.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 2221, \"OUT_ROWS\": 2221, \"DURATION\": \"0.003\", \"CPU\": \"22.6\", \"TEMP_DB_RAM_PEAK\": \"16.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 442559, \"DURATION\": \"0.002\", \"CPU\": \"85.3\", \"TEMP_DB_RAM_PEAK\": \"37\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 2221, \"OUT_ROWS\": 440338, \"DURATION\": \"0.043\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 440338, \"DURATION\": \"0.009\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 316563, \"DURATION\": \"0.039\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 316563, \"DURATION\": \"0.007\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 316563, \"DURATION\": \"0.035\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": null, \"DURATION\": \"0.128\", \"CPU\": \"52.4\", \"TEMP_DB_RAM_PEAK\": \"107.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": null, \"DURATION\": \"0.127\", \"CPU\": \"49.8\", \"TEMP_DB_RAM_PEAK\": \"108.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 316563, \"DURATION\": \"0\", \"CPU\": \"43.1\", \"TEMP_DB_RAM_PEAK\": \"72.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 316563, \"DURATION\": \"0.062\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 316563, \"DURATION\": \"0.001\", \"CPU\": \"35.8\", \"TEMP_DB_RAM_PEAK\": \"73.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 316563, \"DURATION\": \"0.701\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": null, \"DURATION\": \"0.04\", \"CPU\": \"84.6\", \"TEMP_DB_RAM_PEAK\": \"72.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 316563, \"DURATION\": \"0.021\", \"CPU\": \"57.7\", \"TEMP_DB_RAM_PEAK\": \"93\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 316563, \"DURATION\": \"0.064\", \"CPU\": \"45.2\", \"TEMP_DB_RAM_PEAK\": \"92.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 316563, \"DURATION\": \"0.063\", \"CPU\": \"46.6\", \"TEMP_DB_RAM_PEAK\": \"92.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "PASS_NAME": "PG_BATCH",
+          "SECONDS": 1.6632885970002462,
+          "LINKS_ADDED": 3711,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.016\", \"CPU\": \"19\", \"TEMP_DB_RAM_PEAK\": \"75.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 112792, \"OUT_ROWS\": 112792, \"DURATION\": \"0.429\", \"CPU\": \"31.6\", \"TEMP_DB_RAM_PEAK\": \"75.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 109557, \"DURATION\": \"0.103\", \"CPU\": \"44.5\", \"TEMP_DB_RAM_PEAK\": \"75.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25.1\", \"TEMP_DB_RAM_PEAK\": \"15.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX REBUILD\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0.002\", \"CPU\": \"26.8\", \"TEMP_DB_RAM_PEAK\": \"15.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.022\", \"CPU\": \"21\", \"TEMP_DB_RAM_PEAK\": \"19.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": null, \"DURATION\": \"0.027\", \"CPU\": \"84.9\", \"TEMP_DB_RAM_PEAK\": \"14.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 109557, \"OUT_ROWS\": null, \"DURATION\": \"0.028\", \"CPU\": \"58\", \"TEMP_DB_RAM_PEAK\": \"14.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.126\", \"CPU\": \"59\", \"TEMP_DB_RAM_PEAK\": \"43.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 109557, \"OUT_ROWS\": 109557, \"DURATION\": \"0\", \"CPU\": \"86.9\", \"TEMP_DB_RAM_PEAK\": \"16.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 1772, \"DURATION\": \"0.018\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 1772, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 1772, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 1772, \"OUT_ROWS\": null, \"DURATION\": \"0.002\", \"CPU\": \"39.6\", \"TEMP_DB_RAM_PEAK\": \"16.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 112792, \"OUT_ROWS\": null, \"DURATION\": \"0.034\", \"CPU\": \"59.6\", \"TEMP_DB_RAM_PEAK\": \"17.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 1772, \"OUT_ROWS\": null, \"DURATION\": \"0.001\", \"CPU\": \"29.9\", \"TEMP_DB_RAM_PEAK\": \"17.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": null, \"DURATION\": \"0.047\", \"CPU\": \"81.2\", \"TEMP_DB_RAM_PEAK\": \"17.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 444308, \"DURATION\": \"0.138\", \"CPU\": \"57.3\", \"TEMP_DB_RAM_PEAK\": \"46\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 112792, \"OUT_ROWS\": 112792, \"DURATION\": \"0.021\", \"CPU\": \"42.5\", \"TEMP_DB_RAM_PEAK\": \"26\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1772, \"OUT_ROWS\": 1772, \"DURATION\": \"0\", \"CPU\": \"72.2\", \"TEMP_DB_RAM_PEAK\": \"18.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 112792, \"OUT_ROWS\": 3712, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 3712, \"DURATION\": \"0.007\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 3711, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 3711, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3711, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 3711, \"OUT_ROWS\": null, \"DURATION\": \"0.002\", \"CPU\": \"42.7\", \"TEMP_DB_RAM_PEAK\": \"18.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 3711, \"OUT_ROWS\": 3711, \"DURATION\": \"0\", \"CPU\": \"28\", \"TEMP_DB_RAM_PEAK\": \"19.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3711, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 3711, \"OUT_ROWS\": 3711, \"DURATION\": \"0\", \"CPU\": \"22.8\", \"TEMP_DB_RAM_PEAK\": \"19\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 316563, \"OUT_ROWS\": 3711, \"DURATION\": \"0.003\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25\", \"TEMP_DB_RAM_PEAK\": \"19\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": 3711, \"DURATION\": \"0.004\", \"CPU\": \"21.9\", \"TEMP_DB_RAM_PEAK\": \"19\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": 3711, \"DURATION\": \"0.004\", \"CPU\": \"23.9\", \"TEMP_DB_RAM_PEAK\": \"19\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": 3711, \"DURATION\": \"0.005\", \"CPU\": \"24.6\", \"TEMP_DB_RAM_PEAK\": \"19\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "PASS_NAME": "FEE_AWARE",
+          "SECONDS": 1.39010283899961,
+          "LINKS_ADDED": 107785,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.023\", \"CPU\": \"20.7\", \"TEMP_DB_RAM_PEAK\": \"53.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 112792, \"OUT_ROWS\": null, \"DURATION\": \"0.024\", \"CPU\": \"61.9\", \"TEMP_DB_RAM_PEAK\": \"14.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.149\", \"CPU\": \"44.7\", \"TEMP_DB_RAM_PEAK\": \"53.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 112792, \"OUT_ROWS\": 111497, \"DURATION\": \"0.001\", \"CPU\": \"86.6\", \"TEMP_DB_RAM_PEAK\": \"33\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": 107786, \"DURATION\": \"0.009\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 107785, \"DURATION\": \"0.021\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": 107785, \"DURATION\": \"0.012\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 107785, \"DURATION\": \"0.009\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": 107785, \"DURATION\": \"0.012\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 107785, \"DURATION\": \"0.016\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 107785, \"OUT_ROWS\": null, \"DURATION\": \"0.045\", \"CPU\": \"42.9\", \"TEMP_DB_RAM_PEAK\": \"57.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 107785, \"OUT_ROWS\": null, \"DURATION\": \"0.031\", \"CPU\": \"49.9\", \"TEMP_DB_RAM_PEAK\": \"35\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 107785, \"OUT_ROWS\": null, \"DURATION\": \"0.027\", \"CPU\": \"59.1\", \"TEMP_DB_RAM_PEAK\": \"53\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 107785, \"OUT_ROWS\": 107785, \"DURATION\": \"0\", \"CPU\": \"46.1\", \"TEMP_DB_RAM_PEAK\": \"53.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 107785, \"DURATION\": \"0.023\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 107785, \"OUT_ROWS\": 107785, \"DURATION\": \"0\", \"CPU\": \"37.4\", \"TEMP_DB_RAM_PEAK\": \"53\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 320274, \"OUT_ROWS\": 107785, \"DURATION\": \"0.288\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 428059, \"OUT_ROWS\": null, \"DURATION\": \"0.022\", \"CPU\": \"25.1\", \"TEMP_DB_RAM_PEAK\": \"50.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 428059, \"OUT_ROWS\": 107785, \"DURATION\": \"0.064\", \"CPU\": \"30.9\", \"TEMP_DB_RAM_PEAK\": \"58.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 428059, \"OUT_ROWS\": 107785, \"DURATION\": \"0.085\", \"CPU\": \"29.5\", \"TEMP_DB_RAM_PEAK\": \"58.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 428059, \"OUT_ROWS\": 107785, \"DURATION\": \"0.088\", \"CPU\": \"29.1\", \"TEMP_DB_RAM_PEAK\": \"58.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "PASS_NAME": "TOLERANT",
+          "SECONDS": 0.3722477199999048,
+          "LINKS_ADDED": 4395,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.02\", \"CPU\": \"19.7\", \"TEMP_DB_RAM_PEAK\": \"34.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": null, \"DURATION\": \"0.028\", \"CPU\": \"79.4\", \"TEMP_DB_RAM_PEAK\": \"14.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": null, \"DURATION\": \"0.006\", \"CPU\": \"67.2\", \"TEMP_DB_RAM_PEAK\": \"14.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.138\", \"CPU\": \"59.6\", \"TEMP_DB_RAM_PEAK\": \"57.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 442559, \"DURATION\": \"0.003\", \"CPU\": \"89.6\", \"TEMP_DB_RAM_PEAK\": \"31.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 2221, \"OUT_ROWS\": 440338, \"DURATION\": \"0.043\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 428059, \"OUT_ROWS\": 12279, \"DURATION\": \"0.03\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 4395, \"DURATION\": \"0.003\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 428059, \"OUT_ROWS\": 4395, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 4395, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 4395, \"OUT_ROWS\": null, \"DURATION\": \"0.003\", \"CPU\": \"47.5\", \"TEMP_DB_RAM_PEAK\": \"31.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 4395, \"OUT_ROWS\": null, \"DURATION\": \"0.004\", \"CPU\": \"33\", \"TEMP_DB_RAM_PEAK\": \"34\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 4395, \"OUT_ROWS\": null, \"DURATION\": \"0.002\", \"CPU\": \"42.9\", \"TEMP_DB_RAM_PEAK\": \"33.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4395, \"OUT_ROWS\": 4395, \"DURATION\": \"0\", \"CPU\": \"28.7\", \"TEMP_DB_RAM_PEAK\": \"20.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 4395, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4395, \"OUT_ROWS\": 4395, \"DURATION\": \"0\", \"CPU\": \"23.1\", \"TEMP_DB_RAM_PEAK\": \"20.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 428059, \"OUT_ROWS\": 4395, \"DURATION\": \"0.004\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 432454, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25\", \"TEMP_DB_RAM_PEAK\": \"20.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 432454, \"OUT_ROWS\": 4395, \"DURATION\": \"0.002\", \"CPU\": \"18.5\", \"TEMP_DB_RAM_PEAK\": \"20.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 432454, \"OUT_ROWS\": 4395, \"DURATION\": \"0.004\", \"CPU\": \"24\", \"TEMP_DB_RAM_PEAK\": \"20.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 432454, \"OUT_ROWS\": 4395, \"DURATION\": \"0.004\", \"CPU\": \"22.8\", \"TEMP_DB_RAM_PEAK\": \"20.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "PASS_NAME": "FUZZY",
+          "SECONDS": 0.5119793979997667,
+          "LINKS_ADDED": 1762,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.067\", \"CPU\": \"8.9\", \"TEMP_DB_RAM_PEAK\": \"26.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": null, \"DURATION\": \"0.018\", \"CPU\": \"55.8\", \"TEMP_DB_RAM_PEAK\": \"14.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": null, \"DURATION\": \"0.017\", \"CPU\": \"54.4\", \"TEMP_DB_RAM_PEAK\": \"14.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.127\", \"CPU\": \"49.7\", \"TEMP_DB_RAM_PEAK\": \"63.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 115354, \"DURATION\": \"0.009\", \"CPU\": \"9\", \"TEMP_DB_RAM_PEAK\": \"26.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 432454, \"OUT_ROWS\": 6294, \"DURATION\": \"0.045\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 1762, \"DURATION\": \"0.004\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 432454, \"OUT_ROWS\": 1762, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 1762, \"DURATION\": \"0.136\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1762, \"OUT_ROWS\": 1762, \"DURATION\": \"0\", \"CPU\": \"30.8\", \"TEMP_DB_RAM_PEAK\": \"18.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 1762, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 1762, \"OUT_ROWS\": null, \"DURATION\": \"0.001\", \"CPU\": \"37.6\", \"TEMP_DB_RAM_PEAK\": \"18.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 1762, \"OUT_ROWS\": null, \"DURATION\": \"0.002\", \"CPU\": \"38.6\", \"TEMP_DB_RAM_PEAK\": \"22\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1762, \"OUT_ROWS\": 1762, \"DURATION\": \"0\", \"CPU\": \"31.2\", \"TEMP_DB_RAM_PEAK\": \"20\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 1762, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1762, \"OUT_ROWS\": 1762, \"DURATION\": \"0\", \"CPU\": \"19.4\", \"TEMP_DB_RAM_PEAK\": \"19.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 432454, \"OUT_ROWS\": 1762, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 434216, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"24.9\", \"TEMP_DB_RAM_PEAK\": \"19.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 434216, \"OUT_ROWS\": 1762, \"DURATION\": \"0.002\", \"CPU\": \"19\", \"TEMP_DB_RAM_PEAK\": \"19.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 434216, \"OUT_ROWS\": 1762, \"DURATION\": \"0.002\", \"CPU\": \"22.9\", \"TEMP_DB_RAM_PEAK\": \"19.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 434216, \"OUT_ROWS\": 1762, \"DURATION\": \"0.002\", \"CPU\": \"22\", \"TEMP_DB_RAM_PEAK\": \"19.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "PASS_NAME": "SPLIT_MERGE",
+          "SECONDS": 1.9199929500000508,
+          "LINKS_ADDED": 4360,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.019\", \"CPU\": \"17.7\", \"TEMP_DB_RAM_PEAK\": \"17.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": null, \"DURATION\": \"0.02\", \"CPU\": \"55.3\", \"TEMP_DB_RAM_PEAK\": \"14.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": null, \"DURATION\": \"0.02\", \"CPU\": \"53\", \"TEMP_DB_RAM_PEAK\": \"14.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.2\", \"CPU\": \"41.4\", \"TEMP_DB_RAM_PEAK\": \"63.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 115354, \"DURATION\": \"0.004\", \"CPU\": \"77.8\", \"TEMP_DB_RAM_PEAK\": \"17.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 434216, \"OUT_ROWS\": 4532, \"DURATION\": \"0.012\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 6573, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 434216, \"OUT_ROWS\": 6573, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 6573, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.091\", \"CPU\": \"2.4\", \"TEMP_DB_RAM_PEAK\": \"21.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 6573, \"OUT_ROWS\": 6573, \"DURATION\": \"0\", \"CPU\": \"50\", \"TEMP_DB_RAM_PEAK\": \"17.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 4360, \"DURATION\": \"1.153\", \"CPU\": \"24\", \"TEMP_DB_RAM_PEAK\": \"49.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25\", \"TEMP_DB_RAM_PEAK\": \"20.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.007\", \"CPU\": \"21\", \"TEMP_DB_RAM_PEAK\": \"15.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4360, \"OUT_ROWS\": null, \"DURATION\": \"0.001\", \"CPU\": \"31.2\", \"TEMP_DB_RAM_PEAK\": \"14.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4360, \"OUT_ROWS\": 4360, \"DURATION\": \"0.002\", \"CPU\": \"27.9\", \"TEMP_DB_RAM_PEAK\": \"15.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4360, \"OUT_ROWS\": 4360, \"DURATION\": \"0\", \"CPU\": \"54.2\", \"TEMP_DB_RAM_PEAK\": \"15\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4360, \"OUT_ROWS\": 0, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0\", \"CPU\": \"38.4\", \"TEMP_DB_RAM_PEAK\": \"15\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4360, \"OUT_ROWS\": 4360, \"DURATION\": \"0\", \"CPU\": \"28.5\", \"TEMP_DB_RAM_PEAK\": \"15.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 4360, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 434216, \"OUT_ROWS\": 4360, \"DURATION\": \"0.005\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 438576, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25\", \"TEMP_DB_RAM_PEAK\": \"15.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 438576, \"OUT_ROWS\": 4360, \"DURATION\": \"0.002\", \"CPU\": \"21.5\", \"TEMP_DB_RAM_PEAK\": \"15.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 438576, \"OUT_ROWS\": 4360, \"DURATION\": \"0.004\", \"CPU\": \"24.1\", \"TEMP_DB_RAM_PEAK\": \"15.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 438576, \"OUT_ROWS\": 4360, \"DURATION\": \"0.004\", \"CPU\": \"24.3\", \"TEMP_DB_RAM_PEAK\": \"15.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "eb36626d-8531-43f0-8379-3e86abff81de",
+          "PASS_NAME": "CLASSIFY",
+          "SECONDS": 2.9347202339999967,
+          "LINKS_ADDED": 0,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.017\", \"CPU\": \"17.6\", \"TEMP_DB_RAM_PEAK\": \"15.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 444308, \"DURATION\": \"0\", \"CPU\": \"78.2\", \"TEMP_DB_RAM_PEAK\": \"15.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 438576, \"OUT_ROWS\": 8341, \"DURATION\": \"0.048\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 8341, \"DURATION\": \"0.005\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25.1\", \"TEMP_DB_RAM_PEAK\": \"15\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.016\", \"CPU\": \"19.7\", \"TEMP_DB_RAM_PEAK\": \"17\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": null, \"DURATION\": \"0.005\", \"CPU\": \"33.7\", \"TEMP_DB_RAM_PEAK\": \"14.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": null, \"DURATION\": \"0.002\", \"CPU\": \"38.2\", \"TEMP_DB_RAM_PEAK\": \"14.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.085\", \"CPU\": \"44.9\", \"TEMP_DB_RAM_PEAK\": \"69.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 8341, \"DURATION\": \"0\", \"CPU\": \"43.1\", \"TEMP_DB_RAM_PEAK\": \"16.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 3962, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0.003\", \"CPU\": \"42.9\", \"TEMP_DB_RAM_PEAK\": \"16.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 8341, \"DURATION\": \"0\", \"CPU\": \"48\", \"TEMP_DB_RAM_PEAK\": \"16.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 3962, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3962, \"DURATION\": \"0.004\", \"CPU\": \"46\", \"TEMP_DB_RAM_PEAK\": \"17\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 3962, \"OUT_ROWS\": 3962, \"DURATION\": \"0\", \"CPU\": \"25.5\", \"TEMP_DB_RAM_PEAK\": \"16.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3962, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25\", \"TEMP_DB_RAM_PEAK\": \"16.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.032\", \"CPU\": \"19.2\", \"TEMP_DB_RAM_PEAK\": \"24.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 2221, \"OUT_ROWS\": null, \"DURATION\": \"0.001\", \"CPU\": \"28.6\", \"TEMP_DB_RAM_PEAK\": \"14.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": null, \"DURATION\": \"0.003\", \"CPU\": \"34.2\", \"TEMP_DB_RAM_PEAK\": \"14.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 3962, \"OUT_ROWS\": null, \"DURATION\": \"0.001\", \"CPU\": \"30.7\", \"TEMP_DB_RAM_PEAK\": \"14.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 3962, \"OUT_ROWS\": 3962, \"DURATION\": \"0.002\", \"CPU\": \"25.9\", \"TEMP_DB_RAM_PEAK\": \"16.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 2221, \"OUT_ROWS\": 2221, \"DURATION\": \"0.002\", \"CPU\": \"25.8\", \"TEMP_DB_RAM_PEAK\": \"16.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 2221, \"OUT_ROWS\": 2221, \"DURATION\": \"0.002\", \"CPU\": \"24.9\", \"TEMP_DB_RAM_PEAK\": \"20.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": \"43.6\", \"TEMP_DB_RAM_PEAK\": \"23.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 55, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 8341, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 2221, \"OUT_ROWS\": 8341, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 3962, \"OUT_ROWS\": 8341, \"DURATION\": \"0.001\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 8341, \"DURATION\": \"0.005\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": null, \"DURATION\": \"0.005\", \"CPU\": \"49.7\", \"TEMP_DB_RAM_PEAK\": \"24.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 8341, \"DURATION\": \"0\", \"CPU\": \"27.2\", \"TEMP_DB_RAM_PEAK\": \"20.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 8341, \"DURATION\": \"0.006\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INDEX REBUILD\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0\", \"CPU\": \"32\", \"TEMP_DB_RAM_PEAK\": \"20.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.094\", \"CPU\": \"3.4\", \"TEMP_DB_RAM_PEAK\": \"72.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 8341, \"DURATION\": \"0\", \"CPU\": \"45.8\", \"TEMP_DB_RAM_PEAK\": \"72.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 8341, \"DURATION\": \"1.031\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.039\", \"CPU\": \"10.9\", \"TEMP_DB_RAM_PEAK\": \"27.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 8341, \"DURATION\": \"0.004\", \"CPU\": \"26.3\", \"TEMP_DB_RAM_PEAK\": \"19.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": \"22.9\", \"TEMP_DB_RAM_PEAK\": \"27.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 55, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.006\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 438576, \"OUT_ROWS\": 4042, \"DURATION\": \"0.136\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 1829, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 8341, \"OUT_ROWS\": 1829, \"DURATION\": \"0.328\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.043\", \"CPU\": \"13.3\", \"TEMP_DB_RAM_PEAK\": \"128.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 438576, \"OUT_ROWS\": 438576, \"DURATION\": \"0.037\", \"CPU\": \"59.7\", \"TEMP_DB_RAM_PEAK\": \"129\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 436637, \"DURATION\": \"0.172\", \"CPU\": \"58.9\", \"TEMP_DB_RAM_PEAK\": \"129\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": null, \"DURATION\": \"0.024\", \"CPU\": \"77\", \"TEMP_DB_RAM_PEAK\": \"70.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 436637, \"OUT_ROWS\": null, \"DURATION\": \"0.018\", \"CPU\": \"80.8\", \"TEMP_DB_RAM_PEAK\": \"29.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 436637, \"OUT_ROWS\": 436637, \"DURATION\": \"0.096\", \"CPU\": \"39.7\", \"TEMP_DB_RAM_PEAK\": \"101.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 440679, \"DURATION\": \"0.117\", \"CPU\": \"55\", \"TEMP_DB_RAM_PEAK\": \"121.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 109557, \"OUT_ROWS\": 109557, \"DURATION\": \"0.031\", \"CPU\": \"50.1\", \"TEMP_DB_RAM_PEAK\": \"47.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 444308, \"DURATION\": \"0.071\", \"CPU\": \"52.6\", \"TEMP_DB_RAM_PEAK\": \"101.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": \"14.3\", \"TEMP_DB_RAM_PEAK\": \"41.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 55, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 112792, \"OUT_ROWS\": 111497, \"DURATION\": \"0.003\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 444308, \"OUT_ROWS\": 1, \"DURATION\": \"0.033\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 109557, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 440679, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 436637, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 10170, \"OUT_ROWS\": 1, \"DURATION\": \"0.042\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}]"
+        }
+      ]
+    },
+    {
+      "run_id": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+      "seconds": 114.48582049499964,
+      "passes": {
+        "EXACT": 13.155330510000113,
+        "PG_BATCH": 11.417449489000319,
+        "FEE_AWARE": 8.879280234999896,
+        "TOLERANT": 2.7488349850000304,
+        "FUZZY": 2.264589992999845,
+        "SPLIT_MERGE": 16.950272854000104,
+        "CLASSIFY": 22.26694782499999
+      },
+      "score": {
+        "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 4383200,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 1779,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 0.9995942968027897,
+        "AUTO_MATCH_RATE": 0.9850231,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "source_rows": 10000000,
+      "generation_seconds": 3.5386000035941834e-05,
+      "load_total_seconds": 82.41814578499998,
+      "imports": {
+        "ledger": 5.639451307999934,
+        "bank_statement": 6.6410604470002,
+        "pg_settlement": 2.1938147450000542,
+        "nach_returns": 0.27404733399998804,
+        "ground_truth": 5.309802664000017,
+        "calendar": 0.12190319600040311
+      },
+      "explanation_seconds": 2.1783311579997644,
+      "exceptions": [
+        {
+          "CATEGORY": "DUPLICATE_POSTING",
+          "N": 17577
+        },
+        {
+          "CATEGORY": "MISSING_IN_BANK",
+          "N": 23793
+        },
+        {
+          "CATEGORY": "MISSING_IN_LEDGER",
+          "N": 1
+        },
+        {
+          "CATEGORY": "NACH_BOUNCE_MISPOSTED",
+          "N": 22135
+        },
+        {
+          "CATEGORY": "PARTIAL_PAYMENT",
+          "N": 22292
+        },
+        {
+          "CATEGORY": "UNIDENTIFIED_CREDIT",
+          "N": 19545
+        }
+      ],
+      "scores": [
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "BATCH_SETTLEMENT",
+          "TRUE_POSITIVE": 22101,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "CLEAN",
+          "TRUE_POSITIVE": 4203146,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "DUPLICATE_POSTING",
+          "TRUE_POSITIVE": 17577,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "FEE_NETTING",
+          "TRUE_POSITIVE": 17807,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "MISSING_IN_BANK",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "NACH_BOUNCE_MISPOSTED",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "NAME_MISMATCH",
+          "TRUE_POSITIVE": 16025,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9000786340148281,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 4383200,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9995942968027897,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "PARTIAL_PAYMENT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "REFUND_REVERSAL",
+          "TRUE_POSITIVE": 13202,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "REF_TRUNCATED",
+          "TRUE_POSITIVE": 26888,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "SPLIT_PAYMENT",
+          "TRUE_POSITIVE": 44100,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "TIMING",
+          "TRUE_POSITIVE": 22354,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "BREAK_TYPE": "UNIDENTIFIED_CREDIT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": null
+        }
+      ],
+      "pass_details": [
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "PASS_NAME": "EXACT",
+          "SECONDS": 13.155330510000113,
+          "LINKS_ADDED": 3164644,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.023\", \"CPU\": \"23.3\", \"TEMP_DB_RAM_PEAK\": \"495.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": null, \"DURATION\": \"0.524\", \"CPU\": \"81.4\", \"TEMP_DB_RAM_PEAK\": \"15.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": null, \"DURATION\": \"0.384\", \"CPU\": \"81.8\", \"TEMP_DB_RAM_PEAK\": \"69\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"1.071\", \"CPU\": \"75.6\", \"TEMP_DB_RAM_PEAK\": \"313.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 22135, \"OUT_ROWS\": 22135, \"DURATION\": \"0.012\", \"CPU\": \"30.6\", \"TEMP_DB_RAM_PEAK\": \"19.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 4424993, \"DURATION\": \"0.03\", \"CPU\": \"81.2\", \"TEMP_DB_RAM_PEAK\": \"223.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 22135, \"OUT_ROWS\": 4402858, \"DURATION\": \"0.524\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 4402858, \"DURATION\": \"0.111\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.44\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.083\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.274\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": null, \"DURATION\": \"0.846\", \"CPU\": \"65.5\", \"TEMP_DB_RAM_PEAK\": \"487.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": null, \"DURATION\": \"0.798\", \"CPU\": \"67.3\", \"TEMP_DB_RAM_PEAK\": \"489\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.003\", \"CPU\": \"63.8\", \"TEMP_DB_RAM_PEAK\": \"492.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.32\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.004\", \"CPU\": \"55.4\", \"TEMP_DB_RAM_PEAK\": \"491.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 3164644, \"DURATION\": \"2.558\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": null, \"DURATION\": \"0.367\", \"CPU\": \"88.8\", \"TEMP_DB_RAM_PEAK\": \"493.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.202\", \"CPU\": \"66.3\", \"TEMP_DB_RAM_PEAK\": \"608.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.547\", \"CPU\": \"72.2\", \"TEMP_DB_RAM_PEAK\": \"685.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 3164644, \"DURATION\": \"0.47\", \"CPU\": \"75.8\", \"TEMP_DB_RAM_PEAK\": \"685.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "PASS_NAME": "PG_BATCH",
+          "SECONDS": 11.41744948900032,
+          "LINKS_ADDED": 35303,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.016\", \"CPU\": \"18.6\", \"TEMP_DB_RAM_PEAK\": \"324.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1127945, \"OUT_ROWS\": 1127945, \"DURATION\": \"0.935\", \"CPU\": \"47.6\", \"TEMP_DB_RAM_PEAK\": \"324.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 1097055, \"DURATION\": \"0.686\", \"CPU\": \"61.5\", \"TEMP_DB_RAM_PEAK\": \"324.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0.001\", \"CPU\": \"25.1\", \"TEMP_DB_RAM_PEAK\": \"16\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX REBUILD\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0\", \"CPU\": \"33\", \"TEMP_DB_RAM_PEAK\": \"16\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.025\", \"CPU\": \"22.2\", \"TEMP_DB_RAM_PEAK\": \"96.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": null, \"DURATION\": \"0.242\", \"CPU\": \"90.6\", \"TEMP_DB_RAM_PEAK\": \"15.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 1097055, \"OUT_ROWS\": null, \"DURATION\": \"0.156\", \"CPU\": \"86\", \"TEMP_DB_RAM_PEAK\": \"69.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"1.121\", \"CPU\": \"76.6\", \"TEMP_DB_RAM_PEAK\": \"232.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1097055, \"OUT_ROWS\": 1097055, \"DURATION\": \"0.001\", \"CPU\": \"91.7\", \"TEMP_DB_RAM_PEAK\": \"69.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 17616, \"DURATION\": \"0.191\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 17616, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 17616, \"DURATION\": \"0.003\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 17616, \"OUT_ROWS\": null, \"DURATION\": \"0.006\", \"CPU\": \"59.2\", \"TEMP_DB_RAM_PEAK\": \"18.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 1127945, \"OUT_ROWS\": null, \"DURATION\": \"0.223\", \"CPU\": \"80.7\", \"TEMP_DB_RAM_PEAK\": \"19.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 17616, \"OUT_ROWS\": null, \"DURATION\": \"0.005\", \"CPU\": \"35.8\", \"TEMP_DB_RAM_PEAK\": \"19.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": null, \"DURATION\": \"0.443\", \"CPU\": \"85.1\", \"TEMP_DB_RAM_PEAK\": \"75.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 4442570, \"DURATION\": \"1.121\", \"CPU\": \"80.3\", \"TEMP_DB_RAM_PEAK\": \"238.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 1127945, \"OUT_ROWS\": 1127945, \"DURATION\": \"0.156\", \"CPU\": \"69.7\", \"TEMP_DB_RAM_PEAK\": \"142.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 17616, \"OUT_ROWS\": 17616, \"DURATION\": \"0\", \"CPU\": \"74.8\", \"TEMP_DB_RAM_PEAK\": \"30.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 1127945, \"OUT_ROWS\": 35304, \"DURATION\": \"0.013\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 35304, \"DURATION\": \"0.059\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 35303, \"DURATION\": \"0.014\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 35303, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 35303, \"DURATION\": \"0.009\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 35303, \"OUT_ROWS\": null, \"DURATION\": \"0.009\", \"CPU\": \"67.7\", \"TEMP_DB_RAM_PEAK\": \"81.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 35303, \"OUT_ROWS\": 35303, \"DURATION\": \"0\", \"CPU\": \"40.5\", \"TEMP_DB_RAM_PEAK\": \"96.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 35303, \"DURATION\": \"0.013\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 35303, \"OUT_ROWS\": 35303, \"DURATION\": \"0\", \"CPU\": \"29.3\", \"TEMP_DB_RAM_PEAK\": \"95\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 3164644, \"OUT_ROWS\": 35303, \"DURATION\": \"0.267\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": null, \"DURATION\": \"0.007\", \"CPU\": \"25.2\", \"TEMP_DB_RAM_PEAK\": \"43.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": 35303, \"DURATION\": \"0.011\", \"CPU\": \"30.4\", \"TEMP_DB_RAM_PEAK\": \"47.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": 35303, \"DURATION\": \"0.011\", \"CPU\": \"38.2\", \"TEMP_DB_RAM_PEAK\": \"47.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": 35303, \"DURATION\": \"0.012\", \"CPU\": \"37.6\", \"TEMP_DB_RAM_PEAK\": \"99\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "PASS_NAME": "FEE_AWARE",
+          "SECONDS": 8.879280234999896,
+          "LINKS_ADDED": 1079439,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.026\", \"CPU\": \"20.4\", \"TEMP_DB_RAM_PEAK\": \"284.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 1127945, \"OUT_ROWS\": null, \"DURATION\": \"0.148\", \"CPU\": \"81.3\", \"TEMP_DB_RAM_PEAK\": \"14.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"1.029\", \"CPU\": \"77.3\", \"TEMP_DB_RAM_PEAK\": \"318.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1127945, \"OUT_ROWS\": 1114743, \"DURATION\": \"0.009\", \"CPU\": \"85.4\", \"TEMP_DB_RAM_PEAK\": \"153.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": 1079440, \"DURATION\": \"0.099\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.245\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.136\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.11\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.12\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.134\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 1079439, \"OUT_ROWS\": null, \"DURATION\": \"0.326\", \"CPU\": \"57.8\", \"TEMP_DB_RAM_PEAK\": \"276\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 1079439, \"OUT_ROWS\": null, \"DURATION\": \"0.321\", \"CPU\": \"58.8\", \"TEMP_DB_RAM_PEAK\": \"276.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 1079439, \"OUT_ROWS\": null, \"DURATION\": \"0.314\", \"CPU\": \"60\", \"TEMP_DB_RAM_PEAK\": \"275\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1079439, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.001\", \"CPU\": \"58.8\", \"TEMP_DB_RAM_PEAK\": \"284.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.133\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1079439, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.001\", \"CPU\": \"67.3\", \"TEMP_DB_RAM_PEAK\": \"281.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 3199947, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.883\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4279386, \"OUT_ROWS\": null, \"DURATION\": \"0.224\", \"CPU\": \"25.1\", \"TEMP_DB_RAM_PEAK\": \"229.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4279386, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.665\", \"CPU\": \"34.6\", \"TEMP_DB_RAM_PEAK\": \"348.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4279386, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.478\", \"CPU\": \"68.6\", \"TEMP_DB_RAM_PEAK\": \"348.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4279386, \"OUT_ROWS\": 1079439, \"DURATION\": \"0.47\", \"CPU\": \"71.6\", \"TEMP_DB_RAM_PEAK\": \"347.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "PASS_NAME": "TOLERANT",
+          "SECONDS": 2.7488349850000304,
+          "LINKS_ADDED": 43689,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.026\", \"CPU\": \"21.2\", \"TEMP_DB_RAM_PEAK\": \"203.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": null, \"DURATION\": \"0.242\", \"CPU\": \"88\", \"TEMP_DB_RAM_PEAK\": \"15\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": null, \"DURATION\": \"0.047\", \"CPU\": \"80.7\", \"TEMP_DB_RAM_PEAK\": \"15\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"1.159\", \"CPU\": \"80.7\", \"TEMP_DB_RAM_PEAK\": \"353.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 4424993, \"DURATION\": \"0.027\", \"CPU\": \"84.6\", \"TEMP_DB_RAM_PEAK\": \"198.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 22135, \"OUT_ROWS\": 4402858, \"DURATION\": \"0.503\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4279386, \"OUT_ROWS\": 123472, \"DURATION\": \"0.358\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 43689, \"DURATION\": \"0.042\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4279386, \"OUT_ROWS\": 43689, \"DURATION\": \"0.004\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 43689, \"DURATION\": \"0.006\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 43689, \"OUT_ROWS\": null, \"DURATION\": \"0.012\", \"CPU\": \"60.7\", \"TEMP_DB_RAM_PEAK\": \"208.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 43689, \"OUT_ROWS\": null, \"DURATION\": \"0.019\", \"CPU\": \"38.3\", \"TEMP_DB_RAM_PEAK\": \"208.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 43689, \"OUT_ROWS\": null, \"DURATION\": \"0.013\", \"CPU\": \"46.1\", \"TEMP_DB_RAM_PEAK\": \"204.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 43689, \"OUT_ROWS\": 43689, \"DURATION\": \"0\", \"CPU\": \"27\", \"TEMP_DB_RAM_PEAK\": \"44.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 43689, \"DURATION\": \"0.019\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 43689, \"OUT_ROWS\": 43689, \"DURATION\": \"0\", \"CPU\": \"40.9\", \"TEMP_DB_RAM_PEAK\": \"95.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 4279386, \"OUT_ROWS\": 43689, \"DURATION\": \"0.058\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4323075, \"OUT_ROWS\": null, \"DURATION\": \"0.007\", \"CPU\": \"24.6\", \"TEMP_DB_RAM_PEAK\": \"44\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4323075, \"OUT_ROWS\": 43689, \"DURATION\": \"0.006\", \"CPU\": \"33.6\", \"TEMP_DB_RAM_PEAK\": \"48\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4323075, \"OUT_ROWS\": 43689, \"DURATION\": \"0.015\", \"CPU\": \"37.1\", \"TEMP_DB_RAM_PEAK\": \"48\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4323075, \"OUT_ROWS\": 43689, \"DURATION\": \"0.013\", \"CPU\": \"30.3\", \"TEMP_DB_RAM_PEAK\": \"48\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "PASS_NAME": "FUZZY",
+          "SECONDS": 2.264589992999845,
+          "LINKS_ADDED": 16025,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.192\", \"CPU\": \"3.9\", \"TEMP_DB_RAM_PEAK\": \"76.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": null, \"DURATION\": \"0.104\", \"CPU\": \"88.4\", \"TEMP_DB_RAM_PEAK\": \"15.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": null, \"DURATION\": \"0.104\", \"CPU\": \"86.8\", \"TEMP_DB_RAM_PEAK\": \"15.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"0.962\", \"CPU\": \"75.9\", \"TEMP_DB_RAM_PEAK\": \"355\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 1151357, \"DURATION\": \"0.031\", \"CPU\": \"22.9\", \"TEMP_DB_RAM_PEAK\": \"76.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4323075, \"OUT_ROWS\": 63365, \"DURATION\": \"0.132\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 17804, \"DURATION\": \"0.012\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4323075, \"OUT_ROWS\": 17804, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 17804, \"DURATION\": \"0.554\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 17804, \"OUT_ROWS\": 16025, \"DURATION\": \"0\", \"CPU\": \"47.4\", \"TEMP_DB_RAM_PEAK\": \"24.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 16025, \"DURATION\": \"0.002\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 16025, \"OUT_ROWS\": null, \"DURATION\": \"0.005\", \"CPU\": \"59.3\", \"TEMP_DB_RAM_PEAK\": \"24.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 16025, \"OUT_ROWS\": null, \"DURATION\": \"0.004\", \"CPU\": \"66.9\", \"TEMP_DB_RAM_PEAK\": \"24.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 16025, \"OUT_ROWS\": 16025, \"DURATION\": \"0\", \"CPU\": \"24.6\", \"TEMP_DB_RAM_PEAK\": \"29.2\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 16025, \"DURATION\": \"0.006\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 16025, \"OUT_ROWS\": 16025, \"DURATION\": \"0\", \"CPU\": \"30.7\", \"TEMP_DB_RAM_PEAK\": \"28.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 4323075, \"OUT_ROWS\": 16025, \"DURATION\": \"0.012\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4339100, \"OUT_ROWS\": null, \"DURATION\": \"0.002\", \"CPU\": \"25\", \"TEMP_DB_RAM_PEAK\": \"28.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4339100, \"OUT_ROWS\": 16025, \"DURATION\": \"0.003\", \"CPU\": \"28.1\", \"TEMP_DB_RAM_PEAK\": \"28.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4339100, \"OUT_ROWS\": 16025, \"DURATION\": \"0.011\", \"CPU\": \"28\", \"TEMP_DB_RAM_PEAK\": \"28.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4339100, \"OUT_ROWS\": 16025, \"DURATION\": \"0.01\", \"CPU\": \"25.7\", \"TEMP_DB_RAM_PEAK\": \"29\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "PASS_NAME": "SPLIT_MERGE",
+          "SECONDS": 16.950272854000104,
+          "LINKS_ADDED": 44100,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.019\", \"CPU\": \"17.8\", \"TEMP_DB_RAM_PEAK\": \"20.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": null, \"DURATION\": \"0.122\", \"CPU\": \"85.2\", \"TEMP_DB_RAM_PEAK\": \"14.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": null, \"DURATION\": \"0.116\", \"CPU\": \"79.9\", \"TEMP_DB_RAM_PEAK\": \"15.1\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"1.233\", \"CPU\": \"78.9\", \"TEMP_DB_RAM_PEAK\": \"292.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 1151357, \"DURATION\": \"0.033\", \"CPU\": \"47.6\", \"TEMP_DB_RAM_PEAK\": \"20.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4339100, \"OUT_ROWS\": 47340, \"DURATION\": \"0.128\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 66392, \"DURATION\": \"0.01\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4339100, \"OUT_ROWS\": 66392, \"DURATION\": \"0.005\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 66392, \"DURATION\": \"0.412\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.091\", \"CPU\": \"3.1\", \"TEMP_DB_RAM_PEAK\": \"24.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 66392, \"OUT_ROWS\": 66392, \"DURATION\": \"0\", \"CPU\": \"64.9\", \"TEMP_DB_RAM_PEAK\": \"24.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 44100, \"DURATION\": \"11.955\", \"CPU\": \"29.1\", \"TEMP_DB_RAM_PEAK\": \"57.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25.2\", \"TEMP_DB_RAM_PEAK\": \"20.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.008\", \"CPU\": \"28.1\", \"TEMP_DB_RAM_PEAK\": \"20.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 44100, \"OUT_ROWS\": null, \"DURATION\": \"0.008\", \"CPU\": \"60.3\", \"TEMP_DB_RAM_PEAK\": \"14.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 44100, \"OUT_ROWS\": 44100, \"DURATION\": \"0.013\", \"CPU\": \"35\", \"TEMP_DB_RAM_PEAK\": \"19.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 44100, \"OUT_ROWS\": 44100, \"DURATION\": \"0\", \"CPU\": \"91.7\", \"TEMP_DB_RAM_PEAK\": \"15.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 44100, \"OUT_ROWS\": 0, \"DURATION\": \"0.003\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0\", \"CPU\": \"34.6\", \"TEMP_DB_RAM_PEAK\": \"15.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 44100, \"OUT_ROWS\": 44100, \"DURATION\": \"0\", \"CPU\": \"45.1\", \"TEMP_DB_RAM_PEAK\": \"18\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 44100, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 4339100, \"OUT_ROWS\": 44100, \"DURATION\": \"0.063\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4383200, \"OUT_ROWS\": null, \"DURATION\": \"0.007\", \"CPU\": \"25.1\", \"TEMP_DB_RAM_PEAK\": \"15.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4383200, \"OUT_ROWS\": 44100, \"DURATION\": \"0.007\", \"CPU\": \"31.3\", \"TEMP_DB_RAM_PEAK\": \"19.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4383200, \"OUT_ROWS\": 44100, \"DURATION\": \"0.026\", \"CPU\": \"33.1\", \"TEMP_DB_RAM_PEAK\": \"19.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX INSERT\", \"OBJECT_ROWS\": 4383200, \"OUT_ROWS\": 44100, \"DURATION\": \"0.028\", \"CPU\": \"28.3\", \"TEMP_DB_RAM_PEAK\": \"19.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}]"
+        },
+        {
+          "RUN_ID": "2f5445e9-0076-4e7f-9f23-6effa16b205a",
+          "PASS_NAME": "CLASSIFY",
+          "SECONDS": 22.26694782499999,
+          "LINKS_ADDED": 0,
+          "PROFILE_JSON": "[{\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.019\", \"CPU\": \"17.2\", \"TEMP_DB_RAM_PEAK\": \"18\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 4442570, \"DURATION\": \"0.001\", \"CPU\": \"64\", \"TEMP_DB_RAM_PEAK\": \"18\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4383200, \"OUT_ROWS\": 85797, \"DURATION\": \"0.507\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 85797, \"DURATION\": \"0.593\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25.1\", \"TEMP_DB_RAM_PEAK\": \"15.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.02\", \"CPU\": \"20.5\", \"TEMP_DB_RAM_PEAK\": \"29.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": null, \"DURATION\": \"0.009\", \"CPU\": \"65.3\", \"TEMP_DB_RAM_PEAK\": \"14.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": null, \"DURATION\": \"0.007\", \"CPU\": \"62.1\", \"TEMP_DB_RAM_PEAK\": \"15\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"0.636\", \"CPU\": \"78\", \"TEMP_DB_RAM_PEAK\": \"180.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 85797, \"DURATION\": \"0\", \"CPU\": \"65.6\", \"TEMP_DB_RAM_PEAK\": \"22.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 39869, \"DURATION\": \"0.013\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0.018\", \"CPU\": \"65.6\", \"TEMP_DB_RAM_PEAK\": \"22.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 85797, \"DURATION\": \"0\", \"CPU\": \"60.8\", \"TEMP_DB_RAM_PEAK\": \"27.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 39869, \"DURATION\": \"0.02\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 39869, \"DURATION\": \"0.042\", \"CPU\": \"55.3\", \"TEMP_DB_RAM_PEAK\": \"29.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 39869, \"OUT_ROWS\": 39869, \"DURATION\": \"0\", \"CPU\": \"27.4\", \"TEMP_DB_RAM_PEAK\": \"23.9\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 39869, \"DURATION\": \"0.329\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": null, \"DURATION\": \"0\", \"CPU\": \"25\", \"TEMP_DB_RAM_PEAK\": \"23.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.038\", \"CPU\": \"19.2\", \"TEMP_DB_RAM_PEAK\": \"80.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 22135, \"OUT_ROWS\": null, \"DURATION\": \"0.007\", \"CPU\": \"47.9\", \"TEMP_DB_RAM_PEAK\": \"22\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": null, \"DURATION\": \"0.007\", \"CPU\": \"70\", \"TEMP_DB_RAM_PEAK\": \"22\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 39869, \"OUT_ROWS\": null, \"DURATION\": \"0.005\", \"CPU\": \"45.9\", \"TEMP_DB_RAM_PEAK\": \"22\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 39869, \"OUT_ROWS\": 39869, \"DURATION\": \"0.012\", \"CPU\": \"34.4\", \"TEMP_DB_RAM_PEAK\": \"26.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 22135, \"OUT_ROWS\": 22135, \"DURATION\": \"0.01\", \"CPU\": \"34.3\", \"TEMP_DB_RAM_PEAK\": \"26.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 22135, \"OUT_ROWS\": 22135, \"DURATION\": \"0.01\", \"CPU\": \"29.2\", \"TEMP_DB_RAM_PEAK\": \"29.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": \"69.7\", \"TEMP_DB_RAM_PEAK\": \"80.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 55, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 85797, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 22135, \"OUT_ROWS\": 85797, \"DURATION\": \"0.008\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 39869, \"OUT_ROWS\": 85797, \"DURATION\": \"0.006\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 85797, \"DURATION\": \"0.045\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"ANALYTICAL FUNCTION\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": null, \"DURATION\": \"0.036\", \"CPU\": \"56.7\", \"TEMP_DB_RAM_PEAK\": \"87.7\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 85797, \"DURATION\": \"0\", \"CPU\": \"33.7\", \"TEMP_DB_RAM_PEAK\": \"65.4\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 85797, \"DURATION\": \"0.882\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INDEX REBUILD\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 0, \"DURATION\": \"0\", \"CPU\": \"32\", \"TEMP_DB_RAM_PEAK\": \"63.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.097\", \"CPU\": \"3.8\", \"TEMP_DB_RAM_PEAK\": \"164\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 85797, \"DURATION\": \"0\", \"CPU\": \"57.5\", \"TEMP_DB_RAM_PEAK\": \"164\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 85797, \"DURATION\": \"7.859\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.148\", \"CPU\": \"10.6\", \"TEMP_DB_RAM_PEAK\": \"179.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 85797, \"DURATION\": \"0.02\", \"CPU\": \"34\", \"TEMP_DB_RAM_PEAK\": \"66.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": \"47.2\", \"TEMP_DB_RAM_PEAK\": \"179.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 55, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"0.01\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4383200, \"OUT_ROWS\": 41837, \"DURATION\": \"0.679\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 19545, \"DURATION\": \"0.006\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 85797, \"OUT_ROWS\": 19545, \"DURATION\": \"2.346\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"COMPILE / EXECUTE\", \"OBJECT_ROWS\": null, \"OUT_ROWS\": null, \"DURATION\": \"0.06\", \"CPU\": \"20.8\", \"TEMP_DB_RAM_PEAK\": \"414.3\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 4383200, \"OUT_ROWS\": 4383200, \"DURATION\": \"0.476\", \"CPU\": \"57.5\", \"TEMP_DB_RAM_PEAK\": \"484.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"GROUP BY\", \"OBJECT_ROWS\": 0, \"OUT_ROWS\": 4365513, \"DURATION\": \"1.609\", \"CPU\": \"61.8\", \"TEMP_DB_RAM_PEAK\": \"484.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": null, \"DURATION\": \"0.218\", \"CPU\": \"82.8\", \"TEMP_DB_RAM_PEAK\": \"146.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"COLUMN STATISTICS\", \"OBJECT_ROWS\": 4365513, \"OUT_ROWS\": null, \"DURATION\": \"0.171\", \"CPU\": \"75\", \"TEMP_DB_RAM_PEAK\": \"146.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4365513, \"OUT_ROWS\": 4365513, \"DURATION\": \"0.668\", \"CPU\": \"71.2\", \"TEMP_DB_RAM_PEAK\": \"377.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 4407350, \"DURATION\": \"1.214\", \"CPU\": \"65.2\", \"TEMP_DB_RAM_PEAK\": \"486.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 1097055, \"OUT_ROWS\": 1097055, \"DURATION\": \"0.272\", \"CPU\": \"67.2\", \"TEMP_DB_RAM_PEAK\": \"330.8\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"INDEX CREATE\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 4442570, \"DURATION\": \"0.602\", \"CPU\": \"81.7\", \"TEMP_DB_RAM_PEAK\": \"379.5\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"SCAN\", \"OBJECT_ROWS\": 1, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": \"48\", \"TEMP_DB_RAM_PEAK\": \"233.6\", \"HDD_READ\": \"0\", \"HDD_WRITE\": null, \"NET\": \"0\"}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 55, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 1127945, \"OUT_ROWS\": 1114743, \"DURATION\": \"0.005\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"EXISTS\", \"OBJECT_ROWS\": 4442570, \"OUT_ROWS\": 1, \"DURATION\": \"0.134\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"JOIN\", \"OBJECT_ROWS\": 1097055, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 4407350, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"OUTER JOIN\", \"OBJECT_ROWS\": 4365513, \"OUT_ROWS\": 1, \"DURATION\": \"0\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}, {\"PART_NAME\": \"INSERT\", \"OBJECT_ROWS\": 105342, \"OUT_ROWS\": 1, \"DURATION\": \"0.029\", \"CPU\": null, \"TEMP_DB_RAM_PEAK\": null, \"HDD_READ\": null, \"HDD_WRITE\": null, \"NET\": null}]"
+        }
+      ]
+    }
+  ]
+}

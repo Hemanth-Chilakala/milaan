@@ -23,6 +23,8 @@ def summary() -> dict:
 
 
 def exceptions(category="All", channel="All", age="All", amount="All", offset=0) -> list:
+    if int(offset) < 0:
+        raise ValueError("Page offset must be nonnegative")
     where, params = ["1=1"], {"offset": int(offset)}
     if category != "All":
         where.append("e.category={category!s}")
@@ -48,7 +50,7 @@ def exceptions(category="All", channel="All", age="All", amount="All", offset=0)
     return query(
         'SELECT e.*,x.explanation FROM MILAAN_RES."EXCEPTION" e LEFT JOIN MILAAN_RES.EXPLANATION x ON e.exception_id=x.exception_id WHERE '
         + " AND ".join(where)
-        + " ORDER BY e.priority_score DESC,e.exception_id LIMIT 50 OFFSET {offset}",
+        + " ORDER BY e.priority_score DESC,e.exception_id LIMIT 50 OFFSET {offset!d}",
         params,
     )
 
