@@ -23,7 +23,7 @@ succeeded there, with a warning that the root mount is not shared.
 | Transport | TLS with verified SHA-256 certificate fingerprint |
 | Local configuration | `.env` created with owner-only permissions; ignored by git |
 
-No reconciliation performance or accuracy measurements have been made.
+Reconciliation measurements are recorded separately in [benchmarks.md](benchmarks.md).
 
 ## Container failures and fixes
 

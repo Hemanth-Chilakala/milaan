@@ -14,12 +14,8 @@ import pyexasol
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--deployment-dir", type=Path, default=Path("private/exasol-rootful")
-    )
-    parser.add_argument(
-        "--write-env", action="store_true", help="Create a private .env if absent"
-    )
+    parser.add_argument("--deployment-dir", type=Path, default=Path("private/exasol-rootful"))
+    parser.add_argument("--write-env", action="store_true", help="Create a private .env if absent")
     args = parser.parse_args()
     deployment = json.loads((args.deployment_dir / "deployment.json").read_text())
     secrets = json.loads((args.deployment_dir / "secrets.json").read_text())
@@ -27,9 +23,7 @@ def main() -> None:
     host = settings["host"]
     port = settings["dbPort"]
     if not ipaddress.ip_address(host).is_loopback:
-        raise SystemExit(
-            "This feasibility check only trusts a local loopback deployment."
-        )
+        raise SystemExit("This feasibility check only trusts a local loopback deployment.")
 
     # Bootstrap the certificate only over the locally bound database port.
     # Subsequent connections verify its SHA-256 fingerprint through pyexasol.
@@ -40,9 +34,7 @@ def main() -> None:
         socket.create_connection((host, port), timeout=10) as raw_socket,
         context.wrap_socket(raw_socket, server_hostname=host) as tls_socket,
     ):
-        fingerprint = hashlib.sha256(
-            tls_socket.getpeercert(binary_form=True)
-        ).hexdigest()
+        fingerprint = hashlib.sha256(tls_socket.getpeercert(binary_form=True)).hexdigest()
 
     dsn = f"{host}/{fingerprint}:{port}"
     connection = pyexasol.connect(
@@ -79,13 +71,9 @@ def main() -> None:
                     "EXASOL_USER": settings["username"],
                     "EXASOL_PASSWORD": secrets["dbPassword"],
                 }
-                descriptor = os.open(
-                    env_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600
-                )
+                descriptor = os.open(env_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
                 with os.fdopen(descriptor, "w") as env_file:
-                    env_file.write(
-                        "# Local Exasol connection. Never commit this file.\n"
-                    )
+                    env_file.write("# Local Exasol connection. Never commit this file.\n")
                     for key, value in env_values.items():
                         env_file.write(f"{key}={json.dumps(value)}\n")
                     if os.geteuid() == 0 and "SUDO_UID" in os.environ:

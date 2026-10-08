@@ -6,7 +6,7 @@ DATA ?= data/$(ROWS)
 setup:
 	$(PYTHON) -m milaan.pipeline setup
 data:
-	$(PYTHON) -m generator.generate --seed 42 --rows $(ROWS) --days 30 --out $(DATA)
+	$(PYTHON) -m scripts.ensure_data --rows $(ROWS) --out $(DATA)
 load:
 	$(PYTHON) -m milaan.pipeline load --data $(DATA)
 recon:

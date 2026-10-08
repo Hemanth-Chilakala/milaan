@@ -1,5 +1,5 @@
 import re
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from pathlib import Path
 
 import pyexasol
@@ -38,10 +38,12 @@ def connect():
     try:
         yield connection
     except BaseException:
-        connection.rollback()
+        with suppress(Exception):
+            connection.rollback()
         raise
     finally:
-        connection.close()
+        with suppress(Exception):
+            connection.close()
 
 
 def statements(path: Path) -> list[str]:
