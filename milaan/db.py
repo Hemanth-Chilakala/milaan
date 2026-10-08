@@ -48,7 +48,21 @@ def statements(path: Path) -> list[str]:
     text = path.read_text()
     if "CREATE OR REPLACE PYTHON3" in text.upper():
         return [text.rsplit("\n/", 1)[0].strip()]
-    return [part.strip() for part in text.split(";") if part.strip()]
+    parts, start, quoted, index = [], 0, False, 0
+    while index < len(text):
+        if text[index] == "'":
+            if quoted and index + 1 < len(text) and text[index + 1] == "'":
+                index += 2
+                continue
+            quoted = not quoted
+        elif text[index] == ";" and not quoted:
+            if text[start:index].strip():
+                parts.append(text[start:index].strip())
+            start = index + 1
+        index += 1
+    if text[start:].strip():
+        parts.append(text[start:].strip())
+    return parts
 
 
 def execute_file(connection, path: Path) -> list:
