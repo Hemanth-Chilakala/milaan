@@ -2,13 +2,22 @@ PYTHON := .venv/bin/python
 ROWS ?= 1000000
 DATA ?= data/$(ROWS)
 
-.PHONY: setup data load test lint app
+.PHONY: setup data load recon explain score bench demo test lint app
 setup:
 	$(PYTHON) -m milaan.pipeline setup
 data:
 	$(PYTHON) -m generator.generate --seed 42 --rows $(ROWS) --days 30 --out $(DATA)
 load:
 	$(PYTHON) -m milaan.pipeline load --data $(DATA)
+recon:
+	$(PYTHON) -m milaan.pipeline recon
+explain:
+	$(PYTHON) -m milaan.explain
+score:
+	$(PYTHON) -m milaan.pipeline score
+bench:
+	$(PYTHON) -m scripts.benchmark
+demo: setup data load recon explain app
 test:
 	$(PYTHON) -m pytest -m 'not db'
 lint:
