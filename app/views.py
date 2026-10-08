@@ -36,6 +36,7 @@ def render():
             "Accuracy & performance",
             "How it works",
         ],
+        key="workspace",
     )
     st.sidebar.divider()
     st.sidebar.caption("Synthetic demonstration data\n\nExasol Personal · no API key")
@@ -197,7 +198,11 @@ def queue():
     if rows:
         chosen = st.selectbox("Select an exception", [r["EXCEPTION_ID"] for r in rows])
         st.session_state["exception_id"] = chosen
-        st.caption("Open Exception detail in the sidebar to inspect the selected item.")
+
+        def open_selected():
+            st.session_state["workspace"] = "Exception detail"
+
+        st.button("Open selected exception", type="primary", on_click=open_selected)
 
 
 def exception_detail():
@@ -218,6 +223,16 @@ def exception_detail():
     columns[2].metric("Risk weight", row["RISK_WEIGHT"])
     st.info(row["EXPLANATION"] or row["SUGGESTED_ACTION"])
     evidence = json.loads(row["EVIDENCE"])
+    if row["CATEGORY"] == "MISSING_IN_LEDGER":
+        st.warning("Difference: the gateway payment has no corresponding ledger receipt.")
+    elif row["CATEGORY"] == "PARTIAL_PAYMENT":
+        st.warning(
+            f"Amount difference: ledger {rupees(evidence['amount_paise'])} versus bank {rupees(evidence.get('bank_paise'))}."
+        )
+    elif row["CATEGORY"] == "NACH_BOUNCE_MISPOSTED":
+        st.warning(
+            "Status difference: ledger marked PAID; NACH return reports a failed collection."
+        )
     records = analytics.evidence_records(evidence)
     columns = st.columns(4)
     for column, label in zip(columns, ["Ledger", "Bank", "Gateway", "NACH"], strict=True):

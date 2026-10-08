@@ -24,7 +24,7 @@ def main():
             ("Accuracy & performance", "accuracy", "Accuracy you can inspect"),
             ("How it works", "architecture", "Four files. One accountable close."),
         ]:
-            page.get_by_role("radio", name=label, exact=True).check()
+            page.get_by_text(label, exact=True).click()
             page.get_by_text(title, exact=True).wait_for()
             if filename == "detail":
                 page.get_by_role("textbox", name="Exception ID", exact=True).fill(showcase)

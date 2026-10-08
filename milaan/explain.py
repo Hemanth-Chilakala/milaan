@@ -75,6 +75,14 @@ def explain(category: str, evidence: str | dict) -> str:
                 f"{candidate} Action: verify the receipt with the bank before clearing "
                 "the loan account; do not chase the customer solely on this exception."
             )
+        if category == "NAME_MISMATCH":
+            return (
+                f"Receipt {e.get('ledger_id')} for {loan}, {amount}, has candidate bank "
+                f"credit {e.get('bank_txn_id')} with the same amount and reference suffix. "
+                "The name/reference similarity or uniqueness checks did not support an "
+                "automatic match. Action: verify the payer and full payment reference "
+                "before approving this relationship."
+            )
         if category == "UNIDENTIFIED_CREDIT":
             return (
                 f"Bank credit {e.get('bank_txn_id')} received {amount} on {day}. "

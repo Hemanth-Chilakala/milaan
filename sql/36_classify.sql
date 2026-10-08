@@ -7,13 +7,17 @@ SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGE
 JOIN MILAAN_CORE.BANK b ON l.ref_norm=b.ref_norm AND b.day_index-l.day_index BETWEEN 0 AND 3
 UNION
 SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
-JOIN MILAAN_CORE.BANK b ON l.loan_id=b.loan_id AND b.day_index-l.day_index BETWEEN 0 AND 3;
+JOIN MILAAN_CORE.BANK b ON l.loan_id=b.loan_id AND b.day_index-l.day_index BETWEEN 0 AND 3
+UNION
+SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
+JOIN MILAAN_CORE.BANK b ON RIGHT(l.ref_norm,8)=RIGHT(b.ref_norm,8) AND l.amount_paise=b.amount_paise AND b.day_index-l.day_index BETWEEN 0 AND 3;
 
 CREATE OR REPLACE TABLE MILAAN_CORE.UNMATCHED_LEDGER AS
 SELECT l.*,b.bank_txn_id,b.amount_paise bank_paise,n.return_reason,
  CASE WHEN l.duplicate_rank>1 THEN 'DUPLICATE_POSTING'
  WHEN n.umrn IS NOT NULL THEN 'NACH_BOUNCE_MISPOSTED'
  WHEN b.amount_paise>0 AND b.amount_paise<l.amount_paise THEN 'PARTIAL_PAYMENT'
+ WHEN b.amount_paise=l.amount_paise THEN 'NAME_MISMATCH'
  ELSE 'MISSING_IN_BANK' END category,
  GREATEST(0,c.business_day_index-l.day_index) age_business_days
 FROM MILAAN_CORE.REMAINING_LEDGER l
@@ -29,8 +33,9 @@ SELECT 'L:'||ledger_id,'@RUN_ID@','LEDGER',ledger_id,category,loan_id,channel,am
  CASE WHEN category='NACH_BOUNCE_MISPOSTED' THEN 'Reverse the paid status after verifying the NACH return; contact the collections owner.'
  WHEN category='DUPLICATE_POSTING' THEN 'Check the duplicate receipt and reverse the extra posting after approval.'
  WHEN category='PARTIAL_PAYMENT' THEN 'Allocate the received amount and investigate the unpaid balance.'
+ WHEN category='NAME_MISMATCH' THEN 'Verify the candidate payer and payment reference before approving a match.'
  ELSE 'Verify the receipt with the bank before clearing the loan account.' END,
- MILAAN_CORE.EVIDENCE(ledger_id,bank_txn_id,NULL,loan_id,amount_paise,bank_paise,NULL,NULL,NULL,posted_date,COALESCE(return_reason,category),channel,NULL,NULL,NULL,NULL,NULL)
+ MILAAN_CORE.EVIDENCE(ledger_id,bank_txn_id,NULL,loan_id,amount_paise,bank_paise,NULL,NULL,NULL,posted_date,CASE WHEN category='NAME_MISMATCH' THEN 'Candidate amount and reference suffix agree, but similarity or uniqueness checks failed' ELSE COALESCE(return_reason,category) END,channel,NULL,NULL,NULL,NULL,NULL)
 FROM MILAAN_CORE.UNMATCHED_LEDGER;
 
 INSERT INTO MILAAN_RES."EXCEPTION"

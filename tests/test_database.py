@@ -6,7 +6,8 @@ import pytest
 
 from generator.generate import generate, load_config
 from milaan.analytics import decision, detail
-from milaan.db import connect, query
+from milaan.config import ROOT
+from milaan.db import connect, query, statements
 from milaan.explain import generate_explanations
 from milaan.pipeline import load, recon, setup, validate
 
@@ -70,3 +71,23 @@ def test_rerun_is_idempotent(reconciled):
     second = recon()
     assert second["score"]["FALSE_POSITIVE"] == 0
     assert query("SELECT COUNT(*) N FROM MILAAN_RES.LINK")[0]["N"] == before
+
+
+def test_wrong_link_counts_as_false_positive_in_its_category(reconciled):
+    with connect() as connection:
+        original = connection.execute(
+            "SELECT * FROM MILAAN_RES.LINK WHERE pass_name='EXACT' LIMIT 1"
+        ).fetchone()
+        connection.execute(
+            "INSERT INTO MILAAN_RES.LINK VALUES ('wrong-link',{ledger!s},'NONEXISTENT_BANK',NULL,'EXACT',1,'Injected scoring test')",
+            {"ledger": original["LEDGER_ID"]},
+        )
+        connection.execute("TRUNCATE TABLE MILAAN_RES.SCORE")
+        for sql in statements(ROOT / "sql/50_score.sql"):
+            connection.execute(sql.replace("@RUN_ID@", "scoring-test"))
+        scores = connection.execute(
+            "SELECT break_type,false_positive FROM MILAAN_RES.SCORE WHERE false_positive>0"
+        ).fetchall()
+        assert len(scores) == 2
+        assert next(r for r in scores if r["BREAK_TYPE"] == "OVERALL")["FALSE_POSITIVE"] == 1
+        connection.rollback()
