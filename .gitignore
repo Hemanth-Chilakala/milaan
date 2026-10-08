@@ -1,0 +1,16 @@
+AGENTS.md
+.env
+.env.*
+!.env.example
+data/
+private/
+*.csv
+__pycache__/
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+*.log
+HANDOFF_NOTES.md
+node_modules/
+.DS_Store

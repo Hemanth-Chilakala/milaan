@@ -1,0 +1,11 @@
+* text=auto
+*.sh text eol=lf
+*.sql text eol=lf
+*.pdf binary
+*.pptx binary
+*.mp4 binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.wav binary
+*.mp3 binary

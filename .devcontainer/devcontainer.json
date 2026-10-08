@@ -1,0 +1,15 @@
+{
+  "name": "milaan",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "privileged": true,
+  "hostRequirements": { "cpus": 4, "memory": "16gb", "storage": "32gb" },
+  "features": { "ghcr.io/devcontainers/features/node:1": {} },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "forwardPorts": [8501],
+  "portsAttributes": {
+    "8501": { "label": "Milaan dashboard", "onAutoForward": "notify" }
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:${containerEnv:HOME}/.local/bin"
+  }
+}
