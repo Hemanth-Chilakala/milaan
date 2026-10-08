@@ -155,7 +155,7 @@ Ground truth records correct links and break labels. Matching never reads it. Pr
 
 ## Accuracy, benchmarks and tests
 
-[Benchmark report](docs/benchmarks.md) · [Machine-readable observations](docs/benchmark_results.json)
+[Benchmark report](docs/benchmarks.md) · [Machine-readable observations](docs/benchmark_results.json) · [Reproduction review](docs/reproducibility.md) · [Interface review](docs/ui_review.md)
 
 Reports include run IDs, pass timings and native Exasol profiling. No pandas comparison is claimed.
 

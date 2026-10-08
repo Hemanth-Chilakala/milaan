@@ -19,9 +19,10 @@ def main():
     for size in (1_000_000, 10_000_000):
         folder = ROOT / "data" / str(size)
         started = perf_counter()
-        if not (folder / "manifest.json").exists():
+        generation_reused = (folder / "manifest.json").exists()
+        if not generation_reused:
             generate(folder, size)
-        generation = perf_counter() - started
+        generation = None if generation_reused else perf_counter() - started
         started = perf_counter()
         imports = load(folder)
         load_total = perf_counter() - started
@@ -33,6 +34,7 @@ def main():
             {
                 "source_rows": size,
                 "generation_seconds": generation,
+                "generation_reused": generation_reused,
                 "load_total_seconds": load_total,
                 "imports": imports,
                 "explanation_seconds": explanation_seconds,

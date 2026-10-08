@@ -95,16 +95,17 @@ def main():
                 f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
             )
 
-        subtitle.write_text(
-            "\n\n".join(
-                f"{i + 1}\n{timestamp(i * seconds / len(groups))} --> {timestamp((i + 1) * seconds / len(groups))}\n"
-                + " ".join(group)
-                for i, group in enumerate(groups)
-            )
-            + "\n"
-        )
+        cues, offset = [], 0
+        for number, group in enumerate(groups, start=1):
+            start = offset * seconds / len(words)
+            offset += len(group)
+            end = offset * seconds / len(words)
+            cues.append(f"{number}\n{timestamp(start)} --> {timestamp(end)}\n" + " ".join(group))
+        subtitle.write_text("\n\n".join(cues) + "\n")
         clip = folder / f"clip-{index}.mp4"
-        caption = f"subtitles={subtitle}:force_style='FontName=DejaVu Sans,FontSize=24,Outline=2,MarginV=30'"
+        # Keep captions in a reserved band so they cannot cover dashboard evidence.
+        frame = "scale=1920:864:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:44:color=0x142e28"
+        caption = f"subtitles={subtitle}:force_style='FontName=DejaVu Sans,FontSize=14,Outline=1,MarginV=14'"
         if isinstance(source, Path):
             command = [
                 "ffmpeg",
@@ -118,14 +119,14 @@ def main():
                 "-i",
                 str(adjusted),
                 "-vf",
-                f"scale=1920:1080,{caption}",
+                f"{frame},{caption}",
             ]
         else:
             shot = meta["shots"][source]
             length = shot["end"] - shot["start"]
             factor = seconds / length
             label = (
-                ",drawtext=text=Time-compressed footage — see actual timer:fontcolor=white:fontsize=28:box=1:boxcolor=0x172b3a:boxborderw=12:x=25:y=25"
+                ",drawtext=text=Time-compressed footage — see actual timer:fontcolor=white:fontsize=24:x=20:y=10"
                 if factor < 0.95
                 else ""
             )
@@ -143,7 +144,7 @@ def main():
                 "-i",
                 str(adjusted),
                 "-vf",
-                f"setpts={factor}*PTS,fps=30,scale=1920:1080,{caption}{label}",
+                f"setpts={factor}*PTS,fps=30,{frame},{caption}{label}",
             ]
         run(
             command

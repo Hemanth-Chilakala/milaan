@@ -43,7 +43,9 @@ Reconciliation measurements are recorded separately in [benchmarks.md](benchmark
    started, Python UDF execution passed and pyexasol connected on this
    configuration. No launcher or database source changes were required.
 
-The original test deployment directories remain intact. Nothing was destroyed.
+Stopped feasibility containers and duplicate image caches from abandoned
+deployments were later removed to recover disk space. The working deployment
+and generated source files were retained.
 The existing Codespace was provisioned directly; a devcontainer rebuild was not
 performed. A fresh devcontainer reproducibility test is still required later.
 
