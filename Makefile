@@ -4,7 +4,9 @@ DATA ?= data/$(ROWS)
 BENCH_ARGS ?=
 DATE ?= 2026-10-14
 
-.PHONY: setup data load recon recon-day explain score bench demo test lint app
+.PHONY: bootstrap setup data load recon recon-day explain score bench demo test lint app
+bootstrap:
+	bash scripts/bootstrap.sh
 setup:
 	$(PYTHON) -m milaan.pipeline setup
 data:

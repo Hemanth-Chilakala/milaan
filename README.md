@@ -74,15 +74,14 @@ Requirements: Python 3.12, Podman, and passwordless sudo for the verified contai
 
 After publication, click the Codespaces badge. The devcontainer installs the launcher and Python dependencies. For an existing Codespace, open this folder as the workspace and run `bash .devcontainer/post-create.sh`; adding a devcontainer to a subfolder does not rebuild the parent workspace.
 
-Accept the [Exasol Personal EULA](https://www.exasol.com/terms-and-conditions/#h-exasol-personal-end-user-license-agreement), then:
+Review the [Exasol Personal EULA](https://www.exasol.com/terms-and-conditions/#h-exasol-personal-end-user-license-agreement), then run:
 
 ```bash
-bash scripts/exasol-local.sh install local --auto-approve
-bash scripts/exasol-local.sh slc install python3 --auto-approve
-bash scripts/exasol-local.sh connect -f sql/00_feasibility.sql
-sudo .venv/bin/python scripts/check_environment.py --write-env
+ACCEPT_EXASOL_EULA=yes make bootstrap
 make demo
 ```
+
+Bootstrap installs the launcher and Python script-language container, verifies SQL and Python UDF execution, and creates an owner-only `.env`. It preserves an existing `.env` and deployment. Re-running it is safe; it refuses to start without explicit EULA acceptance.
 
 Open forwarded port 8501. For the larger demonstration:
 
@@ -107,7 +106,7 @@ If the container stops answering after an idle period, stop and start it with th
 
 ### Option B: local Linux, macOS or Windows
 
-Ubuntu Linux: clone and enter the published repository, run `bash .devcontainer/post-create.sh`, then follow the deployment and `make demo` commands above. Podman storage must use a native filesystem. Windows: use Ubuntu under WSL2, make at least 16 GB RAM available, install Python 3.12 and Podman, and follow those Linux commands.
+Ubuntu Linux: install Python 3.12 with its venv module, clone and enter the published repository, then run `ACCEPT_EXASOL_EULA=yes make bootstrap` followed by `make demo`. Podman storage must use a native filesystem. Windows: use Ubuntu under WSL2, make at least 16 GB RAM available, install Python 3.12 and Podman, and follow those Linux commands.
 
 macOS: install Python 3.12 and use the [official Exasol Personal local deployment](https://exasol.github.io/exasol-personal/latest/) with its supported Podman-machine setup. The Codespace-specific sudo wrapper is not a macOS launcher. Connect the app to that deployment:
 
@@ -120,6 +119,18 @@ make demo
 ```
 
 The nested Linux Codespace path has been exercised. macOS and Windows host deployments have not been independently tested.
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---|---|
+| `Resource temporarily unavailable` or Nano cannot start threads | Use the supplied crun configuration and wrapper; earlier rootless runc deployments applied `pids.max=1`. Inspect the container's process limit and migrate only a stopped legacy deployment with `podman system migrate --new-runtime crun`. |
+| Python SLC mounting fails with `Invalid argument` | Put Podman graph storage on a native ext4 filesystem; the wrapper defaults to workspace `private/podman-storage`, rather than the Codespace root overlay. |
+| Launcher says running, but SQL fails after idle | Run `bash scripts/exasol-local.sh stop --auto-approve`, then `bash scripts/exasol-local.sh start --auto-approve`, and retry bootstrap. |
+| Low disk space | Keep at least 6 GB free. Remove disposable caches, old recordings and regenerable 1M data. Retain the 10M dataset and working deployment. |
+| Codespace container changed | Re-run bootstrap to recreate disposable Python dependencies. In an existing parent workspace, the project's devcontainer must be selected before a rebuild. |
+
+Runtime dependencies are pinned in `requirements.lock`. Tests, lint and capture tools are in `requirements-dev.txt`, which includes that runtime lock. Installing development dependencies: `.venv/bin/python -m pip install -r requirements-dev.txt`.
 
 ## Configuration
 
@@ -135,6 +146,7 @@ The local environment check writes `.env` with owner-only permissions and preser
 
 | Target | Purpose |
 |---|---|
+| `make bootstrap` | EULA-gated, idempotent local installation and connection verification |
 | `make setup` | Connect; create schemas and Python UDFs |
 | `make data ROWS=1000000` | Generate or reuse seed-42 data; default 1M |
 | `make load DATA=data/1000000` | Bulk import and SQL normalisation |

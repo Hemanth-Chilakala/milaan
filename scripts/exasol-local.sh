@@ -17,6 +17,7 @@ fi
 # The workspace is ext4; the Codespace's /var/lib path is itself an overlay.
 mkdir -p "$project_dir/private"
 storage_config="$project_dir/private/podman-storage.conf"
+storage_config="${EXASOL_STORAGE_CONFIG:-$storage_config}"
 if [ ! -f "$storage_config" ]; then
     printf '%s\n' '[storage]' 'driver = "overlay"' \
         "graphroot = \"$project_dir/private/podman-storage\"" \
@@ -25,4 +26,4 @@ fi
 
 exec sudo env "CONTAINERS_STORAGE_CONF=$storage_config" \
     "CONTAINERS_CONF=$project_dir/.devcontainer/containers.conf" "$launcher_path" "$@" \
-    --deployment-dir "$project_dir/private/exasol-rootful"
+    --deployment-dir "${EXASOL_DEPLOYMENT_DIR:-$project_dir/private/exasol-rootful}"
