@@ -10,7 +10,7 @@ import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
-from milaan.analytics import batch_evidence, detail, summary
+from milaan.analytics import batch_evidence, detail, showcase_id, summary
 from milaan.config import ROOT
 from milaan.db import connect, query, scope
 from milaan.explain import rupees
@@ -122,7 +122,7 @@ def main():
         totals = query(
             "SELECT (SELECT SUM(amount_paise) FROM MILAAN_CORE.LEDGER) ledger_paise,(SELECT SUM(credit_paise-debit_paise) FROM MILAAN_STG.BANK_STATEMENT) bank_paise,(SELECT SUM(gross_paise) FROM MILAAN_CORE.PG) gateway_gross_paise,(SELECT SUM(fee_paise) FROM MILAAN_CORE.PG) fee_paise,(SELECT SUM(gst_on_fee_paise) FROM MILAAN_CORE.PG) gst_paise"
         )[0]
-        exception = detail("PG:PG000000000-36")
+        exception = detail(showcase_id())
         evidence = json.loads(exception["EVIDENCE"])
         batch = batch_evidence(evidence)
         categories = query(

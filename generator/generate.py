@@ -4,6 +4,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 from collections import Counter
 from contextlib import ExitStack
 from datetime import date, timedelta
@@ -61,6 +62,63 @@ def random_words(ids: np.ndarray, seed: int, salt: int) -> np.ndarray:
         return words ^ (words >> np.uint64(31))
 
 
+class Identifiers:
+    """Seeded bijections, bounded by namespace size, without collision sets."""
+
+    def __init__(self, seed):
+        self.seed = seed
+        self.counters = Counter()
+        self.parameters = {}
+
+    def number(self, kind, modulus):
+        index = self.counters[kind]
+        if index >= modulus:
+            raise ValueError(f"Identifier namespace exhausted: {kind}")
+        self.counters[kind] += 1
+        if kind not in self.parameters:
+            salt = int.from_bytes(hashlib.sha256(kind.encode()).digest()[:8], "big")
+            word = int(random_words(np.array([0], dtype=np.uint64), self.seed, salt)[0])
+            multiplier = word % modulus
+            while math.gcd(multiplier, modulus) != 1:
+                multiplier += 1
+            self.parameters[kind] = (multiplier, (word >> 17) % modulus)
+        multiplier, offset = self.parameters[kind]
+        return (index * multiplier + offset) % modulus
+
+    def loan(self):
+        value = self.number("loan", 40_000_000)
+        return f"SFL-{('HL', 'PL', 'BL', 'GL')[value // 10_000_000]}-{value % 10_000_000:07d}"
+
+    def gateway(self):
+        # Case changes are cosmetic: canonical uppercase references stay unique.
+        value = self.number("gateway", 36**12)
+        chars = []
+        for index in range(12):
+            value, digit = divmod(value, 36)
+            character = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[digit]
+            chars.append(character.lower() if index % 3 == 1 else character)
+        return "pf_" + "".join(reversed(chars))
+
+    def bank(self):
+        return f"BUB-TXN-{self.number('bank', 100_000_000):08d}"
+
+    def ledger(self):
+        return f"SFL-RCT-{self.number('ledger', 100_000_000):08d}"
+
+    def rrn(self):
+        return f"{self.number('rrn', 10**12):012d}"
+
+    def umrn(self):
+        return f"BUB7{self.number('umrn', 10**12):012d}"
+
+    def utr(self):
+        return f"BUBN{self.number('utr', 10**11):011d}"
+
+    def batch(self, day):
+        # 10M records need more than 99 batches per date. Six digits retain uniqueness.
+        return f"PF-B-{day:%Y%m%d}-{self.number('batch_' + str(day), 1_000_000):06d}"
+
+
 def generate(
     out: Path,
     rows: int,
@@ -104,6 +162,10 @@ def generate(
     started = perf_counter()
     source_count = 0
     event_id = 0
+    identifiers = Identifiers(seed)
+    showcase_info = {}
+    # Selected from the middle of the source stream, independent of chunk size.
+    showcase_threshold = rows * (45 + seed % 11) // 100
 
     with ExitStack() as stack:
         writers = {}
@@ -148,10 +210,10 @@ def generate(
             current_hard.clear()
             hard = difficulty == "hard" and allow_hard and batch_size != 37
             loan, ledger, bank, ref = (
-                f"LN-{100000 + i}",
-                f"L{i:09d}",
-                f"B{i:09d}",
-                str(410000000000 + i),
+                identifiers.loan(),
+                identifiers.ledger(),
+                identifiers.bank(),
+                identifiers.rrn(),
             )
             if kind == "NACH_BOUNCE_MISPOSTED":
                 channel = "NACH"
@@ -166,8 +228,8 @@ def generate(
             ):
                 channel = "UPI"
             if channel == "NACH":
-                ref = f"BUB{7000000000 + i}"
-            pg_id = f"PG{i:09d}" if channel == "PG" else ""
+                ref = identifiers.umrn()
+            pg_id = identifiers.gateway() if channel == "PG" else ""
             if pg_id:
                 ref = pg_id
             credit_day = add_business_days(day, 2, holidays) if kind == "TIMING" else day
@@ -214,7 +276,7 @@ def generate(
                 current_hard.append("AMOUNT_DAY_COLLISION")
                 suffix = f"{i % 100000000:08d}"
                 for j, customer in enumerate(("Rahul Kumar", "Rahul Kumari")):
-                    lid, bid, loan_j = f"{ledger}-C{j}", f"{bank}-C{j}", f"{loan}-C{j}"
+                    lid, bid, loan_j = identifiers.ledger(), identifiers.bank(), identifiers.loan()
                     full_ref = f"{5100 + j}{suffix}"
                     records["ledger"].append(
                         [lid, loan_j, customer, day, 1_500_000, "UPI", full_ref, day, "PAID"]
@@ -231,17 +293,31 @@ def generate(
 
             if kind == "BATCH_SETTLEMENT":
                 size = batch_size or config["batch_size"]
-                batch = f"B-{day:%Y%m%d}-{i:09d}"
-                utr = f"SAHY{i:012d}"
+                batch = identifiers.batch(day)
+                utr = identifiers.utr()
                 settle = add_business_days(day, 2, holidays)
                 total = 0
                 for j in range(size):
-                    value = amount + j * 100
+                    value = (amount + j * 7919 + (j * j * 371)) % 3_100_001 + 400_000
                     fee = (value * config["fee_basis_points"] + 5000) // 10000
                     gst = (fee * 18 + 50) // 100
                     net = value - fee - gst
-                    lid, pid, loan_j = f"{ledger}-{j:02d}", f"{pg_id}-{j:02d}", f"{loan}-{j:02d}"
+                    lid, pid, loan_j = (
+                        identifiers.ledger(),
+                        identifiers.gateway(),
+                        identifiers.loan(),
+                    )
                     missing = batch_size == 37 and j == 36
+                    if missing:
+                        showcase_info.update(
+                            event_index=i,
+                            batch_id=batch,
+                            bank_txn_id=bank,
+                            pg_payment_id=pid,
+                            loan_id=loan_j,
+                            exception_id="PG:" + pid,
+                            payment_date=str(day),
+                        )
                     if not missing:
                         records["ledger"].append(
                             [
@@ -307,7 +383,7 @@ def generate(
                 parts = [amount // n] * (n - 1)
                 parts.append(amount - sum(parts))
                 for j, value in enumerate(parts):
-                    bid, sub_ref = f"{bank}-{j}", f"{ref}S{j}"
+                    bid, sub_ref = identifiers.bank(), identifiers.rrn()
                     records["bank_statement"].append(
                         [bid, day, f"UPI/CR/{sub_ref}/{name}/bub/EMI {loan}", value, 0, sub_ref]
                     )
@@ -319,7 +395,7 @@ def generate(
             if channel == "PG":
                 fee = (amount * config["fee_basis_points"] + 5000) // 10000
                 gst = (fee * 18 + 50) // 100
-                batch = f"B-{day:%Y%m%d}-{i:09d}"
+                batch = identifiers.batch(day)
                 credit_day = add_business_days(day, 1 + i % 2, holidays)
                 if hard and kind == "TIMING":
                     credit_day = add_business_days(day, 4 + i % 2, holidays)
@@ -413,7 +489,7 @@ def generate(
             return records, truths
 
         # A reproducible analyst example: 37 gateway payments, 36 ledger receipts.
-        showcase = rows >= 100
+        showcase = rows >= 300
         forced = ["BATCH_SETTLEMENT"] + list(config["break_rates"]) if fixture else []
         while source_count < rows:
             ids = np.arange(event_id, event_id + chunk_size, dtype=np.uint64)
@@ -426,7 +502,14 @@ def generate(
             for offset, raw_id in enumerate(ids):
                 i = int(raw_id)
                 kind = types[int(categories[offset])]
-                special_size = 37 if showcase and i == 0 else 0
+                special_size = (
+                    37
+                    if showcase
+                    and not showcase_info
+                    and source_count >= showcase_threshold
+                    and rows - source_count >= 74
+                    else 0
+                )
                 if special_size:
                     kind = "BATCH_SETTLEMENT"
                 elif fixture and i < len(forced):
@@ -435,7 +518,11 @@ def generate(
                     i,
                     kind,
                     int(amounts[offset]),
-                    dates[int(day_ids[offset])],
+                    (
+                        date(2026, 10, 27)
+                        if special_size and days >= 27
+                        else dates[int(day_ids[offset])]
+                    ),
                     names[int(name_ids[offset])],
                     ("UPI", "NACH", "PG", "NEFT")[int(channels[offset])],
                     special_size,
@@ -495,7 +582,9 @@ def generate(
         "event_counts": dict(event_counts),
         "totals": dict(sums),
         "rates": config["break_rates"],
-        "showcase": showcase,
+        "showcase": bool(showcase_info),
+        "showcase_details": showcase_info,
+        "id_scheme": "seeded collision-free namespace bijections v2",
         "fixture": fixture,
         "difficulty": difficulty,
         "hard_scenarios": dict(hard_counts),

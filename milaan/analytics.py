@@ -34,6 +34,15 @@ def summary() -> dict:
         result["LIVE"] = query(
             "SELECT COALESCE(SUM(amount_paise),0) open_paise,COALESCE(SUM(amount_paise),0) before_paise FROM MILAAN_CORE.LEDGER"
         )[0]
+    if result["RUN"]:
+        try:
+            timings = query(
+                "SELECT * FROM MILAAN_AUDIT.DAILY_TIMING WHERE run_id={id!s}",
+                {"id": result["RUN"]["RUN_ID"]},
+            )
+            result["DAILY_TIMING"] = timings[0] if timings else {}
+        except Exception:
+            result["DAILY_TIMING"] = {}
     return result
 
 
@@ -154,3 +163,17 @@ def decision(exception_id: str, action: str, analyst: str, assignee: str, note: 
         )
         connection.commit()
     return identifier
+
+
+def showcase_id():
+    rows = query("SELECT manifest FROM MILAAN_AUDIT.DATASET")
+    if not rows:
+        return ""
+    manifest = json.loads(rows[0]["MANIFEST"])
+    selected = manifest.get("showcase_details", {}).get("exception_id")
+    if selected:
+        return selected
+    rows = query(
+        "SELECT exception_id FROM MILAAN_RES.\"EXCEPTION\" WHERE category='MISSING_IN_LEDGER' LIMIT 1"
+    )
+    return rows[0]["EXCEPTION_ID"] if rows else ""

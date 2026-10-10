@@ -51,7 +51,7 @@ def main():
         if (
             any(part in forbidden for part in Path(name).parts)
             or name.endswith(".csv")
-            or name in {".env", "AGENTS.md", "CODEX_ROUND2.md"}
+            or name in {".env", "AGENTS.md"}
         ):
             raise SystemExit("A forbidden runtime file is tracked: " + name)
         destination = repo / name

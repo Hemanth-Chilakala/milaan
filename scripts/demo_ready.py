@@ -7,7 +7,7 @@ from datetime import UTC, datetime, timedelta
 from urllib.error import URLError
 from urllib.request import urlopen
 
-from milaan.analytics import batch_evidence, detail, summary
+from milaan.analytics import batch_evidence, detail, showcase_id, summary
 from milaan.config import ROOT
 from milaan.db import query, scope
 from milaan.demo import is_running
@@ -46,7 +46,7 @@ def check(url="http://127.0.0.1:8501"):
                 )
             if len(live["PASSES"]) != 7:
                 raise RuntimeError("The completed run does not have all seven pass timings.")
-            row = detail("PG:PG000000000-36")
+            row = detail(showcase_id())
             if not row or not row["EXPLANATION"]:
                 raise RuntimeError("Generate the showcase explanation with make explain.")
             batch = batch_evidence(json.loads(row["EVIDENCE"]))

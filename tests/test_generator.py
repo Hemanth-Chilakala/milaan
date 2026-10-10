@@ -99,3 +99,46 @@ def test_hard_is_deterministic_and_keeps_exact_budget(tmp_path):
     b = generate(tmp_path / "b", 1001, difficulty="hard", fixture=True, chunk_size=107)
     assert a == b
     assert a["source_rows"] == 1001
+
+
+def test_realistic_unique_ids_and_middle_showcase(tmp_path):
+    import re
+
+    manifest = generate(tmp_path, 40_000, seed=42)
+    patterns = {
+        "ledger": ("ledger_id", r"SFL-RCT-\d{8}(?:-D)?"),
+        "bank_statement": ("bank_txn_id", r"BUB-TXN-\d{8}"),
+        "pg_settlement": ("pg_payment_id", r"pf_[A-Za-z0-9]{12}(?:-RF)?"),
+        "nach_returns": ("umrn", r"BUB7\d{12}"),
+    }
+    for table, (column, pattern) in patterns.items():
+        values = [row[column] for row in read(tmp_path, table)]
+        assert len(values) == len(set(values))
+        assert all(re.fullmatch(pattern, value) for value in values)
+    showcase = manifest["showcase_details"]
+    assert showcase["event_index"] > 0
+    batch = [
+        r
+        for r in read(tmp_path, "pg_settlement")
+        if r["settlement_batch_id"] == showcase["batch_id"]
+    ]
+    assert len(batch) == 37
+    assert len({r["order_ref"] for r in batch}) == 37
+    assert len({r["gross_paise"] for r in batch}) == 37
+    assert all(re.fullmatch(r"SFL-(HL|PL|BL|GL)-\d{7}", r["order_ref"]) for r in batch)
+    assert showcase["payment_date"] == "2026-10-27"
+
+
+def test_batch_namespace_is_independent_per_date():
+    from datetime import date
+
+    from generator.generate import Identifiers
+
+    ids = Identifiers(42)
+    day = date(2026, 10, 27)
+    ids.counters["batch_" + str(day)] = 999_999
+    first = ids.batch(day)
+    with pytest.raises(ValueError, match="exhausted"):
+        ids.batch(day)
+    next_day = ids.batch(date(2026, 10, 28))
+    assert first != next_day

@@ -8,10 +8,10 @@ FROM MILAAN_STG.LEDGER l JOIN MILAAN_CORE.CALENDAR c ON l.posted_date=c.calendar
 CREATE OR REPLACE TABLE MILAAN_CORE.BANK AS
 SELECT b.*, CAST(credit_paise-debit_paise AS DECIMAL(18,0)) amount_paise,
  CAST(REGEXP_REPLACE(UPPER(bank_ref),'[^A-Z0-9]','') AS VARCHAR(100)) ref_norm,
- CAST(REGEXP_SUBSTR(narration,'LN-[0-9]+(-[0-9]+)?') AS VARCHAR(500)) loan_id,
- CAST(REGEXP_SUBSTR(narration,'B-[0-9]{8}-[0-9]+') AS VARCHAR(80)) batch_id,
- REGEXP_SUBSTR(narration,'SAHY[0-9]+') utr,
- REGEXP_SUBSTR(narration,'BUB[0-9]+') umrn,
+ CAST(REGEXP_SUBSTR(narration,'SFL-(HL|PL|BL|GL)-[0-9]{7}') AS VARCHAR(500)) loan_id,
+ CAST(REGEXP_SUBSTR(narration,'PF-B-[0-9]{8}-[0-9]+') AS VARCHAR(80)) batch_id,
+ REGEXP_SUBSTR(narration,'BUBN[0-9]{11}') utr,
+ REGEXP_SUBSTR(narration,'BUB7[0-9]{12}') umrn,
  CASE WHEN narration LIKE 'UPI/%' THEN 'UPI' WHEN narration LIKE 'NACH%' THEN 'NACH' WHEN narration LIKE '%PAYFAST%' THEN 'PG' ELSE 'NEFT' END channel,
  TRIM(REGEXP_REPLACE(REGEXP_REPLACE(UPPER(
  CASE WHEN narration LIKE 'UPI/CR/%' THEN REGEXP_REPLACE(REGEXP_SUBSTR(narration,'UPI/CR/[^/]+/[^/]+'),'UPI/CR/[^/]+/','')
@@ -22,7 +22,7 @@ SELECT b.*, CAST(credit_paise-debit_paise AS DECIMAL(18,0)) amount_paise,
 FROM MILAAN_STG.BANK_STATEMENT b JOIN MILAAN_CORE.CALENDAR c ON b.value_date=c.calendar_date;
 
 CREATE OR REPLACE TABLE MILAAN_CORE.PG AS
-SELECT p.*, CAST(CASE WHEN order_ref LIKE 'LN-%' THEN order_ref END AS VARCHAR(500)) loan_id, CAST(pg_payment_id AS VARCHAR(100)) payment_ref,
+SELECT p.*, CAST(CASE WHEN order_ref LIKE 'SFL-%' THEN order_ref END AS VARCHAR(500)) loan_id, CAST(pg_payment_id AS VARCHAR(100)) payment_ref,
  CAST(REGEXP_REPLACE(UPPER(pg_payment_id),'[^A-Z0-9]','') AS VARCHAR(100)) ref_norm,
  c.business_day_index day_index
 FROM MILAAN_STG.PG_SETTLEMENT p JOIN MILAAN_CORE.CALENDAR c ON p.settlement_date=c.calendar_date;

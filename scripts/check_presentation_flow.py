@@ -6,6 +6,7 @@ from time import monotonic
 from playwright.sync_api import sync_playwright
 
 from milaan import live
+from milaan.analytics import showcase_id
 from milaan.config import ROOT
 from milaan.db import query, scope
 from scripts.check_ui import settle
@@ -21,7 +22,7 @@ def layout(page):
 
 def main():
     folder = ROOT / "private/ui-review"
-    identifier = "PG:PG000000000-36"
+    identifier = showcase_id()
     monthly_run = query("SELECT run_id FROM MILAAN_AUDIT.RUN ORDER BY started_at DESC LIMIT 1")[0][
         "RUN_ID"
     ]

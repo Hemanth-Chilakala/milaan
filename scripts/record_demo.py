@@ -10,12 +10,12 @@ from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
+from milaan.analytics import showcase_id
 from milaan.config import ROOT
 from milaan.db import connect, scope
 from milaan.live import snapshot
 
 URL = "http://127.0.0.1:8501/?present=1"
-SHOWCASE = "PG:PG000000000-36"
 REGIONS = {
     "kpi_tiles": ".metric-grid",
     "kpi_matched_pct": "#live-matched",
@@ -355,7 +355,7 @@ def workflow(page, folder, names, display, width, height, dsf, fps):
             navigate(page, "Exceptions queue", "Exceptions queue")
         elif name in {"S06_showcase_detail", "S07_decision"}:
             navigate(page, "Exception detail", "Exception detail")
-            page.get_by_role("textbox", name="Exception ID", exact=True).fill(SHOWCASE)
+            page.get_by_role("textbox", name="Exception ID", exact=True).fill(showcase_id())
             page.get_by_role("textbox", name="Exception ID", exact=True).press("Enter")
             page.get_by_role(
                 "heading", name="Gateway receipt missing from ledger", exact=True
@@ -426,7 +426,7 @@ def workflow(page, folder, names, display, width, height, dsf, fps):
             with scope("month"), connect() as c:
                 row = c.execute(
                     "SELECT decision_id,run_id,exception_id,decision_action,analyst,assignee,note,CONVERT_TZ(created_at,DBTIMEZONE,'Asia/Kolkata') decided_at_ist FROM MILAAN_AUDIT.DECISION WHERE exception_id={id!s} ORDER BY created_at DESC LIMIT 1",
-                    {"id": SHOWCASE},
+                    {"id": showcase_id()},
                 ).fetchone()
                 shot.data["audit_decision"] = {
                     k: str(v) if v is not None else None for k, v in row.items()

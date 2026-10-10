@@ -20,6 +20,7 @@ from app.presentation import (
     html_text as esc,
 )
 from milaan import analytics, live
+from milaan.analytics import showcase_id
 from milaan.config import ROOT
 from milaan.db import connect, current_scope, query, scope
 from milaan.demo import is_running, reset_demo
@@ -421,6 +422,11 @@ def home_content(data):
         status
         + " · Receipts awaiting a match; bank-only differences appear in the exceptions queue."
     )
+    daily_timing = data.get("DAILY_TIMING", {})
+    if daily_timing:
+        st.caption(
+            f"Core matching · {daily_timing['CORE_SECONDS']:.2f} s · Scoring and validation · {daily_timing['SCORING_VALIDATION_SECONDS']:.2f} s · Total · {daily_timing['TOTAL_SECONDS']:.2f} s"
+        )
     if st.button("Reset demo", icon=":material/restart_alt:", disabled=is_running()):
         reset_demo(current_scope(), str(st.session_state.get("close_date", date(2026, 10, 14))))
         st.cache_data.clear()
@@ -431,7 +437,7 @@ def home_content(data):
         st.button(
             "Review the 37-payment batch",
             on_click=navigate,
-            args=("Exception detail", "PG:PG000000000-36"),
+            args=("Exception detail", showcase_id()),
             icon=":material/compare_arrows:",
         )
     left, right = st.columns([1.5, 1], gap="medium")
