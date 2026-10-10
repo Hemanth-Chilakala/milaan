@@ -16,15 +16,13 @@ References, settlement dates and gross versus net amounts disagree. Batch credit
 
 ## Demonstration
 
-[Download the narrated demo](docs/video/demo.mp4) · [Deck PDF](docs/deck/milaan_deck.pdf) · [PowerPoint](docs/deck/milaan_deck.pptx)
-
-![Demo preview](docs/video/preview.gif)
+Demo video: docs/video/demo.mp4 · [Deck PDF](docs/deck/milaan_deck.pdf) · [PowerPoint](docs/deck/milaan_deck.pptx)
 
 ![Daily close](docs/screenshots/home.png)
 ![Exception evidence](docs/screenshots/detail.png)
 ![Priority queue](docs/screenshots/queue.png)
 
-The video uses locally generated synthetic narration. The publisher can add an unlisted YouTube mirror after handoff; the local video is the submission artifact.
+The final video is assembled separately from the supplied silent footage and editor assets. The editor will add the final video, script and credits.
 
 ## What Milaan does
 

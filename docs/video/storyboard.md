@@ -1,13 +1,21 @@
-# Storyboard
+# Editor footage storyboard
 
-Target duration: 2:45. All footage comes from the working dashboard and all figures from measured runs. AI voice-over is generated locally; captions carry the same narration. If reconciliation exceeds the allocated segment, speed up that footage and visibly label the time compression.
+The final video is produced separately. Silent footage is captured last, after
+the product checkpoint. Shots use presentation mode, real-time reconciliation
+and per-shot event logs. The editor adds narration, captions and graphics.
 
-| Seconds | Visual |
+| Shot | Content |
 |---|---|
-| 0–20 | Problem and analyst |
-| 20–40 | Batch settlement diagram |
-| 40–85 | Live reconciliation |
-| 85–125 | Exception evidence and audited review |
-| 125–145 | Accuracy and execution profiles |
-| 145–160 | Architecture |
-| 160–165 | Team and repository |
+| S01 | Full-month close before reconciliation; 10M source records |
+| S02 | Entire monthly reconciliation, real time, plus final state |
+| S03 | Today's close with carried open items, real time |
+| S04 | Completed monthly KPIs and before/after exposure |
+| S05 | Priority queue, slow scroll and Missing in ledger filter |
+| S06 | 37-payment batch, settlement arithmetic and missing receipt |
+| S07 | Accept recommendation and show decision audit |
+| S08 | Accuracy, normal/blind/hard validation, timings and profiles |
+| S09 | Architecture and database-side workflow |
+
+Every number comes from measured runs. The footage manifest and metrics are
+provided alongside the repository in `video_assets/`; they are not committed.
+A synchronization marker precedes each shot and is trimmed by the editor.
