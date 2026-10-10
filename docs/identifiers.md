@@ -28,9 +28,11 @@ checks. Repeated measurements below include that correction.
 | Reused blind, seed 20261025 | 100% | 100% | 100% | 100% | 0 / 0 |
 | Hard, seed 20261104 | 99.1544% | 99.1544% | 85.872% | 85.8719% | 3,220 / 62,123 |
 
-Hard precision is unchanged and rounded recall is unchanged. Two additional
-expected edges are missed compared with the previous 62,121: moving the showcase
-changes the final source-budget boundary and its event mix. No reversal rules
+Hard precision and recall are unchanged at the displayed three-decimal precision. Two more edges are missed compared with the previous 62,121. Moving the showcase
+away from event zero enables the hard generator’s two-customer ambiguity at that
+event; the expected-edge total remains 439,711. Current exceptions are 104,671
+versus 104,668 previously. Precision differs by 0.000004 percentage points, so the
+full unrounded observations are retained rather than claiming exact equality. No reversal rules
 were tuned in this task. The normal and blind seeds are reused regression sets,
 not new independent validation. A new blind hard set follows reversal tuning.
 

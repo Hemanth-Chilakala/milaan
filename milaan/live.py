@@ -40,13 +40,16 @@ def phase(connection, run_id, name):
     connection.commit()
 
 
-def pass_members(connection, name, links):
+def pass_members(connection, name, links, active=False):
     if name == "CLASSIFY":
         return 0
     if name == "PG_BATCH":
-        row = connection.execute(
-            "SELECT (SELECT COUNT(DISTINCT ledger_id) FROM MILAAN_CORE.PASS_LINK)+(SELECT COUNT(DISTINCT bank_txn_id) FROM MILAAN_CORE.PASS_LINK)+(SELECT COUNT(*) FROM MILAAN_CORE.PG p WHERE EXISTS (SELECT 1 FROM MILAAN_CORE.PASS_LINK x JOIN MILAAN_CORE.BANK b ON x.bank_txn_id=b.bank_txn_id WHERE b.batch_id=p.settlement_batch_id AND b.bank_ref=p.settlement_utr)) N"
-        ).fetchone()
+        sql = "SELECT (SELECT COUNT(DISTINCT ledger_id) FROM MILAAN_CORE.PASS_LINK)+(SELECT COUNT(DISTINCT bank_txn_id) FROM MILAAN_CORE.PASS_LINK)+(SELECT COUNT(*) FROM MILAAN_CORE.PG p WHERE EXISTS (SELECT 1 FROM MILAAN_CORE.PASS_LINK x JOIN MILAAN_CORE.BANK b ON x.bank_txn_id=b.bank_txn_id WHERE b.batch_id=p.settlement_batch_id AND b.bank_ref=p.settlement_utr)) N"
+        if active:
+            sql = sql.replace("MILAAN_CORE.PG ", "MILAAN_CORE.WORK_PG ").replace(
+                "MILAAN_CORE.BANK ", "MILAAN_CORE.WORK_BANK "
+            )
+        row = connection.execute(sql).fetchone()
         return int(row["N"])
     if name == "SPLIT_MERGE":
         return (

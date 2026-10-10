@@ -8,7 +8,7 @@ from time import perf_counter
 
 from milaan.config import ROOT
 from milaan.db import connect, scope, scoped_sql, statements
-from milaan.pipeline import _recon
+from milaan.incremental import reconcile_incremental
 
 ARRIVAL = {
     "LEDGER": "posted_date",
@@ -36,11 +36,22 @@ def initialise():
         connection.execute(
             "CREATE TABLE IF NOT EXISTS MILAAN_DAY_AUDIT.DAY_STATE (dataset_id VARCHAR(36),close_date DATE)"
         )
+        connection.execute(
+            "CREATE TABLE IF NOT EXISTS MILAAN_DAY_AUDIT.DAILY_TIMING (run_id VARCHAR(36),core_seconds DOUBLE,review_seconds DOUBLE,scoring_validation_seconds DOUBLE,total_seconds DOUBLE)"
+        )
         connection.commit()
 
 
 def prepare(day: date, restart=False):
     with connect() as connection:
+        connection.execute("ALTER SESSION SET PROFILE='ON'")
+        execute = connection.execute
+
+        def profiled(sql, *args, **kwargs):
+            return execute(f"/* DAILY_PREPARATION:{day} */ " + sql, *args, **kwargs)
+
+        connection.execute = profiled
+
         dataset = connection.execute("SELECT * FROM MILAAN_AUDIT.DATASET").fetchone()
         if not dataset:
             raise RuntimeError("Load the monthly dataset first")
@@ -61,22 +72,36 @@ def prepare(day: date, restart=False):
                         "Previous daily close did not complete; replay from --restart"
                     )
         same_day = not fresh and day == date.fromisoformat(str(last["CLOSE_DATE"]))
-        connection.execute(
-            "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.CLOSED_LINK AS SELECT * FROM "
-            + ("MILAAN_DAY_CORE.DAY_START_LINK" if same_day else "MILAAN_DAY_RES.LINK")
-            + (" WHERE 1=0" if fresh else "")
-        )
-        connection.execute(
-            "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.CLOSED_MEMBER AS SELECT * FROM "
-            + ("MILAAN_DAY_CORE.DAY_START_MEMBER" if same_day else "MILAAN_DAY_RES.MATCH_MEMBER")
-            + (" WHERE 1=0" if fresh else "")
-        )
-        if not same_day:
+        if fresh:
+            for table in ("LINK", "MATCH", "MATCH_MEMBER", "EXCEPTION", "EXPLANATION", "SCORE"):
+                connection.execute(f'TRUNCATE TABLE MILAAN_DAY_RES."{table}"')
+            connection.commit()
+        elif same_day:
+            # Undo only this date's appended groups; preserve older closed groups.
+            previous_run = connection.execute(
+                "SELECT run_id FROM MILAAN_DAY_AUDIT.RUN WHERE dataset_id={id!s} AND status='COMPLETE' ORDER BY started_at DESC LIMIT 1",
+                {"id": dataset["DATASET_ID"]},
+            ).fetchone()
+            if previous_run:
+                for table in ("LINK", "MATCH_MEMBER"):
+                    connection.execute(
+                        f'DELETE FROM MILAAN_DAY_RES.{table} WHERE match_id IN (SELECT match_id FROM MILAAN_DAY_RES."MATCH" WHERE run_id={{run!s}})',
+                        {"run": previous_run["RUN_ID"]},
+                    )
+                connection.execute(
+                    'DELETE FROM MILAAN_DAY_RES."MATCH" WHERE run_id={run!s}',
+                    {"run": previous_run["RUN_ID"]},
+                )
+        # Views reference the retained closed history; no cumulative copy is made.
+        for name, table in (("CLOSED_LINK", "LINK"), ("CLOSED_MEMBER", "MATCH_MEMBER")):
+            kind = connection.execute(
+                "SELECT table_name FROM EXA_ALL_TABLES WHERE table_schema='MILAAN_DAY_CORE' AND table_name={name!s}",
+                {"name": name},
+            ).fetchone()
+            if kind:
+                connection.execute(f"DROP TABLE MILAAN_DAY_CORE.{name}")
             connection.execute(
-                "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.DAY_START_LINK AS SELECT * FROM MILAAN_DAY_CORE.CLOSED_LINK"
-            )
-            connection.execute(
-                "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.DAY_START_MEMBER AS SELECT * FROM MILAAN_DAY_CORE.CLOSED_MEMBER"
+                f"CREATE OR REPLACE VIEW MILAAN_DAY_CORE.{name} AS SELECT * FROM MILAAN_DAY_RES.{table}"
             )
         previous_day = str(last["CLOSE_DATE"]) if not fresh else str(date(1900, 1, 1))
         if same_day:
@@ -87,16 +112,19 @@ def prepare(day: date, restart=False):
         )
         new_counts, total = {}, 0
         for source, arrival in ARRIVAL.items():
-            if fresh:
-                connection.execute(
-                    f"CREATE OR REPLACE TABLE MILAAN_DAY_CORE.{source} AS SELECT * FROM MILAAN_CORE.{source} WHERE {arrival}<=CAST({{day!s}} AS DATE)",
-                    {"day": str(day)},
-                )
-            elif not same_day:
-                connection.execute(
-                    f"INSERT INTO MILAAN_DAY_CORE.{source} SELECT * FROM MILAAN_CORE.{source} WHERE {arrival}>CAST({{previous!s}} AS DATE) AND {arrival}<=CAST({{day!s}} AS DATE)",
-                    {"day": str(day), "previous": previous_day},
-                )
+            table = connection.execute(
+                "SELECT table_name FROM EXA_ALL_TABLES WHERE table_schema='MILAAN_DAY_CORE' AND table_name={name!s}",
+                {"name": source},
+            ).fetchone()
+            if table:
+                connection.execute(f"DROP TABLE MILAAN_DAY_CORE.{source}")
+                connection.commit()
+            # Immutable monthly sources are already normalised. An arrival view
+            # exposes the arrived subset without another cumulative source copy.
+            connection.execute(
+                f"CREATE OR REPLACE VIEW MILAAN_DAY_CORE.{source} AS SELECT * FROM MILAAN_CORE.{source} WHERE {arrival}<=CAST({{day!s}} AS DATE)",
+                {"day": str(day)},
+            )
             count = connection.execute(
                 f"SELECT COUNT(*) N FROM MILAAN_DAY_CORE.{source}"
             ).fetchone()["N"]
@@ -107,40 +135,35 @@ def prepare(day: date, restart=False):
             ).fetchone()["N"]
             if source in OPEN_COLUMNS:
                 if fresh or same_day:
+                    missing_receipt = (
+                        " OR (s.gross_paise>0 AND NOT EXISTS (SELECT 1 FROM MILAAN_DAY_CORE.LEDGER l WHERE l.external_ref=s.payment_ref))"
+                        if source == "PG"
+                        else ""
+                    )
                     connection.execute(
                         f"CREATE OR REPLACE TABLE MILAAN_DAY_CORE.OPEN_{source} AS SELECT {OPEN_COLUMNS[source]} FROM MILAAN_DAY_CORE.{source} s WHERE NOT EXISTS (SELECT 1 FROM MILAAN_DAY_CORE.CLOSED_MEMBER m WHERE m.source_name='{source}' AND m.txn_key=s.{KEYS[source]})"
+                        + missing_receipt
                     )
                 else:
-                    connection.execute(
-                        f"DELETE FROM MILAAN_DAY_CORE.OPEN_{source} s WHERE EXISTS (SELECT 1 FROM MILAAN_DAY_CORE.CLOSED_MEMBER m WHERE m.source_name='{source}' AND m.txn_key=s.{KEYS[source]})"
-                    )
                     connection.execute(
                         f"INSERT INTO MILAAN_DAY_CORE.OPEN_{source} SELECT {OPEN_COLUMNS[source]} FROM MILAAN_CORE.{source} WHERE {arrival}>CAST({{previous!s}} AS DATE) AND {arrival}<=CAST({{day!s}} AS DATE)",
                         {"day": str(day), "previous": previous_day},
                     )
+        table = connection.execute(
+            "SELECT table_name FROM EXA_ALL_TABLES WHERE table_schema='MILAAN_DAY_CORE' AND table_name='LEDGER_REFERENCE'"
+        ).fetchone()
+        if table:
+            connection.execute("DROP TABLE MILAAN_DAY_CORE.LEDGER_REFERENCE")
         connection.execute(
-            "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.LEDGER_REFERENCE AS SELECT external_ref FROM MILAAN_DAY_CORE.LEDGER GROUP BY external_ref"
+            "CREATE OR REPLACE VIEW MILAAN_DAY_CORE.LEDGER_REFERENCE AS SELECT external_ref FROM MILAAN_DAY_CORE.LEDGER"
         )
-        # This separate arrival oracle is used only by scoring. Matching has no
-        # access to it. Cache arrival dates once, then append newly eligible labels.
-        if fresh:
-            connection.execute(
-                "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.TRUTH_ARRIVAL AS SELECT g.*,GREATEST(COALESCE(l.posted_date,DATE '1900-01-01'),COALESCE(b.value_date,DATE '1900-01-01'),COALESCE(p.settlement_date,DATE '1900-01-01')) arrival_date FROM MILAAN_CORE.SCORING_TRUTH g LEFT JOIN MILAAN_CORE.LEDGER l ON g.ledger_id=l.ledger_id LEFT JOIN MILAAN_CORE.BANK b ON g.bank_txn_id=b.bank_txn_id LEFT JOIN MILAAN_CORE.PG p ON g.pg_key=p.pg_payment_id"
-            )
-            connection.execute(
-                "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.SCORING_TRUTH AS SELECT event_id,ledger_id,bank_txn_id,pg_key,break_type,expected_match FROM MILAAN_DAY_CORE.TRUTH_ARRIVAL WHERE arrival_date<=CAST({day!s} AS DATE)",
-                {"day": str(day)},
-            )
-        elif not same_day:
-            connection.execute(
-                "INSERT INTO MILAAN_DAY_CORE.SCORING_TRUTH SELECT event_id,ledger_id,bank_txn_id,pg_key,break_type,expected_match FROM MILAAN_DAY_CORE.TRUTH_ARRIVAL WHERE arrival_date>CAST({previous!s} AS DATE) AND arrival_date<=CAST({day!s} AS DATE)",
-                {"day": str(day), "previous": previous_day},
-            )
         connection.execute("TRUNCATE TABLE MILAAN_DAY_AUDIT.DATASET")
         manifest = json.loads(dataset["MANIFEST"])
         manifest["daily_close"] = {
             "date": str(day),
             "previous_date": previous_day,
+            "fresh": fresh,
+            "same_day": same_day,
             "new_source_counts": new_counts,
             "cumulative_source_rows": total,
         }
@@ -163,13 +186,48 @@ def prepare(day: date, restart=False):
             ).fetchone()["N"]
             for source in OPEN_COLUMNS
         }
+        connection.execute("ALTER SESSION SET PROFILE='OFF'")
+        connection.execute("FLUSH STATISTICS")
+        connection.commit()
+        profiles = execute(
+            "SELECT PART_NAME,PART_INFO,OBJECT_NAME,OBJECT_ROWS,OUT_ROWS,DURATION,CPU FROM EXA_USER_PROFILE_LAST_DAY WHERE SESSION_ID=CURRENT_SESSION AND SQL_TEXT LIKE {tag!s}",
+            {"tag": f"%DAILY_PREPARATION:{day}%"},
+        ).fetchall()
         return {
+            "preparation_profiles": profiles,
             "date": str(day),
             "new_source_counts": new_counts,
             "cumulative_source_rows": total,
             "fresh": fresh,
             "open_source_counts": open_counts,
         }
+
+
+def score_arrivals(connection):
+    """Maintain the independent arrival oracle only after matching has finished."""
+    state = json.loads(
+        connection.execute("SELECT manifest FROM MILAAN_AUDIT.DATASET").fetchone()["MANIFEST"]
+    )["daily_close"]
+    day = date.fromisoformat(state["date"])
+    previous_day = state["previous_date"]
+    fresh, same_day = state["fresh"], state["same_day"]
+    # The oracle joins monthly sources explicitly; bypass only the day name mapper.
+    execute = connection.connection.execute
+    # This separate arrival oracle is used only by scoring. Matching has no
+    # access to it. Cache arrival dates once, then append newly eligible labels.
+    if fresh:
+        execute(
+            "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.TRUTH_ARRIVAL AS SELECT g.*,GREATEST(COALESCE(l.posted_date,DATE '1900-01-01'),COALESCE(b.value_date,DATE '1900-01-01'),COALESCE(p.settlement_date,DATE '1900-01-01')) arrival_date FROM MILAAN_CORE.SCORING_TRUTH g LEFT JOIN MILAAN_CORE.LEDGER l ON g.ledger_id=l.ledger_id LEFT JOIN MILAAN_CORE.BANK b ON g.bank_txn_id=b.bank_txn_id LEFT JOIN MILAAN_CORE.PG p ON g.pg_key=p.pg_payment_id"
+        )
+        execute(
+            "CREATE OR REPLACE TABLE MILAAN_DAY_CORE.SCORING_TRUTH AS SELECT event_id,ledger_id,bank_txn_id,pg_key,break_type,expected_match FROM MILAAN_DAY_CORE.TRUTH_ARRIVAL WHERE arrival_date<=CAST({day!s} AS DATE)",
+            {"day": str(day)},
+        )
+    elif not same_day:
+        execute(
+            "INSERT INTO MILAAN_DAY_CORE.SCORING_TRUTH SELECT event_id,ledger_id,bank_txn_id,pg_key,break_type,expected_match FROM MILAAN_DAY_CORE.TRUTH_ARRIVAL WHERE arrival_date>CAST({previous!s} AS DATE) AND arrival_date<=CAST({day!s} AS DATE)",
+            {"day": str(day), "previous": previous_day},
+        )
 
 
 def recon_day(day: str, progress=None, restart=False, warmup=True):
@@ -214,7 +272,7 @@ def _close(day, progress, restart=False):
     context = prepare(day, restart)
     prep_seconds = perf_counter() - started
     with scope("day"):
-        result = _recon(progress, daily=True, started=started)
+        result = reconcile_incremental(progress, started=started)
         with connect() as connection:
             connection.execute("TRUNCATE TABLE MILAAN_DAY_AUDIT.DAY_STATE")
             connection.execute(

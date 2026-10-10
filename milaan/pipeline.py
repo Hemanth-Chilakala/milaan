@@ -29,10 +29,22 @@ def setup() -> None:
 
 
 def load(folder: Path, progress=None) -> dict:
+    (ROOT / "private").mkdir(exist_ok=True)
+    with (ROOT / "private/reconciliation.lock").open("a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as error:
+            raise RuntimeError("Another reconciliation or load is running") from error
+        return _load(folder, progress)
+
+
+def _load(folder: Path, progress=None) -> dict:
     manifest = json.loads((folder / "manifest.json").read_text())
     dataset_id = str(uuid.uuid4())
     times = {}
     with connect() as connection:
+        connection.execute("TRUNCATE TABLE MILAAN_AUDIT.DATASET")
+        connection.commit()
         for name, table in SOURCES.items():
             connection.execute(f"TRUNCATE TABLE {table}")
             started = perf_counter()
@@ -52,6 +64,14 @@ def load(folder: Path, progress=None) -> dict:
             print(f"Loaded {name}: {count:,} rows in {elapsed:.3f}s", flush=True)
             if progress:
                 progress(name, elapsed, count)
+        # A new dataset invalidates current reconciliation results, not decision history.
+        for table in ("LINK", "MATCH", "MATCH_MEMBER", "EXCEPTION", "EXPLANATION", "SCORE"):
+            connection.execute(f'TRUNCATE TABLE MILAAN_RES."{table}"')
+        # Commit each replacement so the previous table version can be reclaimed
+        # within the small local database volume, instead of retaining all versions.
+        for statement in statements(ROOT / "sql/20_normalise.sql"):
+            connection.execute(statement)
+            connection.commit()
         connection.execute("TRUNCATE TABLE MILAAN_AUDIT.DATASET")
         connection.execute(
             "INSERT INTO MILAAN_AUDIT.DATASET VALUES ({id!s},{label!s},{rows},CAST({asof!s} AS DATE),{manifest!s},CURRENT_TIMESTAMP)",
@@ -63,10 +83,6 @@ def load(folder: Path, progress=None) -> dict:
                 "manifest": json.dumps(manifest),
             },
         )
-        # A new dataset invalidates current reconciliation results, not decision history.
-        for table in ("LINK", "MATCH", "MATCH_MEMBER", "EXCEPTION", "EXPLANATION", "SCORE"):
-            connection.execute(f'TRUNCATE TABLE MILAAN_RES."{table}"')
-        execute_file(connection, ROOT / "sql/20_normalise.sql")
         connection.commit()
     return times
 

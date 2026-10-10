@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "schema_prefix": "MILAAN_VERIFY_",
+  "matching_rules_unchanged_in_scratch_copy": true,
+  "database_tests_passed": 10,
+  "non_database_tests_passed": 32,
+  "retained_month_run_id": "312dd35d-4964-41f4-a0d8-514687c9f406",
+  "retained_month_correct_links": 4384979,
+  "retained_source_rows": 10000000
+}

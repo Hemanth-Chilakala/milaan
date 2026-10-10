@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from generator.generate import generate
+from generator.generate import ID_SCHEME, generate
 
 
 def main():
@@ -15,7 +15,11 @@ def main():
     manifest = args.out / "manifest.json"
     if manifest.exists():
         info = json.loads(manifest.read_text())
-        if info["source_rows"] != args.rows or info["seed"] != 42:
+        if (
+            info["source_rows"] != args.rows
+            or info["seed"] != 42
+            or info.get("id_scheme") != ID_SCHEME
+        ):
             raise SystemExit("Existing dataset differs; choose a fresh DATA directory.")
         print(f"Reusing {args.rows:,} seeded source records in {args.out}")
     else:

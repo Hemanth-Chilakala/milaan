@@ -34,7 +34,7 @@ def summary() -> dict:
         result["LIVE"] = query(
             "SELECT COALESCE(SUM(amount_paise),0) open_paise,COALESCE(SUM(amount_paise),0) before_paise FROM MILAAN_CORE.LEDGER"
         )[0]
-    if result["RUN"]:
+    if result["RUN"] and result["DAILY"]:
         try:
             timings = query(
                 "SELECT * FROM MILAAN_AUDIT.DAILY_TIMING WHERE run_id={id!s}",

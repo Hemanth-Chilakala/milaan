@@ -36,15 +36,13 @@ def reset_demo(scope_name="month", day="2026-10-14"):
                     connection.execute(
                         f"CREATE OR REPLACE TABLE MILAAN_CORE.OPEN_{source} AS SELECT {columns} FROM MILAAN_CORE.{source}"
                     )
-            for table in ("LINK", "MATCH", "MATCH_MEMBER", "EXCEPTION", "EXPLANATION", "SCORE"):
+            tables = (
+                ("LINK", "MATCH", "MATCH_MEMBER", "EXCEPTION", "EXPLANATION", "SCORE")
+                if scope_name == "month"
+                else ("EXCEPTION", "EXPLANATION", "SCORE")
+            )
+            for table in tables:
                 connection.execute(f'TRUNCATE TABLE MILAAN_RES."{table}"')
-            if scope_name == "day":
-                connection.execute(
-                    "INSERT INTO MILAAN_RES.LINK SELECT * FROM MILAAN_CORE.CLOSED_LINK"
-                )
-                connection.execute(
-                    "INSERT INTO MILAAN_RES.MATCH_MEMBER SELECT * FROM MILAAN_CORE.CLOSED_MEMBER"
-                )
             run_id = str(uuid.uuid4())
             connection.execute(
                 "INSERT INTO MILAAN_AUDIT.RUN SELECT {id!s},dataset_id,'READY',CURRENT_TIMESTAMP,NULL,NULL,'Demo reset' FROM MILAAN_AUDIT.DATASET",

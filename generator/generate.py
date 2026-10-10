@@ -24,6 +24,7 @@ HEADERS = {
     "calendar": "calendar_date business_day_index is_business_day".split(),
 }
 DEFAULT_CONFIG = Path(__file__).with_name("config.yaml")
+ID_SCHEME = "seeded collision-free namespace bijections v2"
 
 
 def load_config(path: Path = DEFAULT_CONFIG) -> dict:
@@ -584,7 +585,7 @@ def generate(
         "rates": config["break_rates"],
         "showcase": bool(showcase_info),
         "showcase_details": showcase_info,
-        "id_scheme": "seeded collision-free namespace bijections v2",
+        "id_scheme": ID_SCHEME,
         "fixture": fixture,
         "difficulty": difficulty,
         "hard_scenarios": dict(hard_counts),
