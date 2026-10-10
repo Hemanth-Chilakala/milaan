@@ -1,8 +1,9 @@
+import base64
 import json
-import queue as thread_queue
+import os
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime
-from time import perf_counter, sleep
+from time import perf_counter, sleep, time
 from zoneinfo import ZoneInfo
 
 import plotly.graph_objects as go
@@ -18,9 +19,10 @@ from app.presentation import (
 from app.presentation import (
     html_text as esc,
 )
-from milaan import analytics
+from milaan import analytics, live
 from milaan.config import ROOT
-from milaan.db import current_scope, query, scope
+from milaan.db import connect, current_scope, query, scope
+from milaan.demo import is_running, reset_demo
 from milaan.explain import generate_explanations, rupees
 from milaan.pipeline import PASSES, recon
 
@@ -65,6 +67,8 @@ def markup(text):
 def metrics(items):
     cards = []
     for title, value, note, tone, full in items:
+        if title == "Loan":
+            tone = tone + " identifier"
         cards.append(
             f'<div class="metric-card" title="{esc(full)}"><div class="metric-label">{esc(title)}</div><div class="metric-value {tone}">{esc(value)}</div><div class="metric-note">{esc(note)}</div></div>'
         )
@@ -75,6 +79,10 @@ def section(title, note=""):
     markup(
         f'<div class="section-head"><span class="section-title">{esc(title)}</span><span class="section-note">{esc(note)}</span></div>'
     )
+
+
+def request_run():
+    st.session_state["run_requested"] = True
 
 
 def header(title, subtitle, data, action=None):
@@ -94,6 +102,8 @@ def header(title, subtitle, data, action=None):
                 width="stretch",
                 key="run_recon",
                 icon=":material/play_arrow:",
+                disabled=is_running() or st.session_state.get("run_requested", False),
+                on_click=request_run,
             )
         return clicked
     st.title(title)
@@ -109,13 +119,26 @@ def render():
         initial_sidebar_state="expanded",
     )
     st.html(ROOT / "app/style.css")
+    font = base64.b64encode((ROOT / "docs/brand/fonts/InterVariable.woff2").read_bytes()).decode()
+    markup(
+        f'<style>@font-face{{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url(data:font/woff2;base64,{font}) format("woff2");}}</style>'
+    )
+    if st.query_params.get("present") == "1" or os.getenv("MILAAN_PRESENT") == "1":
+        markup(
+            '<style>[data-testid="stHeader"], [data-testid="stDecoration"], [data-testid="stSidebarHeader"], [data-testid="stSidebarResizeHandle"], [data-testid="stSidebarCollapseButton"]{display:none!important;} html{font-size:17.6px;} [data-testid="stMainBlockContainer"]{padding-top:1.7rem;} .metric-value{font-size:34px;} .hero-sub{font-size:15.4px;} .metric-card{padding:24px 20px;}</style>'
+        )
     page = st.session_state.setdefault("workspace", "Today's close")
     if page not in PAGES:
         page = "Today's close"
         st.session_state["workspace"] = page
     with st.sidebar:
+        logo = (ROOT / "docs/brand/logo.svg").read_text().replace("#20352f", "#effff5")
         markup(
-            """<div class="brand"><div class="brand-symbol">m</div><div><div class="brand-name">milaan<span style="color:#80c9a7">.</span></div><div class="brand-sub">Collections workspace</div></div></div><div class="nav-label">Workspace</div>"""
+            '<div class="brand" style="display:block">'
+            + '<img alt="Milaan" style="width:200px;height:55px" src="data:image/svg+xml;base64,'
+            + base64.b64encode(logo.encode()).decode()
+            + '">'
+            + '<div class="brand-sub">Collections workspace</div></div><div class="nav-label">Workspace</div>'
         )
         for name, icon in PAGES.items():
             st.button(
@@ -145,8 +168,32 @@ def render():
         )
     try:
         scope_name = "day" if selected_mode == "Today's close" else "month"
-        data = cached_summary(scope_name)
+        try:
+            data = cached_summary(scope_name)
+        except Exception:
+            if scope_name != "day":
+                raise
+            from milaan.daily import initialise
+
+            with scope("month"):
+                initialise()
+            data = cached_summary(scope_name)
         if not data:
+            if scope_name == "day" and cached_summary("month"):
+                with scope("day"):
+                    triggered = header(
+                        "Today's close",
+                        "Prepare the prior close, then match today's arrivals against its open items.",
+                        {"AS_OF_DATE": st.session_state["close_date"]},
+                        "Run today's close",
+                    )
+                    triggered = st.session_state.pop("run_requested", False) or triggered
+                    markup(
+                        '<div class="empty-state"><strong>Your source files are ready</strong>The first daily run prepares prior-date open items. Later closes process new arrivals and carry the unresolved items forward.</div>'
+                    )
+                    if triggered:
+                        run_reconciliation()
+                return
             header(
                 "Your collections workspace",
                 "Connect your source files to begin a daily close.",
@@ -168,9 +215,10 @@ def render():
         with scope(scope_name):
             views[page](data)
     except Exception as error:
-        st.error(
-            "This view could not load. Refresh the workspace or check the database connection."
+        markup(
+            '<div class="empty-state"><strong>Let’s reconnect your workspace</strong>Exasol is not responding yet. Start the local database, then refresh to continue.</div>'
         )
+        st.code("bash scripts/exasol-local.sh start")
         if st.button("Refresh workspace", icon=":material/refresh:"):
             st.cache_data.clear()
             st.rerun()
@@ -178,38 +226,82 @@ def render():
             st.code(str(error))
 
 
+def live_panel(snapshot, elapsed):
+    completed = {r["PASS_NAME"]: r for r in snapshot.get("PASSES", [])}
+    rows = []
+    for index, (name, _) in enumerate(PASSES, 1):
+        record = completed.get(name)
+        state = (
+            "done" if record else "running" if snapshot.get("CURRENT_PASS") == name else "waiting"
+        )
+        note = f"{record['LINKS_ADDED']:,} links found" if record else state.capitalize()
+        seconds = f"{record['SECONDS']:.2f}s" if record else ""
+        rows.append(
+            f'<div class="live-pass {state}"><span class="state">{"✓" if record else index}</span><div><strong>{esc(label(name))}</strong><small>{note}</small></div><span class="seconds">{seconds}</span></div>'
+        )
+    pct = snapshot.get("MEMBERS", 0) / max(snapshot.get("SOURCE_ROWS", 1), 1)
+    matched_label = percent(pct) if snapshot else "—"
+    amount = compact_money(snapshot.get("OPEN_PAISE", 0)) if snapshot else "—"
+    return (
+        '<div class="batch-comparison" style="grid-template-columns:1.4fr 1fr"><div class="live-panel" id="pass-list">'
+        + "".join(rows)
+        + f'</div><div class="live-panel"><div class="live-caption">Measured progress inside Exasol</div><div class="metric-label" style="margin-top:45px">Automatically grouped</div><div class="metric-value green" id="live-matched">{matched_label}</div><div class="metric-label" style="margin-top:45px">Unreconciled receipts</div><div class="metric-value amber" id="live-unreconciled">{amount}</div><p class="live-caption" style="margin-top:45px">Matching, scoring and validation run in the database.<br>Updates read the committed audit snapshots.</p></div></div>'
+    )
+
+
 def run_reconciliation():
     started = perf_counter()
-    events = thread_queue.Queue()
-    progress = st.status("Reconciling source records", expanded=True)
+    scope_name = current_scope()
+    close_day = str(st.session_state.get("close_date", date(2026, 10, 14)))
     clock = st.empty()
+    panel = st.empty()
+    phase_note = st.empty()
+    previous_id = live.snapshot().get("RUN_ID")
+    previous_panel = None
 
-    def update(name, seconds, count):
-        if seconds is None:
-            progress.write(f"{label(name)} · running")
-        else:
-            progress.write(f"{label(name)} · {count:,} receipt links · {seconds:.2f}s")
+    def work():
+        with scope(scope_name):
+            if scope_name == "day":
+                from milaan.daily import recon_day
 
-    with ThreadPoolExecutor(max_workers=1) as executor:
-        runner = recon
-        if current_scope() == "day":
-            from milaan.daily import recon_day
+                result = recon_day(close_day)
+            else:
+                result = recon()
+            generate_explanations()
+            return result
 
-            close_day = str(st.session_state["close_date"])
-            runner = lambda callback: recon_day(close_day, callback)
-        task = executor.submit(runner, lambda *event: events.put(event))
+    with connect() as reader, ThreadPoolExecutor(max_workers=1) as executor:
+        task = executor.submit(work)
         while not task.done():
-            clock.caption(f"Elapsed time · {perf_counter() - started:.1f} seconds")
-            while not events.empty():
-                update(*events.get())
-            sleep(0.25)
-        while not events.empty():
-            update(*events.get())
+            snapshot = live.snapshot(reader)
+            if snapshot.get("RUN_ID") == previous_id:
+                snapshot = {}
+            elapsed = (
+                (time() * 1000 - snapshot["STARTED_EPOCH_MS"]) / 1000
+                if snapshot
+                else perf_counter() - started
+            )
+            if snapshot.get("STATUS") == "COMPLETE":
+                elapsed = snapshot["ELAPSED_SECONDS"]
+                phase_note.caption("Matching complete · preparing evidence-backed explanations")
+            clock.html(
+                f'<div class="live-timer" id="live-timer" style="font-size:48px;margin:4px 0 12px">{elapsed:.1f}<span style="font-size:20px;color:#6d7c75;letter-spacing:0;margin-left:8px;font-weight:400">s elapsed</span></div>'
+            )
+            panel_key = (
+                snapshot.get("RUN_ID"),
+                snapshot.get("CURRENT_PASS"),
+                snapshot.get("MEMBERS"),
+                snapshot.get("STATUS"),
+                len(snapshot.get("PASSES", [])),
+            )
+            if panel_key != previous_panel:
+                panel.html(live_panel(snapshot, elapsed))
+                previous_panel = panel_key
+            sleep(0.35)
         result = task.result()
-    progress.update(label="Writing evidence-backed explanations", state="running")
-    generate_explanations()
     st.cache_data.clear()
     st.session_state["completed_run"] = result["run_id"]
+    st.toast("Reconciliation complete. Your exceptions are ready.", icon=":material/check_circle:")
     st.rerun()
 
 
@@ -245,7 +337,7 @@ def bar_chart(rows, field="LINKS_ADDED", unit="Receipt links"):
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         showlegend=False,
-        font=dict(family="sans-serif", size=12, color="#6b7c6f"),
+        font=dict(family="Inter", size=12, color="#6b7c6f"),
         xaxis=dict(showgrid=True, gridcolor="#eff2ec", zeroline=False, title=None),
         yaxis=dict(autorange="reversed", showgrid=False),
         bargap=0.44,
@@ -254,28 +346,46 @@ def bar_chart(rows, field="LINKS_ADDED", unit="Receipt links"):
 
 
 def home(data):
-    run = data.get("RUN")
     triggered = header(
-        "Daily close",
+        "Today's close" if current_scope() == "day" else "Full month close",
         "A clear view of your collections. Match the receipts; investigate the differences.",
         data,
         "Run today's close" if current_scope() == "day" else "Run reconciliation (full month)",
     )
+    triggered = st.session_state.pop("run_requested", False) or triggered
+    body = st.empty()
     if triggered:
-        run_reconciliation()
-    if run and run["STATUS"] != "COMPLETE":
-        st.warning(
-            f"The latest run is {run['STATUS'].lower()}. Results are incomplete until reconciliation finishes."
-        )
+        body.empty()
+        with body.container():
+            run_reconciliation()
+        return
+    with body.container():
+        with st.container(key="home_results"):
+            home_content(data)
+
+
+def home_content(data):
+    run = data.get("RUN")
+    if is_running():
+        st.info("A reconciliation is running. The run button unlocks when it finishes.")
+    elif run and run["STATUS"] == "FAILED":
+        st.warning("The last run stopped before completion. Reset the demo and retry.")
     if run and st.session_state.get("completed_run") == run["RUN_ID"]:
         st.success("Results and evidence-backed explanations are ready.")
     auto = data["MEMBERS"] / data["SOURCE_ROWS"] if data["SOURCE_ROWS"] else 0
+    live_data = data.get("LIVE", {})
+    pending = live_data.get("OPEN_PAISE", data["OPEN_PAISE"])
+    before = live_data.get("BEFORE_PAISE", pending)
+    daily = data.get("DAILY", {})
+    new_today = sum(daily.get("new_source_counts", {}).values())
     metrics(
         [
             (
-                "Source records",
-                f"{data['SOURCE_ROWS']:,}",
-                "Across four source files",
+                "New records today" if daily else "Source records",
+                f"{new_today if daily else data['SOURCE_ROWS']:,}",
+                f"{data['SOURCE_ROWS']:,} available through this close"
+                if daily
+                else "Across four source files",
                 "",
                 f"{data['SOURCE_ROWS']:,} records",
             ),
@@ -287,11 +397,11 @@ def home(data):
                 f"{data['MEMBERS']:,} grouped records",
             ),
             (
-                "Exception exposure",
-                compact_money(data["OPEN_PAISE"]),
-                "Unresolved accounting differences",
+                "Unreconciled receipts",
+                compact_money(pending),
+                compact_money(before) + " → " + compact_money(pending),
                 "amber",
-                rupees(data["OPEN_PAISE"]),
+                rupees(pending),
             ),
             (
                 "Exceptions found",
@@ -309,8 +419,21 @@ def home(data):
     )
     st.caption(
         status
-        + " · Exception exposure represents accounting breaks, not a bank cash balance. Hover over the amount for its full value."
+        + " · Receipts awaiting a match; bank-only differences appear in the exceptions queue."
     )
+    if st.button("Reset demo", icon=":material/restart_alt:", disabled=is_running()):
+        reset_demo(current_scope(), str(st.session_state.get("close_date", date(2026, 10, 14))))
+        st.cache_data.clear()
+        st.session_state.pop("completed_run", None)
+        st.toast("Demo reset. Source data and review history are retained.")
+        st.rerun()
+    if data["EXCEPTIONS"] and current_scope() == "month":
+        st.button(
+            "Review the 37-payment batch",
+            on_click=navigate,
+            args=("Exception detail", "PG:PG000000000-36"),
+            icon=":material/compare_arrows:",
+        )
     left, right = st.columns([1.5, 1], gap="medium")
     with left, st.container(border=True, key="panel_home_matching"):
         section("Receipt links by matching pass", "Measured in Exasol")
@@ -594,9 +717,39 @@ def exception_detail(data):
             ),
         ]
     )
+    batch = analytics.batch_evidence(evidence) if row["CATEGORY"] == "MISSING_IN_LEDGER" else {}
+    if batch:
+        section("One settlement. Every receipt.", "PayFast · verified source evidence")
+        markup(f"""<div class="batch-comparison">
+            <div class="evidence-card"><div class="evidence-head">Bank credit</div><div class="evidence-body"><div class="batch-number">{rupees(batch["BANK_CREDIT_PAISE"])}</div><div class="field"><div class="field-label">Value date</div><div class="field-value">{business_date(batch["VALUE_DATE"])}</div></div><div class="field"><div class="field-label">Bank reference</div><div class="field-value">{esc(batch["BANK_REF"])}</div></div></div></div>
+            <div class="evidence-card"><div class="evidence-head">Gateway batch</div><div class="evidence-body"><div class="batch-number">{batch["PAYMENT_COUNT"]} payments</div><div class="field"><div class="field-label">Gross collected</div><div class="field-value">{rupees(batch["GROSS_PAISE"])}</div></div><div class="field"><div class="field-label">Settlement batch</div><div class="field-value">{esc(batch["BATCH_ID"])}</div></div></div></div>
+            <div class="evidence-card"><div class="evidence-head">Ledger receipts</div><div class="evidence-body"><div class="batch-number">{batch["MATCHED_RECEIPTS"]} matched</div><div class="missing-receipt"><strong>Receipt missing</strong><br>{esc(row["LOAN_ID"])}<br>{rupees(row["AMOUNT_PAISE"])} · {row["CHANNEL"]}</div></div></div>
+            </div>""")
+        equation = [
+            (batch["GROSS_PAISE"], "Gross"),
+            (batch["FEE_PAISE"], "Fees"),
+            (batch["GST_PAISE"], "GST"),
+        ]
+        if batch["REFUND_PAISE"]:
+            # Gross includes negative refund rows; add them back for the collection total.
+            equation[0] = (batch["GROSS_PAISE"] + batch["REFUND_PAISE"], "Gross collections")
+            equation.append((batch["REFUND_PAISE"], "Refunds"))
+        pieces = []
+        for index, (amount, title) in enumerate(equation):
+            if index:
+                pieces.append('<span class="operator">−</span>')
+            pieces.append(f"<div><strong>{rupees(amount)}</strong><small>{title}</small></div>")
+        pieces.append(
+            f'<span class="operator">=</span><div><strong style="color:#158568">{rupees(batch["NET_PAISE"])}</strong><small>Bank credit</small></div>'
+        )
+        markup(
+            '<div class="settlement-equation" id="settlement-equation">'
+            + "".join(pieces)
+            + "</div>"
+        )
     explanation = row["EXPLANATION"] or row["SUGGESTED_ACTION"]
     markup(
-        f'<div class="explanation"><div class="explanation-label">What the evidence tells us</div>{esc(explanation)}</div>'
+        f'<div class="explanation" id="explanation-callout"><div class="explanation-label">What the evidence tells us</div>{esc(explanation)}</div>'
     )
     difference = {
         "MISSING_IN_LEDGER": "The bank batch reconciles, but this gateway payment is missing from the ledger.",
@@ -609,11 +762,29 @@ def exception_detail(data):
     section("Source comparison", "Amounts shown in rupees")
     records = analytics.evidence_records(evidence)
     # Two columns keep long references readable on a laptop; narrow screens stack them.
-    for names in (("Ledger", "Bank"), ("Gateway", "NACH")):
+    for names in () if batch else (("Ledger", "Bank"), ("Gateway", "NACH")):
         columns = st.columns(2, gap="medium")
         for column, name in zip(columns, names, strict=True):
             with column:
                 markup(source_card(name, records.get(name, []), row["CATEGORY"]))
+    if batch:
+        with st.expander(f"Inspect all {batch['PAYMENT_COUNT']} gateway payments", expanded=False):
+            st.dataframe(
+                [
+                    {
+                        "Payment": p["PG_PAYMENT_ID"],
+                        "Loan": p["LOAN_ID"],
+                        "Amount": rupees(p["GROSS_PAISE"]),
+                        "Receipt": p["RECEIPT_STATUS"],
+                    }
+                    for p in batch["PAYMENTS"]
+                ],
+                hide_index=True,
+                width="stretch",
+                height=350,
+            )
+        with st.expander("Bank narration and original source records"):
+            st.json(records)
     with st.container(border=True, key="panel_decision"):
         section("Record a decision", "Saved to the Exasol audit trail")
         st.caption(
@@ -630,7 +801,7 @@ def exception_detail(data):
             )
             buttons = st.columns(3)
             accept = buttons[0].form_submit_button(
-                "Accept recommendation", type="primary", width="stretch", icon=":material/check:"
+                "Accept", type="primary", width="stretch", icon=":material/check:"
             )
             reject = buttons[1].form_submit_button(
                 "Reject", width="stretch", icon=":material/close:"
@@ -645,7 +816,13 @@ def exception_detail(data):
                 elif action == "ASSIGN" and not assignee.strip():
                     st.warning("Enter an assignee before assigning this exception.")
                 else:
-                    analytics.decision(identifier, action, analyst, assignee, note)
+                    identifier_saved = analytics.decision(
+                        identifier, action, analyst, assignee, note
+                    )
+                    st.toast(
+                        "Decision saved to Exasol · " + identifier_saved[:8],
+                        icon=":material/check_circle:",
+                    )
                     st.success("Decision saved to the Exasol audit trail.")
         audit = query(
             "SELECT decision_action,analyst,assignee,note,CONVERT_TZ(created_at,DBTIMEZONE,'Asia/Kolkata') created_at FROM MILAAN_AUDIT.DECISION WHERE exception_id={id!s} AND run_id={run!s} ORDER BY created_at DESC LIMIT 10",

@@ -1,0 +1,51 @@
+{
+  "run": {
+    "RUN_ID": "301bf2e4-d223-4f9a-9f81-044a57a9078b",
+    "DATASET_ID": "5d737d0d-84a8-4893-b5d3-0bd93dd45667",
+    "STATUS": "COMPLETE",
+    "STARTED_AT": "2026-10-10 10:12:47.676000",
+    "FINISHED_AT": "2026-10-10 10:14:36.274000",
+    "SECONDS": 104.08705493100024,
+    "MESSAGE": null
+  },
+  "passes": [
+    {
+      "PASS_NAME": "EXACT",
+      "SECONDS": 20.68413125999996,
+      "LINKS_ADDED": 3164644
+    },
+    {
+      "PASS_NAME": "PG_BATCH",
+      "SECONDS": 6.775224838000214,
+      "LINKS_ADDED": 35303
+    },
+    {
+      "PASS_NAME": "FEE_AWARE",
+      "SECONDS": 8.797493510000095,
+      "LINKS_ADDED": 1079439
+    },
+    {
+      "PASS_NAME": "TOLERANT",
+      "SECONDS": 1.8037007920001995,
+      "LINKS_ADDED": 43689
+    },
+    {
+      "PASS_NAME": "FUZZY",
+      "SECONDS": 1.2443323420002343,
+      "LINKS_ADDED": 16025
+    },
+    {
+      "PASS_NAME": "SPLIT_MERGE",
+      "SECONDS": 3.356093733000307,
+      "LINKS_ADDED": 44100
+    },
+    {
+      "PASS_NAME": "CLASSIFY",
+      "SECONDS": 6.53605048999998,
+      "LINKS_ADDED": 0
+    }
+  ],
+  "started_from": "completed month; open tables restored inside reconciliation",
+  "browser_check_interrupted": "verification assertion failed; job completed with unchanged counts",
+  "recorded_video": false
+}

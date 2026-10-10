@@ -230,3 +230,48 @@ def test_daily_carry_forward_matches_full_month_without_future_records(reconcile
         )
         + "\n"
     )
+
+
+def test_daily_replay_and_reset_preserve_the_day_and_month(reconciled):
+    from milaan.daily import recon_day
+    from milaan.db import scope
+    from milaan.demo import reset_demo
+
+    monthly = query(
+        "SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id"
+    )
+    first = recon_day("2026-10-14", restart=True)
+    with scope("day"):
+        expected = query(
+            "SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id"
+        )
+    second = recon_day("2026-10-14")
+    assert first["daily"]["new_source_counts"] == second["daily"]["new_source_counts"]
+    with scope("day"):
+        assert (
+            query(
+                "SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id"
+            )
+            == expected
+        )
+    reset_demo("day", "2026-10-14")
+    with scope("day"):
+        assert (
+            query("SELECT status FROM MILAAN_AUDIT.RUN ORDER BY started_at DESC LIMIT 1")[0][
+                "STATUS"
+            ]
+            == "READY"
+        )
+        assert query('SELECT COUNT(*) N FROM MILAAN_RES."EXCEPTION"')[0]["N"] == 0
+    recon_day("2026-10-14")
+    with scope("day"):
+        assert (
+            query(
+                "SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id"
+            )
+            == expected
+        )
+    assert (
+        query("SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id")
+        == monthly
+    )

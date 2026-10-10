@@ -5,6 +5,7 @@ import uuid
 from pathlib import Path
 from time import perf_counter
 
+from milaan import live
 from milaan.config import ROOT
 from milaan.db import connect, execute_file, statements
 
@@ -146,6 +147,7 @@ def _recon(progress=None, daily=False, started=None) -> dict:
                         f"/* MILAAN:{run_id}:PREPARATION */ CREATE OR REPLACE TABLE MILAAN_CORE.OPEN_{source} AS SELECT {columns} FROM MILAAN_CORE.{source}"
                     )
             stage_times["PREPARATION"] = perf_counter() - tick
+            members = live.begin(connection, run_id, daily, perf_counter() - started)
             previous = 0
             for name, filename in PASSES:
                 if daily and name == "CLASSIFY":
@@ -157,6 +159,7 @@ def _recon(progress=None, daily=False, started=None) -> dict:
                     ).fetchone()["N"]
                 if progress:
                     progress(name, None, None)
+                live.phase(connection, run_id, name)
                 tick = perf_counter()
                 for sql in statements(ROOT / "sql" / filename):
                     connection.execute(
@@ -184,12 +187,15 @@ def _recon(progress=None, daily=False, started=None) -> dict:
                 )
                 connection.commit()
                 times[name] = seconds
+                members += live.pass_members(connection, name, count - previous)
+                live.update(connection, run_id, perf_counter() - started, members, count)
                 print(f"{name}: {count - previous:,} links, {seconds:.3f}s", flush=True)
                 if progress:
                     progress(name, seconds, count - previous)
                 previous = count
             for filename in ("40_results.sql", "50_score.sql"):
                 stage = "RESULTS" if filename.startswith("40_") else "SCORING"
+                live.phase(connection, run_id, stage)
                 tick = perf_counter()
                 for sql in statements(ROOT / "sql" / filename):
                     connection.execute(
@@ -198,8 +204,14 @@ def _recon(progress=None, daily=False, started=None) -> dict:
                 stage_times[stage] = perf_counter() - tick
             tick = perf_counter()
             validate(connection, run_id)
+            actual_members = connection.execute(
+                "SELECT COUNT(*) N FROM MILAAN_RES.MATCH_MEMBER"
+            ).fetchone()["N"]
+            if members != actual_members:
+                raise RuntimeError("Live membership totals disagree with final match groups")
             stage_times["VALIDATION"] = perf_counter() - tick
             elapsed = perf_counter() - started
+            live.update(connection, run_id, elapsed, members, previous, "COMPLETE")
             connection.execute(
                 "UPDATE MILAAN_AUDIT.RUN SET status='COMPLETE',finished_at=CURRENT_TIMESTAMP,seconds={seconds} WHERE run_id={id!s}",
                 {"seconds": elapsed, "id": run_id},
@@ -246,6 +258,10 @@ def _recon(progress=None, daily=False, started=None) -> dict:
             }
         except Exception as error:
             connection.rollback()
+            connection.execute(
+                "UPDATE MILAAN_AUDIT.RUN_LIVE SET status='FAILED' WHERE run_id={id!s}",
+                {"id": run_id},
+            )
             connection.execute(
                 "UPDATE MILAAN_AUDIT.RUN SET status='FAILED',finished_at=CURRENT_TIMESTAMP,message={message!s} WHERE run_id={id!s}",
                 {"id": run_id, "message": str(error)[:2000]},

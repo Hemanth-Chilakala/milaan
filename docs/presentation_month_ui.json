@@ -1,0 +1,68 @@
+{
+  "browser_run": true,
+  "recorded_video": false,
+  "month_snapshot": {
+    "RUN_ID": "daa77449-cbf6-4fa4-9cc5-eed0438c6725",
+    "STATUS": "COMPLETE",
+    "CURRENT_PASS": "SCORING",
+    "STARTED_EPOCH_MS": 1791620661972,
+    "ELAPSED_SECONDS": 83.41233849599939,
+    "LINKS_FOUND": 4383200,
+    "MEMBERS": 9850231,
+    "SOURCE_ROWS": 10000000,
+    "OPEN_PAISE": 167550172569,
+    "BEFORE_PAISE": 8662526085685,
+    "UPDATED_EPOCH_MS": 1791620745365,
+    "PASSES": [
+      {
+        "PASS_NAME": "EXACT",
+        "SECONDS": 22.25602030099981,
+        "LINKS_ADDED": 3164644
+      },
+      {
+        "PASS_NAME": "PG_BATCH",
+        "SECONDS": 7.2071429449997595,
+        "LINKS_ADDED": 35303
+      },
+      {
+        "PASS_NAME": "FEE_AWARE",
+        "SECONDS": 8.57052222099992,
+        "LINKS_ADDED": 1079439
+      },
+      {
+        "PASS_NAME": "TOLERANT",
+        "SECONDS": 2.083383741000034,
+        "LINKS_ADDED": 43689
+      },
+      {
+        "PASS_NAME": "FUZZY",
+        "SECONDS": 1.2840788410003372,
+        "LINKS_ADDED": 16025
+      },
+      {
+        "PASS_NAME": "SPLIT_MERGE",
+        "SECONDS": 3.5629203589996905,
+        "LINKS_ADDED": 44100
+      },
+      {
+        "PASS_NAME": "CLASSIFY",
+        "SECONDS": 6.965709117999722,
+        "LINKS_ADDED": 0
+      }
+    ]
+  },
+  "score": {
+    "RUN_ID": "daa77449-cbf6-4fa4-9cc5-eed0438c6725",
+    "BREAK_TYPE": "OVERALL",
+    "TRUE_POSITIVE": 4383200,
+    "FALSE_POSITIVE": 0,
+    "FALSE_NEGATIVE": 1779,
+    "PRECISION_VALUE": 1.0,
+    "RECALL_VALUE": 0.9995942968027897,
+    "AUTO_MATCH_RATE": 0.9850231,
+    "FALSE_MATCH_RATE": 0.0
+  },
+  "run_button_locked": true,
+  "prior_panels_cleared": false,
+  "observation": "Old pre-run panels remained below the live view; addressed after this observation."
+}

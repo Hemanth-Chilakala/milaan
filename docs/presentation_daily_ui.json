@@ -1,0 +1,70 @@
+{
+  "monthly_run_id": "6c8f7f0a-fa7d-4601-8a68-afe3a9b8a30b",
+  "layouts": [
+    {
+      "width": 1920,
+      "mainWidth": 1656,
+      "mainScroll": 1656,
+      "clipped": []
+    },
+    {
+      "width": 1366,
+      "mainWidth": 1102,
+      "mainScroll": 1102,
+      "clipped": []
+    }
+  ],
+  "audit_write_verified": true,
+  "run_button_locked": true,
+  "daily_snapshot": {
+    "RUN_ID": "74eb5fc9-bca9-47d9-9a07-1dc5123e9e9a",
+    "STATUS": "COMPLETE",
+    "CURRENT_PASS": "SCORING",
+    "STARTED_EPOCH_MS": 1791619748580,
+    "ELAPSED_SECONDS": 48.316657864999804,
+    "LINKS_FOUND": 1886174,
+    "MEMBERS": 4177451,
+    "SOURCE_ROWS": 4329564,
+    "OPEN_PAISE": 242327481491,
+    "BEFORE_PAISE": 667370808049,
+    "UPDATED_EPOCH_MS": 1791619796883,
+    "PASSES": [
+      {
+        "PASS_NAME": "EXACT",
+        "SECONDS": 2.9326971840000624,
+        "LINKS_ADDED": 158168
+      },
+      {
+        "PASS_NAME": "PG_BATCH",
+        "SECONDS": 2.1853481629996168,
+        "LINKS_ADDED": 1771
+      },
+      {
+        "PASS_NAME": "FEE_AWARE",
+        "SECONDS": 1.9034284460003619,
+        "LINKS_ADDED": 54020
+      },
+      {
+        "PASS_NAME": "TOLERANT",
+        "SECONDS": 0.30017274800047744,
+        "LINKS_ADDED": 2184
+      },
+      {
+        "PASS_NAME": "FUZZY",
+        "SECONDS": 0.46884691600007505,
+        "LINKS_ADDED": 812
+      },
+      {
+        "PASS_NAME": "SPLIT_MERGE",
+        "SECONDS": 0.36784233799971844,
+        "LINKS_ADDED": 2132
+      },
+      {
+        "PASS_NAME": "CLASSIFY",
+        "SECONDS": 6.529015494000306,
+        "LINKS_ADDED": 0
+      }
+    ]
+  },
+  "completed_run_verified": true
+}

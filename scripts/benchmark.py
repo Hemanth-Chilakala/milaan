@@ -140,6 +140,16 @@ def write_report(payload):
         ]
     )
     (ROOT / "docs/benchmarks.md").write_text("\n".join(lines) + "\n")
+    validation = ROOT / "docs/validation_results.json"
+    if validation.exists():
+        from scripts.validate_holdout import write_report as write_validation
+
+        write_validation(json.loads(validation.read_text()))
+    daily = ROOT / "docs/daily_results.json"
+    if daily.exists():
+        from scripts.benchmark_daily import write_report as write_daily
+
+        write_daily(json.loads(daily.read_text()))
 
 
 def main():

@@ -1,0 +1,96 @@
+{
+  "browser_run": true,
+  "recorded_video": false,
+  "layouts": [
+    {
+      "width": 1920,
+      "mainWidth": 1656,
+      "mainScroll": 1656,
+      "clipped": []
+    },
+    {
+      "width": 1366,
+      "mainWidth": 1102,
+      "mainScroll": 1102,
+      "clipped": []
+    }
+  ],
+  "reset_ready_snapshot": {
+    "RUN_ID": "ce4fa641-4d48-4c61-b23e-68380598b43d",
+    "STATUS": "READY",
+    "CURRENT_PASS": "PREPARATION",
+    "STARTED_EPOCH_MS": 1791620984099,
+    "ELAPSED_SECONDS": 0.0,
+    "LINKS_FOUND": 0,
+    "MEMBERS": 0,
+    "SOURCE_ROWS": 10000000,
+    "OPEN_PAISE": 8662526085685,
+    "BEFORE_PAISE": 8662526085685,
+    "UPDATED_EPOCH_MS": 1791620984099,
+    "PASSES": []
+  },
+  "prior_panels_cleared": true,
+  "run_button_locked": true,
+  "month_snapshot": {
+    "RUN_ID": "f61ed2ad-b502-4a53-9375-6c0b385421d8",
+    "STATUS": "COMPLETE",
+    "CURRENT_PASS": "SCORING",
+    "STARTED_EPOCH_MS": 1791620995081,
+    "ELAPSED_SECONDS": 81.83047121799973,
+    "LINKS_FOUND": 4383200,
+    "MEMBERS": 9850231,
+    "SOURCE_ROWS": 10000000,
+    "OPEN_PAISE": 167550172569,
+    "BEFORE_PAISE": 8662526085685,
+    "UPDATED_EPOCH_MS": 1791621076904,
+    "PASSES": [
+      {
+        "PASS_NAME": "EXACT",
+        "SECONDS": 20.952708595999866,
+        "LINKS_ADDED": 3164644
+      },
+      {
+        "PASS_NAME": "PG_BATCH",
+        "SECONDS": 7.187389941000219,
+        "LINKS_ADDED": 35303
+      },
+      {
+        "PASS_NAME": "FEE_AWARE",
+        "SECONDS": 7.954203184999643,
+        "LINKS_ADDED": 1079439
+      },
+      {
+        "PASS_NAME": "TOLERANT",
+        "SECONDS": 1.8252304320003532,
+        "LINKS_ADDED": 43689
+      },
+      {
+        "PASS_NAME": "FUZZY",
+        "SECONDS": 1.4325895140000284,
+        "LINKS_ADDED": 16025
+      },
+      {
+        "PASS_NAME": "SPLIT_MERGE",
+        "SECONDS": 3.3847080199993798,
+        "LINKS_ADDED": 44100
+      },
+      {
+        "PASS_NAME": "CLASSIFY",
+        "SECONDS": 6.860028160999718,
+        "LINKS_ADDED": 0
+      }
+    ]
+  },
+  "score": {
+    "RUN_ID": "f61ed2ad-b502-4a53-9375-6c0b385421d8",
+    "BREAK_TYPE": "OVERALL",
+    "TRUE_POSITIVE": 4383200,
+    "FALSE_POSITIVE": 0,
+    "FALSE_NEGATIVE": 1779,
+    "PRECISION_VALUE": 1.0,
+    "RECALL_VALUE": 0.9995942968027897,
+    "AUTO_MATCH_RATE": 0.9850231,
+    "FALSE_MATCH_RATE": 0.0
+  },
+  "completed_run_verified": true
+}

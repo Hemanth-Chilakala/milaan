@@ -1,13 +1,17 @@
+import json
 import uuid
 
 from milaan.db import connect, query
 
 
 def summary() -> dict:
-    rows = query("SELECT dataset_id,label,source_rows,as_of_date FROM MILAAN_AUDIT.DATASET")
+    rows = query(
+        "SELECT dataset_id,label,source_rows,as_of_date,manifest FROM MILAAN_AUDIT.DATASET"
+    )
     if not rows:
         return {}
     result = rows[0]
+    result["DAILY"] = json.loads(result.pop("MANIFEST")).get("daily_close", {})
     result.update(
         query(
             'SELECT COUNT(*) EXCEPTIONS,COALESCE(SUM(amount_paise),0) OPEN_PAISE FROM MILAAN_RES."EXCEPTION"'
@@ -19,6 +23,17 @@ def summary() -> dict:
         {"dataset": result["DATASET_ID"]},
     )
     result["RUN"] = latest[0] if latest else None
+    result["LIVE"] = {}
+    if result["RUN"]:
+        rows = query(
+            "SELECT * FROM MILAAN_AUDIT.RUN_LIVE WHERE run_id={id!s}",
+            {"id": result["RUN"]["RUN_ID"]},
+        )
+        result["LIVE"] = rows[0] if rows else {}
+    if not result["LIVE"]:
+        result["LIVE"] = query(
+            "SELECT COALESCE(SUM(amount_paise),0) open_paise,COALESCE(SUM(amount_paise),0) before_paise FROM MILAAN_CORE.LEDGER"
+        )[0]
     return result
 
 
@@ -81,6 +96,37 @@ def evidence_records(evidence: dict) -> dict:
             {"id": evidence["loan_id"]},
         )
     return records
+
+
+def batch_evidence(evidence: dict) -> dict:
+    if not evidence.get("bank_txn_id") or not evidence.get("pg_payment_id"):
+        return {}
+    params = {"id": evidence["bank_txn_id"]}
+    batches = query(
+        "SELECT g.*,b.value_date,b.bank_ref,b.amount_paise bank_credit_paise FROM MILAAN_CORE.BATCH g JOIN MILAAN_CORE.BANK b ON g.batch_id=b.batch_id AND g.settlement_utr=b.bank_ref WHERE b.bank_txn_id={id!s} LIMIT 1",
+        params,
+    )
+    if not batches:
+        return {}
+    batch = batches[0]
+    for key in (
+        "NET_PAISE",
+        "GROSS_PAISE",
+        "FEE_PAISE",
+        "GST_PAISE",
+        "REFUND_PAISE",
+        "PAYMENT_COUNT",
+        "BANK_CREDIT_PAISE",
+    ):
+        batch[key] = int(batch[key])
+    batch["PAYMENTS"] = query(
+        "SELECT p.pg_payment_id,p.loan_id,p.gross_paise,p.payment_date,CASE WHEN r.pg_payment_id IS NOT NULL THEN 'Matched' ELSE 'Missing in ledger' END receipt_status FROM MILAAN_CORE.PG p LEFT JOIN (SELECT pg_payment_id FROM MILAAN_RES.LINK WHERE bank_txn_id={id!s} GROUP BY pg_payment_id) r ON r.pg_payment_id=p.pg_payment_id WHERE p.settlement_batch_id={batch!s} AND p.settlement_utr={utr!s} AND p.gross_paise>0 ORDER BY p.pg_payment_id LIMIT 50",
+        {**params, "batch": batch["BATCH_ID"], "utr": batch["SETTLEMENT_UTR"]},
+    )
+    batch["MATCHED_RECEIPTS"] = query(
+        "SELECT COUNT(DISTINCT ledger_id) N FROM MILAAN_RES.LINK WHERE bank_txn_id={id!s}", params
+    )[0]["N"]
+    return batch
 
 
 def decision(exception_id: str, action: str, analyst: str, assignee: str, note: str) -> str:

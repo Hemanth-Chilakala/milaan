@@ -1,0 +1,11 @@
+{
+  "name": "Milaan",
+  "colours": {
+    "ink": "#20352f", "muted": "#6d7c75", "background": "#f5f7f4",
+    "surface": "#ffffff", "line": "#e2e8e2", "primary": "#158568",
+    "sidebar": "#142d27", "mint": "#70d6af", "amber": "#a96d25", "danger": "#a14634"
+  },
+  "font": {"family": "Inter", "weights": [400, 500, 600, 650, 700], "file": "fonts/InterVariable.woff2", "licence": "fonts/OFL.txt"},
+  "source": "https://github.com/rsms/inter",
+  "logo": "logo.svg"
+}

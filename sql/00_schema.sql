@@ -34,6 +34,11 @@ CREATE TABLE IF NOT EXISTS MILAAN_AUDIT.RUN (
 CREATE TABLE IF NOT EXISTS MILAAN_AUDIT.PASS_TIMING (
  run_id VARCHAR(36), pass_name VARCHAR(40), seconds DOUBLE, links_added DECIMAL(18,0), profile_json VARCHAR(2000000)
 );
+CREATE TABLE IF NOT EXISTS MILAAN_AUDIT.RUN_LIVE (
+ run_id VARCHAR(36),status VARCHAR(20),current_pass VARCHAR(40),started_epoch_ms DECIMAL(18,0),
+ elapsed_seconds DOUBLE,links_found DECIMAL(18,0),members DECIMAL(18,0),source_rows DECIMAL(18,0),
+ open_paise DECIMAL(18,0),before_paise DECIMAL(18,0),updated_epoch_ms DECIMAL(18,0)
+);
 CREATE TABLE IF NOT EXISTS MILAAN_AUDIT.DECISION (
  decision_id VARCHAR(36), run_id VARCHAR(36), exception_id VARCHAR(100), decision_action VARCHAR(20), analyst VARCHAR(100), assignee VARCHAR(100), note VARCHAR(2000), created_at TIMESTAMP
 );

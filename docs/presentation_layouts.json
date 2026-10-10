@@ -1,0 +1,122 @@
+[
+  {
+    "page": "home",
+    "width": 1920,
+    "viewport": 1920,
+    "documentWidth": 1920,
+    "mainWidth": 1656,
+    "mainScroll": 1656,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "home",
+    "width": 1366,
+    "viewport": 1366,
+    "documentWidth": 1366,
+    "mainWidth": 1102,
+    "mainScroll": 1102,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "queue",
+    "width": 1920,
+    "viewport": 1920,
+    "documentWidth": 1920,
+    "mainWidth": 1656,
+    "mainScroll": 1656,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "queue",
+    "width": 1366,
+    "viewport": 1366,
+    "documentWidth": 1366,
+    "mainWidth": 1102,
+    "mainScroll": 1102,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "detail",
+    "width": 1920,
+    "viewport": 1920,
+    "documentWidth": 1920,
+    "mainWidth": 1656,
+    "mainScroll": 1656,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "detail",
+    "width": 1366,
+    "viewport": 1366,
+    "documentWidth": 1366,
+    "mainWidth": 1102,
+    "mainScroll": 1102,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "accuracy",
+    "width": 1920,
+    "viewport": 1920,
+    "documentWidth": 1920,
+    "mainWidth": 1656,
+    "mainScroll": 1656,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "accuracy",
+    "width": 1366,
+    "viewport": 1366,
+    "documentWidth": 1366,
+    "mainWidth": 1102,
+    "mainScroll": 1102,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "architecture",
+    "width": 1920,
+    "viewport": 1920,
+    "documentWidth": 1920,
+    "mainWidth": 1656,
+    "mainScroll": 1656,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  },
+  {
+    "page": "architecture",
+    "width": 1366,
+    "viewport": 1366,
+    "documentWidth": 1366,
+    "mainWidth": 1102,
+    "mainScroll": 1102,
+    "headingY": 104.09375,
+    "clipped": [],
+    "visibleChrome": [],
+    "fontFamily": "Inter, sans-serif"
+  }
+]

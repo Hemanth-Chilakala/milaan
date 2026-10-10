@@ -1,0 +1,65 @@
+{
+  "month_snapshot": {
+    "RUN_ID": "6c8f7f0a-fa7d-4601-8a68-afe3a9b8a30b",
+    "STATUS": "COMPLETE",
+    "CURRENT_PASS": "SCORING",
+    "STARTED_EPOCH_MS": 1791618212395,
+    "ELAPSED_SECONDS": 87.5267071090002,
+    "LINKS_FOUND": 4383200,
+    "MEMBERS": 9850231,
+    "SOURCE_ROWS": 10000000,
+    "OPEN_PAISE": 167550172569,
+    "BEFORE_PAISE": 8662526085685,
+    "UPDATED_EPOCH_MS": 1791618299910,
+    "PASSES": [
+      {
+        "PASS_NAME": "EXACT",
+        "SECONDS": 19.56934193899997,
+        "LINKS_ADDED": 3164644
+      },
+      {
+        "PASS_NAME": "PG_BATCH",
+        "SECONDS": 6.721836988999713,
+        "LINKS_ADDED": 35303
+      },
+      {
+        "PASS_NAME": "FEE_AWARE",
+        "SECONDS": 8.127466359999744,
+        "LINKS_ADDED": 1079439
+      },
+      {
+        "PASS_NAME": "TOLERANT",
+        "SECONDS": 1.7255615330004732,
+        "LINKS_ADDED": 43689
+      },
+      {
+        "PASS_NAME": "FUZZY",
+        "SECONDS": 1.2296782460007307,
+        "LINKS_ADDED": 16025
+      },
+      {
+        "PASS_NAME": "SPLIT_MERGE",
+        "SECONDS": 3.13944844999969,
+        "LINKS_ADDED": 44100
+      },
+      {
+        "PASS_NAME": "CLASSIFY",
+        "SECONDS": 13.083292301000258,
+        "LINKS_ADDED": 0
+      }
+    ]
+  },
+  "live_members_match_final_results": true,
+  "open_paise_matches_remaining_ledger": true,
+  "score": {
+    "RUN_ID": "6c8f7f0a-fa7d-4601-8a68-afe3a9b8a30b",
+    "BREAK_TYPE": "OVERALL",
+    "TRUE_POSITIVE": 4383200,
+    "FALSE_POSITIVE": 0,
+    "FALSE_NEGATIVE": 1779,
+    "PRECISION_VALUE": 1.0,
+    "RECALL_VALUE": 0.9995942968027897,
+    "AUTO_MATCH_RATE": 0.9850231,
+    "FALSE_MATCH_RATE": 0.0
+  }
+}
