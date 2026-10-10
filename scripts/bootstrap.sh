@@ -36,7 +36,7 @@ if sudo test -f "$deployment_dir/deployment.json"; then
         fi
     fi
 else
-    "${wrapper[@]}" install local --ports "${EXASOL_PORT:-8563}" --auto-approve
+    "${wrapper[@]}" install local --ports "db:${EXASOL_PORT:-8563}" --auto-approve
 fi
 "${wrapper[@]}" slc install python3 --auto-approve
 "${wrapper[@]}" connect -f sql/00_feasibility.sql
