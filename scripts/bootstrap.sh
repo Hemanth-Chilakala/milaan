@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Install or verify the local deployment without changing existing source data.
 set -euo pipefail
+umask 077
 eula='https://www.exasol.com/terms-and-conditions/#h-exasol-personal-end-user-license-agreement'
 if [ "${ACCEPT_EXASOL_EULA:-}" != yes ]; then
     printf '%s\n' "Review the Exasol Personal EULA: $eula" \
@@ -36,7 +37,12 @@ if sudo test -f "$deployment_dir/deployment.json"; then
         fi
     fi
 else
-    "${wrapper[@]}" install local --ports "db:${EXASOL_PORT:-8563}" --auto-approve
+    mkdir -p private
+    printf '%s\n' 'Installing local Exasol; detailed output is in private/bootstrap-install.log.'
+    if ! "${wrapper[@]}" install local --ports "db:${EXASOL_PORT:-8563}" --auto-approve > private/bootstrap-install.log 2>&1; then
+        printf '%s\n' 'Installation failed. Inspect private/bootstrap-install.log, then retry after resolving the reported cause.' >&2
+        exit 1
+    fi
 fi
 "${wrapper[@]}" slc install python3 --auto-approve
 "${wrapper[@]}" connect -f sql/00_feasibility.sql
