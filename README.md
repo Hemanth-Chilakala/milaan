@@ -139,6 +139,7 @@ The local environment check writes `.env` with owner-only permissions and preser
 | `make data ROWS=1000000` | Generate or reuse seed-42 data; default 1M |
 | `make load DATA=data/1000000` | Bulk import and SQL normalisation |
 | `make recon` | Seven passes, timings, conflict validation and SQL scoring |
+| `make recon-day DATE=2026-10-14` | Close arriving records against prior open items in an independent daily workspace |
 | `make explain` | Generate exception explanations inside Exasol |
 | `make score` | Print overall and per-break scores |
 | `make app` | Start dashboard on port 8501 |

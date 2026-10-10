@@ -1,7 +1,7 @@
 import json
 import queue as thread_queue
 from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
+from datetime import date, datetime
 from time import perf_counter, sleep
 from zoneinfo import ZoneInfo
 
@@ -20,7 +20,7 @@ from app.presentation import (
 )
 from milaan import analytics
 from milaan.config import ROOT
-from milaan.db import query
+from milaan.db import current_scope, query, scope
 from milaan.explain import generate_explanations, rupees
 from milaan.pipeline import PASSES, recon
 
@@ -34,13 +34,19 @@ PAGES = {
 
 
 @st.cache_data(ttl=5)
-def cached_summary():
-    return analytics.summary()
+def cached_summary(scope_name="month"):
+    with scope(scope_name):
+        return analytics.summary()
 
 
 @st.cache_data(ttl=5)
+def cached_read(sql, params, scope_name):
+    with scope(scope_name):
+        return query(sql, params)
+
+
 def read(sql, params=None):
-    return query(sql, params)
+    return cached_read(sql, params, current_scope())
 
 
 def navigate(page, identifier=None):
@@ -122,6 +128,14 @@ def render():
                 key="nav_" + name,
             )
         st.divider()
+        selected_mode = st.radio(
+            "Reconciliation scope",
+            ["Today's close", "Full month (10M)"],
+            index=1,
+            key="reconciliation_mode",
+        )
+        if selected_mode == "Today's close":
+            st.date_input("Close date", value=date(2026, 10, 14), key="close_date")
         markup(
             '<div class="sidebar-account"><strong>Sahyog Finance Ltd</strong><br>Collections &amp; daily close<br><span style="color:#87a995">Demonstration workspace</span></div>'
         )
@@ -130,7 +144,8 @@ def render():
             f'<div class="sidebar-footer" style="margin-top:24px"><span class="online-dot"></span>Exasol Personal<br>Evidence-backed explanations<br><span style="color:#708f7e">{now}</span></div>'
         )
     try:
-        data = cached_summary()
+        scope_name = "day" if selected_mode == "Today's close" else "month"
+        data = cached_summary(scope_name)
         if not data:
             header(
                 "Your collections workspace",
@@ -150,7 +165,8 @@ def render():
             "Accuracy & performance": accuracy,
             "How it works": how,
         }
-        views[page](data)
+        with scope(scope_name):
+            views[page](data)
     except Exception as error:
         st.error(
             "This view could not load. Refresh the workspace or check the database connection."
@@ -175,7 +191,13 @@ def run_reconciliation():
             progress.write(f"{label(name)} · {count:,} receipt links · {seconds:.2f}s")
 
     with ThreadPoolExecutor(max_workers=1) as executor:
-        task = executor.submit(recon, lambda *event: events.put(event))
+        runner = recon
+        if current_scope() == "day":
+            from milaan.daily import recon_day
+
+            close_day = str(st.session_state["close_date"])
+            runner = lambda callback: recon_day(close_day, callback)
+        task = executor.submit(runner, lambda *event: events.put(event))
         while not task.done():
             clock.caption(f"Elapsed time · {perf_counter() - started:.1f} seconds")
             while not events.empty():
@@ -237,7 +259,7 @@ def home(data):
         "Daily close",
         "A clear view of your collections. Match the receipts; investigate the differences.",
         data,
-        "Run reconciliation",
+        "Run today's close" if current_scope() == "day" else "Run reconciliation (full month)",
     )
     if triggered:
         run_reconciliation()

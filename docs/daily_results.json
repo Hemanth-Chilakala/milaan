@@ -1,0 +1,189 @@
+{
+  "measured_at_utc": "2026-10-10T07:47:29.474829+00:00",
+  "monthly_source_rows": 10000000,
+  "monthly_links_unchanged": 4383200,
+  "results": [
+    {
+      "run_id": "49e67e93-eb43-4ad4-9543-43adf2358aee",
+      "seconds": 74.52908007800033,
+      "passes": {
+        "EXACT": 8.987254609000047,
+        "PG_BATCH": 2.539516926000033,
+        "FEE_AWARE": 4.228105795999909,
+        "TOLERANT": 0.7939203879996057,
+        "FUZZY": 0.7471502170001258,
+        "SPLIT_MERGE": 1.410345246000361,
+        "CLASSIFY": 7.9195411150003565
+      },
+      "score": {
+        "RUN_ID": "49e67e93-eb43-4ad4-9543-43adf2358aee",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 1667087,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 731,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 0.9995617027757225,
+        "AUTO_MATCH_RATE": 0.9621670948740444,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "stage_times": {
+        "PREPARATION": 0.008535922999726608,
+        "RESULTS": 4.2060756600003515,
+        "SCORING": 3.960595765999642,
+        "VALIDATION": 1.7267515590001494
+      },
+      "profile_collection_seconds": 0.89920844199969,
+      "daily": {
+        "date": "2026-10-13",
+        "new_source_counts": {
+          "LEDGER": 1776974,
+          "BANK": 1678843,
+          "PG": 366356,
+          "NACH": 7747
+        },
+        "cumulative_source_rows": 3829920,
+        "fresh": true,
+        "open_source_counts": {
+          "LEDGER": 1776974,
+          "BANK": 1678843,
+          "PG": 366356
+        },
+        "preparation_seconds": 33.231593354000324
+      },
+      "call_seconds": 78.29891443999986,
+      "exceptions": {
+        "N": 127562,
+        "PAISE": "248866871627"
+      },
+      "carried_edges": 56578,
+      "pass_details": [
+        {
+          "PASS_NAME": "EXACT",
+          "SECONDS": 8.987254609000047,
+          "LINKS_ADDED": 1265547
+        },
+        {
+          "PASS_NAME": "PG_BATCH",
+          "SECONDS": 2.539516926000033,
+          "LINKS_ADDED": 10619
+        },
+        {
+          "PASS_NAME": "FEE_AWARE",
+          "SECONDS": 4.22810579599991,
+          "LINKS_ADDED": 351373
+        },
+        {
+          "PASS_NAME": "TOLERANT",
+          "SECONDS": 0.7939203879996057,
+          "LINKS_ADDED": 15649
+        },
+        {
+          "PASS_NAME": "FUZZY",
+          "SECONDS": 0.7471502170001257,
+          "LINKS_ADDED": 6356
+        },
+        {
+          "PASS_NAME": "SPLIT_MERGE",
+          "SECONDS": 1.4103452460003612,
+          "LINKS_ADDED": 17543
+        },
+        {
+          "PASS_NAME": "CLASSIFY",
+          "SECONDS": 7.9195411150003565,
+          "LINKS_ADDED": 0
+        }
+      ]
+    },
+    {
+      "run_id": "4bd7fa73-45b8-45a2-bc0e-d9f9a3628dcb",
+      "seconds": 53.44697851300043,
+      "passes": {
+        "EXACT": 2.909305566000512,
+        "PG_BATCH": 1.734183769000083,
+        "FEE_AWARE": 1.7715805329999057,
+        "TOLERANT": 0.35986249999950815,
+        "FUZZY": 0.4554790909996882,
+        "SPLIT_MERGE": 0.34859989500000665,
+        "CLASSIFY": 5.481629984999927
+      },
+      "score": {
+        "RUN_ID": "4bd7fa73-45b8-45a2-bc0e-d9f9a3628dcb",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 1886174,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 805,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 0.9995733921787153,
+        "AUTO_MATCH_RATE": 0.9648664392072736,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "stage_times": {
+        "PREPARATION": 0.008326249999299762,
+        "RESULTS": 4.346147297999778,
+        "SCORING": 3.691542610000397,
+        "VALIDATION": 1.9772253219998674
+      },
+      "profile_collection_seconds": 0.9988019699994766,
+      "daily": {
+        "date": "2026-10-14",
+        "new_source_counts": {
+          "LEDGER": 221841,
+          "BANK": 220245,
+          "PG": 56432,
+          "NACH": 1126
+        },
+        "cumulative_source_rows": 4329564,
+        "fresh": false,
+        "open_source_counts": {
+          "LEDGER": 342231,
+          "BANK": 237005,
+          "PG": 56432
+        },
+        "preparation_seconds": 24.239340568999978
+      },
+      "call_seconds": 56.893180259000474,
+      "exceptions": {
+        "N": 132452,
+        "PAISE": "258083141363"
+      },
+      "carried_edges": 56625,
+      "pass_details": [
+        {
+          "PASS_NAME": "EXACT",
+          "SECONDS": 2.909305566000512,
+          "LINKS_ADDED": 158168
+        },
+        {
+          "PASS_NAME": "PG_BATCH",
+          "SECONDS": 1.7341837690000832,
+          "LINKS_ADDED": 1771
+        },
+        {
+          "PASS_NAME": "FEE_AWARE",
+          "SECONDS": 1.7715805329999055,
+          "LINKS_ADDED": 54020
+        },
+        {
+          "PASS_NAME": "TOLERANT",
+          "SECONDS": 0.3598624999995082,
+          "LINKS_ADDED": 2184
+        },
+        {
+          "PASS_NAME": "FUZZY",
+          "SECONDS": 0.4554790909996882,
+          "LINKS_ADDED": 812
+        },
+        {
+          "PASS_NAME": "SPLIT_MERGE",
+          "SECONDS": 0.34859989500000665,
+          "LINKS_ADDED": 2132
+        },
+        {
+          "PASS_NAME": "CLASSIFY",
+          "SECONDS": 5.481629984999928,
+          "LINKS_ADDED": 0
+        }
+      ]
+    }
+  ]
+}

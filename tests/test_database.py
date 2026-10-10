@@ -3,6 +3,7 @@
 import csv
 import json
 import random
+from datetime import date, timedelta
 
 import pytest
 
@@ -162,3 +163,70 @@ def test_wrong_link_counts_as_false_positive_in_its_category(reconciled):
         assert len(scores) == 2
         assert next(r for r in scores if r["BREAK_TYPE"] == "OVERALL")["FALSE_POSITIVE"] == 1
         connection.rollback()
+
+
+def test_daily_carry_forward_matches_full_month_without_future_records(reconciled):
+    from milaan.daily import recon_day
+    from milaan.db import scope
+
+    start = date(2026, 10, 1)
+    finish = date.fromisoformat(str(query("SELECT MAX(txn_date) D FROM MILAAN_CORE.TXN")[0]["D"]))
+    before = query(
+        "SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id"
+    )
+    results = []
+    day = start
+    first = True
+    while day <= finish:
+        # Include grace days on which gateway credits or NACH returns arrive.
+        if query(
+            "SELECT is_business_day B FROM MILAAN_CORE.CALENDAR WHERE calendar_date=CAST({day!s} AS DATE)",
+            {"day": str(day)},
+        )[0]["B"]:
+            result = recon_day(str(day), restart=first, warmup=False)
+            results.append({"date": str(day), "seconds": result["seconds"], **result["daily"]})
+            first = False
+            with scope("day"):
+                with connect() as connection:
+                    validate(connection)
+                for table, column in (
+                    ("LEDGER", "posted_date"),
+                    ("BANK", "value_date"),
+                    ("PG", "settlement_date"),
+                    ("NACH", "return_date"),
+                ):
+                    assert (
+                        query(
+                            f"SELECT COUNT(*) N FROM MILAAN_CORE.{table} WHERE {column}>CAST({{day!s}} AS DATE)",
+                            {"day": str(day)},
+                        )[0]["N"]
+                        == 0
+                    )
+        day += timedelta(days=1)
+    with scope("day"):
+        after = query(
+            "SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id"
+        )
+    assert after == before
+    assert (
+        query("SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id")
+        == before
+    )
+    # At least one earlier receipt is linked on a later bank-arrival day.
+    carried = query(
+        "SELECT COUNT(*) N FROM MILAAN_DAY_RES.LINK x JOIN MILAAN_DAY_CORE.LEDGER l ON x.ledger_id=l.ledger_id JOIN MILAAN_DAY_CORE.BANK b ON x.bank_txn_id=b.bank_txn_id WHERE b.value_date>l.posted_date"
+    )[0]["N"]
+    assert carried > 0
+    (ROOT / "docs/daily_fixture_results.json").write_text(
+        json.dumps(
+            {
+                "source_rows": 1000,
+                "days": results,
+                "final_links": len(after),
+                "all_seven_link_columns_identical": True,
+                "carried_ledger_bank_edges": carried,
+            },
+            indent=2,
+        )
+        + "\n"
+    )

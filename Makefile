@@ -2,8 +2,9 @@ PYTHON := .venv/bin/python
 ROWS ?= 1000000
 DATA ?= data/$(ROWS)
 BENCH_ARGS ?=
+DATE ?= 2026-10-14
 
-.PHONY: setup data load recon explain score bench demo test lint app
+.PHONY: setup data load recon recon-day explain score bench demo test lint app
 setup:
 	$(PYTHON) -m milaan.pipeline setup
 data:
@@ -12,6 +13,8 @@ load:
 	$(PYTHON) -m milaan.pipeline load --data $(DATA)
 recon:
 	$(PYTHON) -m milaan.pipeline recon
+recon-day:
+	$(PYTHON) -m milaan.daily --date $(DATE)
 explain:
 	$(PYTHON) -m milaan.explain
 score:

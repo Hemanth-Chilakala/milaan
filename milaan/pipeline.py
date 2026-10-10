@@ -106,11 +106,11 @@ def recon(progress=None) -> dict:
         return _recon(progress)
 
 
-def _recon(progress=None) -> dict:
+def _recon(progress=None, daily=False, started=None) -> dict:
     run_id = str(uuid.uuid4())
     times = {}
     stage_times = {}
-    started = perf_counter()
+    started = started if started is not None else perf_counter()
     with connect() as connection:
         dataset = connection.execute("SELECT dataset_id FROM MILAAN_AUDIT.DATASET").fetchone()
         if not dataset:
@@ -134,7 +134,7 @@ def _recon(progress=None) -> dict:
                 "BANK": "bank_txn_id,value_date,bank_ref,amount_paise,ref_norm,loan_id,batch_id,channel,name_norm,day_index,ref_suffix8",
                 "PG": "pg_payment_id,gross_paise,fee_paise,gst_on_fee_paise,net_paise,settlement_batch_id,settlement_date,settlement_utr,loan_id,payment_ref",
             }
-            for source, columns in open_columns.items():
+            for source, columns in [] if daily else open_columns.items():
                 # These tables are subsets of immutable normalised sources.
                 # A full row count means load already prepared them. Reruns
                 # restore removed records, and include that cost in the timer.
@@ -148,6 +148,13 @@ def _recon(progress=None) -> dict:
             stage_times["PREPARATION"] = perf_counter() - tick
             previous = 0
             for name, filename in PASSES:
+                if daily and name == "CLASSIFY":
+                    connection.execute(
+                        "INSERT INTO MILAAN_RES.LINK SELECT * FROM MILAAN_CORE.CLOSED_LINK"
+                    )
+                    previous = connection.execute(
+                        "SELECT COUNT(*) N FROM MILAAN_RES.LINK"
+                    ).fetchone()["N"]
                 if progress:
                     progress(name, None, None)
                 tick = perf_counter()

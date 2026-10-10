@@ -1,11 +1,47 @@
 import re
 from contextlib import contextmanager, suppress
+from contextvars import ContextVar
 from pathlib import Path
 
 import pyexasol
 from packaging.version import InvalidVersion, Version
 
 from milaan.config import settings
+
+_scope = ContextVar("reconciliation_scope", default="month")
+
+
+def current_scope():
+    return _scope.get()
+
+
+@contextmanager
+def scope(name):
+    if name not in {"month", "day"}:
+        raise ValueError("Choose month or day")
+    token = _scope.set(name)
+    try:
+        yield
+    finally:
+        _scope.reset(token)
+
+
+def scoped_sql(sql, name):
+    if name == "day":
+        for schema in ("CORE", "RES", "AUDIT"):
+            sql = sql.replace(f"MILAAN_{schema}.", f"MILAAN_DAY_{schema}.")
+    return sql
+
+
+class ScopedConnection:
+    def __init__(self, connection, name):
+        self.connection, self.name = connection, name
+
+    def execute(self, sql, *args, **kwargs):
+        return self.connection.execute(scoped_sql(sql, self.name), *args, **kwargs)
+
+    def __getattr__(self, name):
+        return getattr(self.connection, name)
 
 
 class PersonalConnection(pyexasol.ExaConnection):
@@ -36,7 +72,7 @@ def connect():
         fetch_dict=True,
     )
     try:
-        yield connection
+        yield ScopedConnection(connection, current_scope())
     except BaseException:
         with suppress(Exception):
             connection.rollback()

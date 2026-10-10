@@ -1,0 +1,294 @@
+{
+  "source_rows": 1000,
+  "days": [
+    {
+      "date": "2026-10-01",
+      "seconds": 4.30908694899972,
+      "new_source_counts": {
+        "LEDGER": 22,
+        "BANK": 22,
+        "PG": 0,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 44,
+      "fresh": true,
+      "preparation_seconds": 0.5119468180000695
+    },
+    {
+      "date": "2026-10-05",
+      "seconds": 4.38754498399976,
+      "new_source_counts": {
+        "LEDGER": 25,
+        "BANK": 20,
+        "PG": 0,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 89,
+      "fresh": false,
+      "preparation_seconds": 0.4885793659996125
+    },
+    {
+      "date": "2026-10-06",
+      "seconds": 4.705927623000207,
+      "new_source_counts": {
+        "LEDGER": 16,
+        "BANK": 16,
+        "PG": 5,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 126,
+      "fresh": false,
+      "preparation_seconds": 0.4944519370001217
+    },
+    {
+      "date": "2026-10-07",
+      "seconds": 5.204911267999705,
+      "new_source_counts": {
+        "LEDGER": 19,
+        "BANK": 21,
+        "PG": 7,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 173,
+      "fresh": false,
+      "preparation_seconds": 0.47587728100006643
+    },
+    {
+      "date": "2026-10-08",
+      "seconds": 5.051413268000033,
+      "new_source_counts": {
+        "LEDGER": 16,
+        "BANK": 15,
+        "PG": 6,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 210,
+      "fresh": false,
+      "preparation_seconds": 0.4877389840003161
+    },
+    {
+      "date": "2026-10-09",
+      "seconds": 5.246663629000068,
+      "new_source_counts": {
+        "LEDGER": 28,
+        "BANK": 24,
+        "PG": 3,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 265,
+      "fresh": false,
+      "preparation_seconds": 0.498382175000188
+    },
+    {
+      "date": "2026-10-12",
+      "seconds": 5.48208915000032,
+      "new_source_counts": {
+        "LEDGER": 21,
+        "BANK": 23,
+        "PG": 9,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 318,
+      "fresh": false,
+      "preparation_seconds": 0.546500905999892
+    },
+    {
+      "date": "2026-10-13",
+      "seconds": 5.660208271000556,
+      "new_source_counts": {
+        "LEDGER": 17,
+        "BANK": 19,
+        "PG": 6,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 360,
+      "fresh": false,
+      "preparation_seconds": 0.4965884849998474
+    },
+    {
+      "date": "2026-10-14",
+      "seconds": 6.062293441000293,
+      "new_source_counts": {
+        "LEDGER": 19,
+        "BANK": 19,
+        "PG": 6,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 404,
+      "fresh": false,
+      "preparation_seconds": 0.533293180000328
+    },
+    {
+      "date": "2026-10-15",
+      "seconds": 6.4632108679998055,
+      "new_source_counts": {
+        "LEDGER": 26,
+        "BANK": 23,
+        "PG": 7,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 460,
+      "fresh": false,
+      "preparation_seconds": 0.5284469509997507
+    },
+    {
+      "date": "2026-10-16",
+      "seconds": 6.737202437000633,
+      "new_source_counts": {
+        "LEDGER": 23,
+        "BANK": 20,
+        "PG": 6,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 509,
+      "fresh": false,
+      "preparation_seconds": 0.5382548630004749
+    },
+    {
+      "date": "2026-10-19",
+      "seconds": 6.623669595000138,
+      "new_source_counts": {
+        "LEDGER": 21,
+        "BANK": 28,
+        "PG": 12,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 570,
+      "fresh": false,
+      "preparation_seconds": 0.555179285000122
+    },
+    {
+      "date": "2026-10-21",
+      "seconds": 6.711524766999901,
+      "new_source_counts": {
+        "LEDGER": 11,
+        "BANK": 14,
+        "PG": 5,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 600,
+      "fresh": false,
+      "preparation_seconds": 0.5618749140003274
+    },
+    {
+      "date": "2026-10-22",
+      "seconds": 7.044078683999942,
+      "new_source_counts": {
+        "LEDGER": 12,
+        "BANK": 8,
+        "PG": 4,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 624,
+      "fresh": false,
+      "preparation_seconds": 0.5163361539998732
+    },
+    {
+      "date": "2026-10-23",
+      "seconds": 7.2220775069999945,
+      "new_source_counts": {
+        "LEDGER": 27,
+        "BANK": 23,
+        "PG": 2,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 676,
+      "fresh": false,
+      "preparation_seconds": 0.5350229309997303
+    },
+    {
+      "date": "2026-10-26",
+      "seconds": 7.72393996899973,
+      "new_source_counts": {
+        "LEDGER": 20,
+        "BANK": 22,
+        "PG": 12,
+        "NACH": 1
+      },
+      "cumulative_source_rows": 731,
+      "fresh": false,
+      "preparation_seconds": 0.5765631340000255
+    },
+    {
+      "date": "2026-10-27",
+      "seconds": 8.058454588999666,
+      "new_source_counts": {
+        "LEDGER": 55,
+        "BANK": 18,
+        "PG": 5,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 809,
+      "fresh": false,
+      "preparation_seconds": 0.5503201020001143
+    },
+    {
+      "date": "2026-10-28",
+      "seconds": 7.764535376999447,
+      "new_source_counts": {
+        "LEDGER": 19,
+        "BANK": 22,
+        "PG": 5,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 855,
+      "fresh": false,
+      "preparation_seconds": 0.6096742370000356
+    },
+    {
+      "date": "2026-10-29",
+      "seconds": 7.648957908999364,
+      "new_source_counts": {
+        "LEDGER": 20,
+        "BANK": 14,
+        "PG": 41,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 930,
+      "fresh": false,
+      "preparation_seconds": 0.556203624999398
+    },
+    {
+      "date": "2026-10-30",
+      "seconds": 8.190526648999366,
+      "new_source_counts": {
+        "LEDGER": 20,
+        "BANK": 25,
+        "PG": 10,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 985,
+      "fresh": false,
+      "preparation_seconds": 0.6200997019996066
+    },
+    {
+      "date": "2026-11-02",
+      "seconds": 8.839489942,
+      "new_source_counts": {
+        "LEDGER": 0,
+        "BANK": 5,
+        "PG": 5,
+        "NACH": 1
+      },
+      "cumulative_source_rows": 996,
+      "fresh": false,
+      "preparation_seconds": 0.6915563940001448
+    },
+    {
+      "date": "2026-11-03",
+      "seconds": 9.198565064999457,
+      "new_source_counts": {
+        "LEDGER": 0,
+        "BANK": 2,
+        "PG": 2,
+        "NACH": 0
+      },
+      "cumulative_source_rows": 1000,
+      "fresh": false,
+      "preparation_seconds": 0.6125067799994213
+    }
+  ],
+  "final_links": 437,
+  "all_seven_link_columns_identical": true,
+  "carried_ledger_bank_edges": 157
+}

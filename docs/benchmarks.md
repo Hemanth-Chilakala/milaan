@@ -70,3 +70,14 @@ Blind seed: `20261025`, with independently randomised 0.5–1.5× break rates pe
 The event oracle writes original identifiers and expected links separately from degraded source fields. Matching never reads those labels; SQL scoring reads them afterward. The generator and matcher share synthetic assumptions, so this is a robustness check, not independent production validation. A labelled NBFC partner dataset and held-out institutions, dates and channels are needed next.
 
 Ambiguous references, extra transfers and out-of-window delays usually remain open for human review. Bank reversals expose a specific limitation: the original credit can still be accepted even though a later debit cancels it. Hard-mode precision measures that failure honestly; reversal-aware matching is future work, and was not added after seeing this holdout.
+
+## Daily close measurements
+
+| Close | New source records | Available through date | Core seconds | Complete call seconds | Carried receipts matched today |
+|---|---:|---:|---:|---:|---:|
+| 2026-10-13 | 3,829,920 | 3,829,920 | 74.529 | 78.299 | 56,578 |
+| 2026-10-14 | 499,644 | 4,329,564 | 53.447 | 56.893 | 56,625 |
+
+The 13 October run prepares the prior close. The 14 October run handles new arrivals and carried open items. Core time includes preparation, matching, results, scoring, validation, commits and live audit snapshots. Complete call time also includes namespace checks, profiling and connection cleanup. Explanation generation follows both figures.
+
+See [daily methodology](daily.md) and [raw observations](daily_results.json).

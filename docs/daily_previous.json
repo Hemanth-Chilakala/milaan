@@ -1,0 +1,179 @@
+{
+  "measured_at_utc": "2026-10-10T07:34:50.039214+00:00",
+  "monthly_source_rows": 10000000,
+  "monthly_links_unchanged": 4383200,
+  "results": [
+    {
+      "run_id": "d3f0f096-132b-4243-a1bf-3a37ecc98799",
+      "seconds": 64.98577038300027,
+      "passes": {
+        "EXACT": 9.113228637999782,
+        "PG_BATCH": 2.605644100000063,
+        "FEE_AWARE": 4.191548390000207,
+        "TOLERANT": 0.5884872819997327,
+        "FUZZY": 0.7174038379998819,
+        "SPLIT_MERGE": 1.453605303000586,
+        "CLASSIFY": 7.689511966999817
+      },
+      "score": {
+        "RUN_ID": "d3f0f096-132b-4243-a1bf-3a37ecc98799",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 1667087,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 731,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 0.9995617027757225,
+        "AUTO_MATCH_RATE": 0.9621670948740444,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "stage_times": {
+        "PREPARATION": 0.01073577499937528,
+        "RESULTS": 4.26758290700036,
+        "SCORING": 4.0716972919999534,
+        "VALIDATION": 1.7748841610000454
+      },
+      "profile_collection_seconds": 0.9856230790001064,
+      "daily": {
+        "date": "2026-10-13",
+        "new_source_counts": {
+          "LEDGER": 1776974,
+          "BANK": 1678843,
+          "PG": 366356,
+          "NACH": 7747
+        },
+        "cumulative_source_rows": 3829920,
+        "fresh": true,
+        "preparation_seconds": 27.69046079800046
+      },
+      "call_seconds": 71.79846616100076,
+      "exceptions": {
+        "N": 127562,
+        "PAISE": "248866871627"
+      },
+      "carried_edges": 56578,
+      "pass_details": [
+        {
+          "PASS_NAME": "EXACT",
+          "SECONDS": 9.113228637999782,
+          "LINKS_ADDED": 1265547
+        },
+        {
+          "PASS_NAME": "PG_BATCH",
+          "SECONDS": 2.605644100000063,
+          "LINKS_ADDED": 10619
+        },
+        {
+          "PASS_NAME": "FEE_AWARE",
+          "SECONDS": 4.191548390000207,
+          "LINKS_ADDED": 351373
+        },
+        {
+          "PASS_NAME": "TOLERANT",
+          "SECONDS": 0.5884872819997327,
+          "LINKS_ADDED": 15649
+        },
+        {
+          "PASS_NAME": "FUZZY",
+          "SECONDS": 0.7174038379998818,
+          "LINKS_ADDED": 6356
+        },
+        {
+          "PASS_NAME": "SPLIT_MERGE",
+          "SECONDS": 1.4536053030005862,
+          "LINKS_ADDED": 17543
+        },
+        {
+          "PASS_NAME": "CLASSIFY",
+          "SECONDS": 7.6895119669998175,
+          "LINKS_ADDED": 0
+        }
+      ]
+    },
+    {
+      "run_id": "2fc07f77-fd9a-4323-b6ee-706ff297c59a",
+      "seconds": 63.58894677900025,
+      "passes": {
+        "EXACT": 2.506747869000719,
+        "PG_BATCH": 2.08294370800013,
+        "FEE_AWARE": 1.6259468939997532,
+        "TOLERANT": 0.3131520899996758,
+        "FUZZY": 0.45275243500054785,
+        "SPLIT_MERGE": 0.36337283399916487,
+        "CLASSIFY": 9.635210493999693
+      },
+      "score": {
+        "RUN_ID": "2fc07f77-fd9a-4323-b6ee-706ff297c59a",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 1886174,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 805,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 0.9995733921787153,
+        "AUTO_MATCH_RATE": 0.9648664392072736,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "stage_times": {
+        "PREPARATION": 0.010219563000646303,
+        "RESULTS": 5.011997962999885,
+        "SCORING": 4.729227546999937,
+        "VALIDATION": 2.2283252279994485
+      },
+      "profile_collection_seconds": 1.1513502810003047,
+      "daily": {
+        "date": "2026-10-14",
+        "new_source_counts": {
+          "LEDGER": 221841,
+          "BANK": 220245,
+          "PG": 56432,
+          "NACH": 1126
+        },
+        "cumulative_source_rows": 4329564,
+        "fresh": false,
+        "preparation_seconds": 32.47251621400028
+      },
+      "call_seconds": 70.90855181799998,
+      "exceptions": {
+        "N": 132452,
+        "PAISE": "258083141363"
+      },
+      "carried_edges": 56625,
+      "pass_details": [
+        {
+          "PASS_NAME": "EXACT",
+          "SECONDS": 2.506747869000719,
+          "LINKS_ADDED": 158168
+        },
+        {
+          "PASS_NAME": "PG_BATCH",
+          "SECONDS": 2.08294370800013,
+          "LINKS_ADDED": 1771
+        },
+        {
+          "PASS_NAME": "FEE_AWARE",
+          "SECONDS": 1.6259468939997532,
+          "LINKS_ADDED": 54020
+        },
+        {
+          "PASS_NAME": "TOLERANT",
+          "SECONDS": 0.3131520899996758,
+          "LINKS_ADDED": 2184
+        },
+        {
+          "PASS_NAME": "FUZZY",
+          "SECONDS": 0.45275243500054785,
+          "LINKS_ADDED": 812
+        },
+        {
+          "PASS_NAME": "SPLIT_MERGE",
+          "SECONDS": 0.3633728339991649,
+          "LINKS_ADDED": 2132
+        },
+        {
+          "PASS_NAME": "CLASSIFY",
+          "SECONDS": 9.635210493999693,
+          "LINKS_ADDED": 0
+        }
+      ]
+    }
+  ]
+}
