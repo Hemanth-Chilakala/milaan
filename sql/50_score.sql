@@ -1,16 +1,28 @@
+CREATE OR REPLACE TABLE MILAAN_CORE.SCORING_LINK AS
+SELECT match_id,ledger_id,bank_txn_id,CAST(COALESCE(pg_payment_id,'NO_PG') AS VARCHAR(40)) pg_key
+FROM MILAAN_RES.LINK;
+
 CREATE OR REPLACE TABLE MILAAN_CORE.SCORING_EDGE AS
 SELECT g.break_type, g.expected_match, CASE WHEN x.match_id IS NOT NULL THEN 1 ELSE 0 END predicted_match,
  CASE WHEN g.expected_match=1 AND x.match_id IS NOT NULL THEN 1 ELSE 0 END tp,
  CASE WHEN g.expected_match=0 AND x.match_id IS NOT NULL THEN 1 ELSE 0 END fp,
  CASE WHEN g.expected_match=1 AND x.match_id IS NULL THEN 1 ELSE 0 END fn
-FROM MILAAN_STG.GROUND_TRUTH g LEFT JOIN MILAAN_RES.LINK x
-ON g.ledger_id=x.ledger_id AND g.bank_txn_id=x.bank_txn_id AND COALESCE(g.pg_payment_id,'NO_PG')=COALESCE(x.pg_payment_id,'NO_PG');
+FROM MILAAN_CORE.SCORING_TRUTH g LEFT JOIN MILAAN_CORE.SCORING_LINK x
+ON g.ledger_id=x.ledger_id AND g.bank_txn_id=x.bank_txn_id AND g.pg_key=x.pg_key;
+
+CREATE OR REPLACE TABLE MILAAN_CORE.FALSE_CANDIDATE AS
+SELECT x.* FROM MILAAN_CORE.SCORING_LINK x
+WHERE NOT EXISTS (SELECT 1 FROM MILAAN_CORE.SCORING_TRUTH g
+ WHERE g.expected_match=1 AND g.ledger_id=x.ledger_id AND g.bank_txn_id=x.bank_txn_id AND g.pg_key=x.pg_key);
+
+CREATE OR REPLACE TABLE MILAAN_CORE.FALSE_LABEL AS
+SELECT g.ledger_id,MIN(g.break_type) break_type FROM MILAAN_CORE.SCORING_TRUTH g
+WHERE EXISTS (SELECT 1 FROM MILAAN_CORE.FALSE_CANDIDATE f WHERE f.ledger_id=g.ledger_id)
+GROUP BY g.ledger_id;
 
 CREATE OR REPLACE TABLE MILAAN_CORE.FALSE_EDGE AS
 SELECT x.*,COALESCE(t.break_type,'UNLABELLED') break_type
-FROM MILAAN_RES.LINK x
-LEFT JOIN (SELECT ledger_id,MIN(break_type) break_type FROM MILAAN_STG.GROUND_TRUTH WHERE ledger_id IS NOT NULL GROUP BY ledger_id) t ON x.ledger_id=t.ledger_id
-WHERE NOT EXISTS (SELECT 1 FROM MILAAN_STG.GROUND_TRUTH g WHERE g.expected_match=1 AND g.ledger_id=x.ledger_id AND g.bank_txn_id=x.bank_txn_id AND COALESCE(g.pg_payment_id,'NO_PG')=COALESCE(x.pg_payment_id,'NO_PG'));
+FROM MILAAN_CORE.FALSE_CANDIDATE x LEFT JOIN MILAAN_CORE.FALSE_LABEL t ON x.ledger_id=t.ledger_id;
 
 INSERT INTO MILAAN_RES.SCORE
 WITH missing_truth AS (

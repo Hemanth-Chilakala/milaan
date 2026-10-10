@@ -48,7 +48,7 @@ def connect():
 
 def statements(path: Path) -> list[str]:
     text = path.read_text()
-    if "CREATE OR REPLACE PYTHON3" in text.upper():
+    if re.search(r"CREATE\s+OR\s+REPLACE\s+(?:PYTHON3|LUA)\s+(?:SCALAR|SET)\s+SCRIPT", text, re.I):
         return [text.rsplit("\n/", 1)[0].strip()]
     parts, start, quoted, index = [], 0, False, 0
     while index < len(text):

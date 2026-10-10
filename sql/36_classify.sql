@@ -1,16 +1,17 @@
 CREATE OR REPLACE TABLE MILAAN_CORE.REMAINING_LEDGER AS
-SELECT l.* FROM MILAAN_CORE.LEDGER l
-WHERE NOT EXISTS (SELECT 1 FROM MILAAN_RES.LINK x WHERE x.ledger_id=l.ledger_id);
+SELECT * FROM MILAAN_CORE.OPEN_LEDGER;
 
 CREATE OR REPLACE TABLE MILAAN_CORE.REMAINING_CANDIDATE AS
+SELECT DISTINCT ledger_id,bank_txn_id,amount_paise FROM (
 SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
 JOIN MILAAN_CORE.BANK b ON l.ref_norm=b.ref_norm AND b.day_index-l.day_index BETWEEN 0 AND 3
-UNION
+UNION ALL
 SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
 JOIN MILAAN_CORE.BANK b ON l.loan_id=b.loan_id AND b.day_index-l.day_index BETWEEN 0 AND 3
-UNION
+UNION ALL
 SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
-JOIN MILAAN_CORE.BANK b ON RIGHT(l.ref_norm,8)=RIGHT(b.ref_norm,8) AND l.amount_paise=b.amount_paise AND b.day_index-l.day_index BETWEEN 0 AND 3;
+JOIN MILAAN_CORE.BANK b ON l.ref_suffix8=b.ref_suffix8 AND l.amount_paise=b.amount_paise AND b.day_index-l.day_index BETWEEN 0 AND 3
+);
 
 CREATE OR REPLACE TABLE MILAAN_CORE.UNMATCHED_LEDGER AS
 SELECT l.*,b.bank_txn_id,b.amount_paise bank_paise,n.return_reason,
@@ -43,17 +44,27 @@ SELECT 'B:'||b.bank_txn_id,'@RUN_ID@','BANK',b.bank_txn_id,'UNIDENTIFIED_CREDIT'
  GREATEST(0,c.business_day_index-b.day_index),2,ABS(b.amount_paise)/100.0*GREATEST(c.business_day_index-b.day_index,1)*2,
  'Identify the payer and loan before releasing this credit from suspense.',
  MILAAN_CORE.EVIDENCE(NULL,b.bank_txn_id,NULL,b.loan_id,ABS(b.amount_paise),b.amount_paise,NULL,NULL,NULL,b.value_date,'No unique receipt was found',b.channel,b.batch_id,NULL,NULL,NULL,NULL)
-FROM MILAAN_CORE.BANK b CROSS JOIN MILAAN_AUDIT.DATASET d JOIN MILAAN_CORE.CALENDAR c ON c.calendar_date=d.as_of_date
-WHERE NOT EXISTS (SELECT 1 FROM MILAAN_RES.LINK x WHERE x.bank_txn_id=b.bank_txn_id)
-AND NOT EXISTS (SELECT 1 FROM MILAAN_CORE.UNMATCHED_LEDGER l WHERE l.bank_txn_id=b.bank_txn_id);
+FROM MILAAN_CORE.OPEN_BANK b CROSS JOIN MILAAN_AUDIT.DATASET d JOIN MILAAN_CORE.CALENDAR c ON c.calendar_date=d.as_of_date
+WHERE NOT EXISTS (SELECT 1 FROM MILAAN_CORE.UNMATCHED_LEDGER l WHERE l.bank_txn_id=b.bank_txn_id);
+
+CREATE OR REPLACE TABLE MILAAN_CORE.MISSING_PG AS
+SELECT p.* FROM MILAAN_CORE.PG p
+LEFT JOIN MILAAN_CORE.LEDGER_REFERENCE lr ON lr.external_ref=p.payment_ref
+WHERE p.gross_paise>0 AND lr.external_ref IS NULL;
+
+CREATE OR REPLACE TABLE MILAAN_CORE.BANK_LINK_COUNT AS
+SELECT x.bank_txn_id,COUNT(*) matched_count FROM MILAAN_RES.LINK x
+JOIN (SELECT DISTINCT b.bank_txn_id FROM MILAAN_CORE.BANK b
+ JOIN MILAAN_CORE.MISSING_PG p ON b.batch_id=p.settlement_batch_id AND b.bank_ref=p.settlement_utr) eligible
+ON x.bank_txn_id=eligible.bank_txn_id GROUP BY x.bank_txn_id;
 
 INSERT INTO MILAAN_RES."EXCEPTION"
 SELECT 'PG:'||p.pg_payment_id,'@RUN_ID@','PG',p.pg_payment_id,'MISSING_IN_LEDGER',p.loan_id,'PG',p.gross_paise,
  GREATEST(0,c.business_day_index-p.day_index),3,p.gross_paise/100.0*GREATEST(c.business_day_index-p.day_index,1)*3,
  'Verify the gateway payment and post the missing receipt to the correct loan.',
  MILAAN_CORE.EVIDENCE(NULL,b.bank_txn_id,p.pg_payment_id,p.loan_id,p.gross_paise,b.amount_paise,g.fee_paise,g.gst_paise,g.refund_paise,p.payment_date,'Gateway payment has no ledger receipt','PG',p.settlement_batch_id,g.payment_count,
- (SELECT COUNT(*) FROM MILAAN_RES.LINK x WHERE x.bank_txn_id=b.bank_txn_id),g.gross_paise,g.net_paise)
-FROM MILAAN_CORE.PG p JOIN MILAAN_CORE.BATCH g ON p.settlement_batch_id=g.batch_id AND p.settlement_utr=g.settlement_utr
+ COALESCE(lc.matched_count,0),g.gross_paise,g.net_paise)
+FROM MILAAN_CORE.MISSING_PG p JOIN MILAAN_CORE.BATCH g ON p.settlement_batch_id=g.batch_id AND p.settlement_utr=g.settlement_utr
 LEFT JOIN MILAAN_CORE.BANK b ON b.batch_id=p.settlement_batch_id AND b.bank_ref=p.settlement_utr
-CROSS JOIN MILAAN_AUDIT.DATASET d JOIN MILAAN_CORE.CALENDAR c ON c.calendar_date=d.as_of_date
-WHERE p.gross_paise>0 AND NOT EXISTS (SELECT 1 FROM MILAAN_CORE.LEDGER l WHERE l.external_ref=p.pg_payment_id);
+LEFT JOIN MILAAN_CORE.BANK_LINK_COUNT lc ON b.bank_txn_id=lc.bank_txn_id
+CROSS JOIN MILAAN_AUDIT.DATASET d JOIN MILAAN_CORE.CALENDAR c ON c.calendar_date=d.as_of_date;

@@ -24,5 +24,13 @@ record is consumed by two matches. Ground-truth edges record the correct
 ledger-bank-gateway relationships; expected exception labels are retained for
 separate classification tests. Matching rules never read the truth table.
 
+Normalisation materialises reference suffixes and aligns the types of reference,
+loan, name and paise join keys. `OPEN_LEDGER`, `OPEN_BANK` and `OPEN_PG` contain
+the narrow payloads needed by matching and classification. They start complete
+after loading and shrink as passes consume records. `PASS_LINK` holds only the
+current pass's ledger, bank and gateway keys. A full-month rerun restores removed
+rows from the immutable normalised source tables before matching. Typed truth
+keys and derived scoring tables are isolated from the matching passes.
+
 The generator refuses to overwrite existing datasets. Choose a new output
 directory to regenerate. Files and manifests live under ignored `data/`.

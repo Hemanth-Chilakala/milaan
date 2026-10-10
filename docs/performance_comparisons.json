@@ -1,0 +1,260 @@
+{
+  "exact_uniqueness": {
+    "WINDOW": {
+      "seconds": 9.163524259000042,
+      "links": 3164644,
+      "profile": [
+        {
+          "PART_NAME": "COMPILE / EXECUTE",
+          "PART_INFO": null,
+          "OBJECT_NAME": null,
+          "DURATION": "0.017",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "COLUMN STATISTICS",
+          "PART_INFO": null,
+          "OBJECT_NAME": "OPEN_LEDGER",
+          "DURATION": "0.471",
+          "REMARKS": "REF_NORM,AMOUNT_PAISE,POSTED_DATE,DUPLICATE_RANK,STATUS"
+        },
+        {
+          "PART_NAME": "COLUMN STATISTICS",
+          "PART_INFO": null,
+          "OBJECT_NAME": "OPEN_BANK",
+          "DURATION": "0.381",
+          "REMARKS": "REF_NORM,AMOUNT_PAISE,VALUE_DATE"
+        },
+        {
+          "PART_NAME": "INDEX CREATE",
+          "PART_INFO": null,
+          "OBJECT_NAME": "OPEN_BANK",
+          "DURATION": "0.81",
+          "REMARKS": "LOCAL INDEX (VALUE_DATE,AMOUNT_PAISE,REF_NORM)"
+        },
+        {
+          "PART_NAME": "SCAN",
+          "PART_INFO": null,
+          "OBJECT_NAME": "OPEN_LEDGER",
+          "DURATION": "0.024",
+          "REMARKS": "OPEN_LEDGER(STATUS,DUPLICATE_RANK)"
+        },
+        {
+          "PART_NAME": "EXISTS",
+          "PART_INFO": null,
+          "OBJECT_NAME": "NACH",
+          "DURATION": "0.585",
+          "REMARKS": "OPEN_LEDGER(LOAN_ID,REF_NORM) => LOCAL INDEX (LOAN_ID,REF_NORM)"
+        },
+        {
+          "PART_NAME": "JOIN",
+          "PART_INFO": null,
+          "OBJECT_NAME": "OPEN_BANK",
+          "DURATION": "0.378",
+          "REMARKS": "OPEN_LEDGER(AMOUNT_PAISE,POSTED_DATE,REF_NORM) => LOCAL INDEX (VALUE_DATE,AMOUNT_PAISE,REF_NORM)"
+        },
+        {
+          "PART_NAME": "INSERT",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect0",
+          "DURATION": "0.245",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "ANALYTICAL FUNCTION",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect0",
+          "DURATION": "0.766",
+          "REMARKS": "#Partitionkeys=1, #Orderings=0, #Functions=1"
+        },
+        {
+          "PART_NAME": "ANALYTICAL FUNCTION",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect0",
+          "DURATION": "0.769",
+          "REMARKS": "#Partitionkeys=1, #Orderings=0, #Functions=1"
+        },
+        {
+          "PART_NAME": "SCAN",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect0",
+          "DURATION": "0.004",
+          "REMARKS": "tmp_subselect0(LC,BC)"
+        },
+        {
+          "PART_NAME": "INSERT",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_WINDOW_TRIAL",
+          "DURATION": "2.376",
+          "REMARKS": null
+        }
+      ]
+    },
+    "GROUP": {
+      "seconds": 10.675176569999621,
+      "links": 3164644,
+      "profile": [
+        {
+          "PART_NAME": "COMPILE / EXECUTE",
+          "PART_INFO": null,
+          "OBJECT_NAME": null,
+          "DURATION": "0.01",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "SCAN",
+          "PART_INFO": null,
+          "OBJECT_NAME": "OPEN_LEDGER",
+          "DURATION": "0.024",
+          "REMARKS": "OPEN_LEDGER(STATUS,DUPLICATE_RANK)"
+        },
+        {
+          "PART_NAME": "EXISTS",
+          "PART_INFO": null,
+          "OBJECT_NAME": "NACH",
+          "DURATION": "0.556",
+          "REMARKS": "OPEN_LEDGER(LOAN_ID,REF_NORM) => LOCAL INDEX (LOAN_ID,REF_NORM)"
+        },
+        {
+          "PART_NAME": "JOIN",
+          "PART_INFO": null,
+          "OBJECT_NAME": "OPEN_BANK",
+          "DURATION": "0.363",
+          "REMARKS": "OPEN_LEDGER(AMOUNT_PAISE,POSTED_DATE,REF_NORM) => LOCAL INDEX (VALUE_DATE,AMOUNT_PAISE,REF_NORM)"
+        },
+        {
+          "PART_NAME": "INSERT",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_CANDIDATE",
+          "DURATION": "1.54",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "COMPILE / EXECUTE",
+          "PART_INFO": null,
+          "OBJECT_NAME": null,
+          "DURATION": "0.014",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "SCAN",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_CANDIDATE",
+          "DURATION": "0.133",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "GROUP BY",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect0",
+          "DURATION": "0.862",
+          "REMARKS": "EXACT_CANDIDATE(LEDGER_ID)"
+        },
+        {
+          "PART_NAME": "SCAN",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_CANDIDATE",
+          "DURATION": "0.139",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "GROUP BY",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect1",
+          "DURATION": "0.833",
+          "REMARKS": "EXACT_CANDIDATE(BANK_TXN_ID)"
+        },
+        {
+          "PART_NAME": "COLUMN STATISTICS",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect0",
+          "DURATION": "0.116",
+          "REMARKS": "LEDGER_ID"
+        },
+        {
+          "PART_NAME": "COLUMN STATISTICS",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_CANDIDATE",
+          "DURATION": "0.312",
+          "REMARKS": "LEDGER_ID,BANK_TXN_ID"
+        },
+        {
+          "PART_NAME": "COLUMN STATISTICS",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect1",
+          "DURATION": "0.099",
+          "REMARKS": "BANK_TXN_ID"
+        },
+        {
+          "PART_NAME": "INDEX CREATE",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect1",
+          "DURATION": "0.39",
+          "REMARKS": "LOCAL INDEX (BANK_TXN_ID)"
+        },
+        {
+          "PART_NAME": "INDEX CREATE",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_CANDIDATE",
+          "DURATION": "0.461",
+          "REMARKS": "LOCAL INDEX (LEDGER_ID)"
+        },
+        {
+          "PART_NAME": "SCAN",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect0",
+          "DURATION": "0.003",
+          "REMARKS": null
+        },
+        {
+          "PART_NAME": "JOIN",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_CANDIDATE",
+          "DURATION": "0.212",
+          "REMARKS": "tmp_subselect0(LEDGER_ID) => LOCAL INDEX (LEDGER_ID)"
+        },
+        {
+          "PART_NAME": "JOIN",
+          "PART_INFO": "on TEMPORARY table",
+          "OBJECT_NAME": "tmp_subselect1",
+          "DURATION": "0.272",
+          "REMARKS": "EXACT_CANDIDATE(BANK_TXN_ID) => LOCAL INDEX (BANK_TXN_ID)"
+        },
+        {
+          "PART_NAME": "INSERT",
+          "PART_INFO": null,
+          "OBJECT_NAME": "EXACT_GROUP_TRIAL",
+          "DURATION": "2.349",
+          "REMARKS": null
+        }
+      ]
+    },
+    "link_differences": 0
+  },
+  "subset_implementation": {
+    "PYTHON": {
+      "seconds": 10.49127830999987,
+      "links": 44100,
+      "two_row_call_seconds": [
+        0.08173022500022853,
+        0.07220304100019348,
+        0.07936970500031748
+      ]
+    },
+    "LUA": {
+      "seconds": 1.2688520310002787,
+      "links": 44100,
+      "two_row_call_seconds": [
+        0.007048549000046478,
+        0.0058559209996928985,
+        0.006059582000034425
+      ]
+    },
+    "source_rows": 10000000,
+    "link_differences": 0,
+    "groups": {
+      "TOTAL_GROUPS": 39965,
+      "ELIGIBLE_GROUPS": 17673
+    }
+  }
+}

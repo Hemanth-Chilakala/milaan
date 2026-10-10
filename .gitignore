@@ -1,4 +1,6 @@
 AGENTS.md
+CODEX_ROUND2.md
+codex_round2.md
 .env
 .env.*
 !.env.example
@@ -6,6 +8,7 @@ data/
 private/
 *.csv
 __pycache__/
+.venv
 .venv/
 .pytest_cache/
 .ruff_cache/

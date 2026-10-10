@@ -1,6 +1,7 @@
 PYTHON := .venv/bin/python
 ROWS ?= 1000000
 DATA ?= data/$(ROWS)
+BENCH_ARGS ?=
 
 .PHONY: setup data load recon explain score bench demo test lint app
 setup:
@@ -16,7 +17,7 @@ explain:
 score:
 	$(PYTHON) -m milaan.pipeline score
 bench:
-	$(PYTHON) -m scripts.benchmark
+	$(PYTHON) -m scripts.benchmark $(BENCH_ARGS)
 demo: setup data load recon explain app
 test:
 	$(PYTHON) -m pytest -m 'not db'

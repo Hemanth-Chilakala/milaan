@@ -1,0 +1,398 @@
+[
+  {
+    "implementation": "Repeated wide copies",
+    "measured_at_utc": "2026-10-09T16:53:35.022265+00:00",
+    "results": [
+      {
+        "source_rows": 1000000,
+        "seconds": 27.67696819799994,
+        "passes": {
+          "EXACT": 5.714518223000141,
+          "PG_BATCH": 4.617828940999971,
+          "FEE_AWARE": 2.684106984999744,
+          "TOLERANT": 0.8295309129998714,
+          "FUZZY": 0.957787873000143,
+          "SPLIT_MERGE": 1.0410054469998613,
+          "CLASSIFY": 3.374233987000025
+        },
+        "stage_times": {
+          "PREPARATION": 4.2209061600001405,
+          "RESULTS": 1.6709749669998928,
+          "SCORING": 1.1147070419997362,
+          "VALIDATION": 0.4484416069999497
+        },
+        "score": {
+          "RUN_ID": "52bfeac2-bda4-4aa3-b574-a11f17f92b5c",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      },
+      {
+        "source_rows": 10000000,
+        "seconds": 134.596642041,
+        "passes": {
+          "EXACT": 25.534135196999614,
+          "PG_BATCH": 15.497248289999789,
+          "FEE_AWARE": 12.102929536999909,
+          "TOLERANT": 3.7822931010000502,
+          "FUZZY": 3.5270994299999074,
+          "SPLIT_MERGE": 9.48117296700002,
+          "CLASSIFY": 23.729166032000194
+        },
+        "stage_times": {
+          "PREPARATION": 16.6264479700003,
+          "RESULTS": 9.813383092000095,
+          "SCORING": 9.999604766000175,
+          "VALIDATION": 3.860421822999797
+        },
+        "score": {
+          "RUN_ID": "54da1f85-d295-4e99-b05b-8af4c83bd53e",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 4383200,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9995942968027897,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "implementation": "Narrow copies and deletion",
+    "measured_at_utc": "2026-10-09T16:59:08.954536+00:00",
+    "results": [
+      {
+        "source_rows": 1000000,
+        "seconds": 17.672925924000083,
+        "passes": {
+          "EXACT": 3.81766153999979,
+          "PG_BATCH": 1.203074855000068,
+          "FEE_AWARE": 2.2988143030001993,
+          "TOLERANT": 0.2971138879997852,
+          "FUZZY": 0.41813622399968153,
+          "SPLIT_MERGE": 0.8721256300000277,
+          "CLASSIFY": 1.5741930499998489
+        },
+        "stage_times": {
+          "PREPARATION": 3.221466468000017,
+          "RESULTS": 1.720237110999733,
+          "SCORING": 1.1079116380001324,
+          "VALIDATION": 0.4381164119999994
+        },
+        "score": {
+          "RUN_ID": "b1d6ef58-829d-442c-8a9b-9352eff8b183",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      },
+      {
+        "source_rows": 10000000,
+        "seconds": 100.57473368799992,
+        "passes": {
+          "EXACT": 22.809578670000064,
+          "PG_BATCH": 6.4430049659999895,
+          "FEE_AWARE": 10.127184807000049,
+          "TOLERANT": 1.7795373109997854,
+          "FUZZY": 1.0924449000003733,
+          "SPLIT_MERGE": 8.283395575000213,
+          "CLASSIFY": 12.332803324999986
+        },
+        "stage_times": {
+          "PREPARATION": 12.24316974400017,
+          "RESULTS": 10.473278892000053,
+          "SCORING": 10.183435991999886,
+          "VALIDATION": 4.138291707999997
+        },
+        "score": {
+          "RUN_ID": "9867053d-7e43-4116-a7d8-a28eb250cfe0",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 4383200,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9995942968027897,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "implementation": "Key tables with joins",
+    "measured_at_utc": "2026-10-09T17:04:48.387827+00:00",
+    "results": [
+      {
+        "source_rows": 1000000,
+        "seconds": 16.263491432000137,
+        "passes": {
+          "EXACT": 2.9247730259999116,
+          "PG_BATCH": 1.7633547990003535,
+          "FEE_AWARE": 1.8096901439998874,
+          "TOLERANT": 0.731910464000066,
+          "FUZZY": 0.5487538020001921,
+          "SPLIT_MERGE": 1.2819502719999036,
+          "CLASSIFY": 1.5043900159998884
+        },
+        "stage_times": {
+          "PREPARATION": 0.7073638319998281,
+          "RESULTS": 1.8313445840003624,
+          "SCORING": 1.9130237690001195,
+          "VALIDATION": 0.5449544099997183
+        },
+        "score": {
+          "RUN_ID": "07246455-d977-4260-85ca-6ddd6877b731",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      },
+      {
+        "source_rows": 10000000,
+        "seconds": 116.39018122900006,
+        "passes": {
+          "EXACT": 23.124232203000247,
+          "PG_BATCH": 12.35800746699988,
+          "FEE_AWARE": 9.764954816999762,
+          "TOLERANT": 6.5054573790002905,
+          "FUZZY": 5.059918622000168,
+          "SPLIT_MERGE": 12.603602860000137,
+          "CLASSIFY": 13.459483800000271
+        },
+        "stage_times": {
+          "PREPARATION": 3.480846185000246,
+          "RESULTS": 12.105497603000003,
+          "SCORING": 12.410973582000224,
+          "VALIDATION": 4.867706136999914
+        },
+        "score": {
+          "RUN_ID": "d009252f-a1a0-48e1-9454-c7dca0adb865",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 4383200,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9995942968027897,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "implementation": "Delayed open-table creation",
+    "measured_at_utc": "2026-10-09T17:12:49.071760+00:00",
+    "results": [
+      {
+        "source_rows": 1000000,
+        "seconds": 15.656919613000355,
+        "passes": {
+          "EXACT": 5.332879057000355,
+          "PG_BATCH": 1.2047759460001544,
+          "FEE_AWARE": 1.8226051890005692,
+          "TOLERANT": 0.2554702970001017,
+          "FUZZY": 0.40282980399933876,
+          "SPLIT_MERGE": 0.315099139999802,
+          "CLASSIFY": 1.718500678000055
+        },
+        "stage_times": {
+          "PREPARATION": 0.007620465999934822,
+          "RESULTS": 1.7833028579998427,
+          "SCORING": 1.625969752999481,
+          "VALIDATION": 0.5221498509999947
+        },
+        "score": {
+          "RUN_ID": "e710a978-168c-42cd-9d8b-8f48d94f3da5",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      },
+      {
+        "source_rows": 10000000,
+        "seconds": 84.80127853700014,
+        "passes": {
+          "EXACT": 24.926994913999806,
+          "PG_BATCH": 6.261303442999633,
+          "FEE_AWARE": 7.995527872999446,
+          "TOLERANT": 1.4463122440001825,
+          "FUZZY": 1.23766087399963,
+          "SPLIT_MERGE": 3.015234223999869,
+          "CLASSIFY": 13.354510305000076
+        },
+        "stage_times": {
+          "PREPARATION": 0.010794931999953405,
+          "RESULTS": 11.235529827000391,
+          "SCORING": 9.838803182999982,
+          "VALIDATION": 4.504340813999988
+        },
+        "score": {
+          "RUN_ID": "38d22ead-ae54-4557-8b7b-f0036502d439",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 4383200,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9995942968027897,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "implementation": "Persistent open flags",
+    "measured_at_utc": "2026-10-10T06:34:31.860650+00:00",
+    "results": [
+      {
+        "source_rows": 1000000,
+        "seconds": 14.682619563000003,
+        "passes": {
+          "EXACT": 2.7333775229999446,
+          "PG_BATCH": 1.842701179999949,
+          "FEE_AWARE": 1.6588311259999955,
+          "TOLERANT": 0.5470749090000027,
+          "FUZZY": 0.539089100999945,
+          "SPLIT_MERGE": 0.7111664200000405,
+          "CLASSIFY": 1.7443145989999493
+        },
+        "stage_times": {
+          "PREPARATION": 0.030330092999975022,
+          "RESULTS": 1.7954165570000669,
+          "SCORING": 1.6606014480000795,
+          "VALIDATION": 0.5813569580000149
+        },
+        "score": {
+          "RUN_ID": "71a4ef5a-0575-4636-904f-0d934749deff",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      },
+      {
+        "source_rows": 10000000,
+        "seconds": 88.805257127,
+        "passes": {
+          "EXACT": 14.654683420000083,
+          "PG_BATCH": 11.76832419699997,
+          "FEE_AWARE": 7.721778846999996,
+          "TOLERANT": 4.833394135999924,
+          "FUZZY": 2.5037961589999895,
+          "SPLIT_MERGE": 6.440763351999976,
+          "CLASSIFY": 14.271464982999987
+        },
+        "stage_times": {
+          "PREPARATION": 0.025039924999987306,
+          "RESULTS": 10.814562688000024,
+          "SCORING": 10.000159252000003,
+          "VALIDATION": 4.94356983800003
+        },
+        "score": {
+          "RUN_ID": "55eaa4e9-05d6-4934-a339-c273c07376cf",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 4383200,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9995942968027897,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      }
+    ]
+  },
+  {
+    "implementation": "Physical pruning before conformed NACH keys",
+    "measured_at_utc": "2026-10-10T06:41:43.929264+00:00",
+    "results": [
+      {
+        "source_rows": 1000000,
+        "seconds": 13.928885905000016,
+        "passes": {
+          "EXACT": 3.3829799929999353,
+          "PG_BATCH": 1.1833664289999888,
+          "FEE_AWARE": 1.8754949249998845,
+          "TOLERANT": 0.29492265999988376,
+          "FUZZY": 0.39004850799983615,
+          "SPLIT_MERGE": 0.3564745270000458,
+          "CLASSIFY": 1.7197058019999076
+        },
+        "stage_times": {
+          "PREPARATION": 0.03008456199995635,
+          "RESULTS": 1.7912312209998618,
+          "SCORING": 1.6360711109998647,
+          "VALIDATION": 0.48779768700001114
+        },
+        "score": {
+          "RUN_ID": "4ac82154-9c73-4f64-a866-bd15d7803cda",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      },
+      {
+        "source_rows": 10000000,
+        "seconds": 79.90028370799996,
+        "passes": {
+          "EXACT": 20.31885295500001,
+          "PG_BATCH": 6.430633056999795,
+          "FEE_AWARE": 7.48826024899995,
+          "TOLERANT": 1.666592104000074,
+          "FUZZY": 1.230339592000064,
+          "SPLIT_MERGE": 3.135161304999883,
+          "CLASSIFY": 13.561703040000111
+        },
+        "stage_times": {
+          "PREPARATION": 0.04291091499999311,
+          "RESULTS": 10.246307155000068,
+          "SCORING": 9.933791165000002,
+          "VALIDATION": 4.724383644999989
+        },
+        "score": {
+          "RUN_ID": "2858db23-e655-4d4a-b0e2-622758d14699",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 4383200,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1779,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.9995942968027897,
+          "AUTO_MATCH_RATE": 0.9850231,
+          "FALSE_MATCH_RATE": 0.0
+        }
+      }
+    ]
+  }
+]

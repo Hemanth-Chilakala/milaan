@@ -81,14 +81,16 @@ PASSES = [
 ]
 
 
-def validate(connection) -> None:
+def validate(connection, run_id: str | None = None) -> None:
+    tag = f"/* MILAAN:{run_id}:VALIDATION */ " if run_id else ""
     conflicts = connection.execute(
-        "SELECT COUNT(*) N FROM (SELECT source_name,txn_key FROM MILAAN_RES.MATCH_MEMBER GROUP BY source_name,txn_key HAVING COUNT(DISTINCT match_id)>1)"
+        tag
+        + "SELECT COUNT(*) N FROM (SELECT source_name,txn_key FROM MILAAN_RES.MATCH_MEMBER GROUP BY source_name,txn_key HAVING MIN(match_id)<>MAX(match_id))"
     ).fetchone()["N"]
     if conflicts:
         raise RuntimeError(f"{conflicts} records belong to conflicting match groups")
     empty = connection.execute(
-        'SELECT COUNT(*) N FROM MILAAN_RES."MATCH" WHERE rule IS NULL OR evidence IS NULL'
+        tag + 'SELECT COUNT(*) N FROM MILAAN_RES."MATCH" WHERE rule IS NULL OR evidence IS NULL'
     ).fetchone()["N"]
     if empty:
         raise RuntimeError("Unexplained matches detected")
@@ -107,6 +109,7 @@ def recon(progress=None) -> dict:
 def _recon(progress=None) -> dict:
     run_id = str(uuid.uuid4())
     times = {}
+    stage_times = {}
     started = perf_counter()
     with connect() as connection:
         dataset = connection.execute("SELECT dataset_id FROM MILAAN_AUDIT.DATASET").fetchone()
@@ -121,6 +124,28 @@ def _recon(progress=None) -> dict:
             for table in ("LINK", "MATCH", "MATCH_MEMBER", "EXCEPTION", "EXPLANATION", "SCORE"):
                 connection.execute(f'TRUNCATE TABLE MILAAN_RES."{table}"')
             connection.execute("ALTER SESSION SET PROFILE='ON'")
+            tick = perf_counter()
+            # Reset automatic result indexes; matching does not query old edges.
+            connection.execute(
+                "CREATE OR REPLACE TABLE MILAAN_RES.LINK AS SELECT * FROM MILAAN_RES.LINK WHERE 1=0"
+            )
+            open_columns = {
+                "LEDGER": "ledger_id,loan_id,amount_paise,channel,external_ref,posted_date,status,ref_norm,name_norm,day_index,duplicate_rank,ref_suffix8",
+                "BANK": "bank_txn_id,value_date,bank_ref,amount_paise,ref_norm,loan_id,batch_id,channel,name_norm,day_index,ref_suffix8",
+                "PG": "pg_payment_id,gross_paise,fee_paise,gst_on_fee_paise,net_paise,settlement_batch_id,settlement_date,settlement_utr,loan_id,payment_ref",
+            }
+            for source, columns in open_columns.items():
+                # These tables are subsets of immutable normalised sources.
+                # A full row count means load already prepared them. Reruns
+                # restore removed records, and include that cost in the timer.
+                counts = connection.execute(
+                    f"SELECT (SELECT COUNT(*) FROM MILAAN_CORE.OPEN_{source}) N,(SELECT COUNT(*) FROM MILAAN_CORE.{source}) TOTAL"
+                ).fetchone()
+                if counts["N"] != counts["TOTAL"]:
+                    connection.execute(
+                        f"/* MILAAN:{run_id}:PREPARATION */ CREATE OR REPLACE TABLE MILAAN_CORE.OPEN_{source} AS SELECT {columns} FROM MILAAN_CORE.{source}"
+                    )
+            stage_times["PREPARATION"] = perf_counter() - tick
             previous = 0
             for name, filename in PASSES:
                 if progress:
@@ -130,6 +155,19 @@ def _recon(progress=None) -> dict:
                     connection.execute(
                         f"/* MILAAN:{run_id}:{name} */\n" + sql.replace("@RUN_ID@", run_id)
                     )
+                if name != "CLASSIFY":
+                    connection.execute(
+                        f"/* MILAAN:{run_id}:{name} */ CREATE OR REPLACE TABLE MILAAN_CORE.PASS_LINK AS SELECT ledger_id,bank_txn_id,pg_payment_id FROM MILAAN_RES.LINK WHERE pass_name={{name!s}}",
+                        {"name": name},
+                    )
+                    # Shrinking uses only this pass's edges, never the growing history.
+                    sources = [("LEDGER", "ledger_id"), ("BANK", "bank_txn_id")]
+                    if name in {"PG_BATCH", "FEE_AWARE"}:
+                        sources.append(("PG", "pg_payment_id"))
+                    for source, key in sources:
+                        connection.execute(
+                            f"/* MILAAN:{run_id}:{name} */ DELETE FROM MILAAN_CORE.OPEN_{source} o WHERE EXISTS (SELECT 1 FROM MILAAN_CORE.PASS_LINK x WHERE x.{key}=o.{key})"
+                        )
                 connection.commit()
                 seconds = perf_counter() - tick
                 count = connection.execute("SELECT COUNT(*) N FROM MILAAN_RES.LINK").fetchone()["N"]
@@ -144,23 +182,40 @@ def _recon(progress=None) -> dict:
                     progress(name, seconds, count - previous)
                 previous = count
             for filename in ("40_results.sql", "50_score.sql"):
+                stage = "RESULTS" if filename.startswith("40_") else "SCORING"
+                tick = perf_counter()
                 for sql in statements(ROOT / "sql" / filename):
-                    connection.execute(sql.replace("@RUN_ID@", run_id))
-            validate(connection)
+                    connection.execute(
+                        f"/* MILAAN:{run_id}:{stage} */\n" + sql.replace("@RUN_ID@", run_id)
+                    )
+                stage_times[stage] = perf_counter() - tick
+            tick = perf_counter()
+            validate(connection, run_id)
+            stage_times["VALIDATION"] = perf_counter() - tick
             elapsed = perf_counter() - started
             connection.execute(
                 "UPDATE MILAAN_AUDIT.RUN SET status='COMPLETE',finished_at=CURRENT_TIMESTAMP,seconds={seconds} WHERE run_id={id!s}",
                 {"seconds": elapsed, "id": run_id},
             )
             connection.commit()
+            profile_started = perf_counter()
             connection.execute("ALTER SESSION SET PROFILE='OFF'")
             connection.execute("FLUSH STATISTICS")
             connection.commit()
-            for name, _ in PASSES:
+            stage_profiles = {}
+            for name in [name for name, _ in PASSES] + [
+                "PREPARATION",
+                "RESULTS",
+                "SCORING",
+                "VALIDATION",
+            ]:
                 rows = connection.execute(
-                    "SELECT PART_NAME,OBJECT_ROWS,OUT_ROWS,DURATION,CPU,TEMP_DB_RAM_PEAK,HDD_READ,HDD_WRITE,NET FROM EXA_USER_PROFILE_LAST_DAY WHERE SESSION_ID=CURRENT_SESSION AND SQL_TEXT LIKE {tag!s}",
+                    "SELECT STMT_ID,PART_ID,PART_NAME,PART_INFO,OBJECT_NAME,OBJECT_ROWS,OUT_ROWS,DURATION,CPU,TEMP_DB_RAM_PEAK,HDD_READ,HDD_WRITE,NET,REMARKS FROM EXA_USER_PROFILE_LAST_DAY WHERE SESSION_ID=CURRENT_SESSION AND SQL_TEXT LIKE {tag!s}",
                     {"tag": f"%MILAAN:{run_id}:{name}%"},
                 ).fetchall()
+                if name in {"PREPARATION", "RESULTS", "SCORING", "VALIDATION"}:
+                    stage_profiles[name] = rows
+                    continue
                 connection.execute(
                     "UPDATE MILAAN_AUDIT.PASS_TIMING SET profile_json={profile!s} WHERE run_id={id!s} AND pass_name={name!s}",
                     {"profile": json.dumps(rows, default=str), "id": run_id, "name": name},
@@ -173,7 +228,15 @@ def _recon(progress=None) -> dict:
                 json.dumps({"run_id": run_id, "seconds": elapsed, "score": scores}, default=str),
                 flush=True,
             )
-            return {"run_id": run_id, "seconds": elapsed, "passes": times, "score": scores}
+            return {
+                "run_id": run_id,
+                "seconds": elapsed,
+                "passes": times,
+                "score": scores,
+                "stage_times": stage_times,
+                "stage_profiles": stage_profiles,
+                "profile_collection_seconds": perf_counter() - profile_started,
+            }
         except Exception as error:
             connection.rollback()
             connection.execute(
