@@ -700,6 +700,19 @@ def accuracy(data):
         '<div class="insight">Measured on synthetic data with known answers. Ground truth is used only for scoring. These results do not establish accuracy on real customer data.</div>'
     )
     with st.container(border=True, key="panel_accuracy"):
+        validation_path = ROOT / "docs/validation_results.json"
+        if validation_path.exists():
+            from scripts.validate_holdout import comparison_rows
+
+            section("Normal, blind and hard", "Unchanged matching rules · 1M records each")
+            st.dataframe(
+                comparison_rows(json.loads(validation_path.read_text())),
+                hide_index=True,
+                width="stretch",
+            )
+            st.caption(
+                "Blind seed 20261025 uses unseen, randomised break rates. Hard mode adds ambiguous references, longer delays, extra split transfers and bank reversals."
+            )
         section("Accuracy by scenario", "— = no expected or predicted links")
         st.dataframe(
             [

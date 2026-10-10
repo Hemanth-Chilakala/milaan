@@ -54,3 +54,19 @@ Full original profiles and run IDs are retained in [performance_previous.json](p
 Precision and recall measure ledger–bank–gateway edges. Exceptions with no expected match do not contribute to recall. Auto-match rate measures source membership in groups and uses a different denominator. A gateway payment can belong to a valid bank batch while raising a missing-ledger exception.
 
 These are individual observations on this host. Caches and automatic indexes may be warm; no cold-cache claim is made. Profiles follow the [Exasol profiling documentation](https://docs.exasol.com/db/latest/database_concepts/profiling.htm).
+
+## Blind and hard validation
+
+Each dataset contains 1,000,000 source records. Matching SQL and UDF hashes were frozen before the holdout and verified after every run. No rule was tuned against either result. Full manifests, category scores and false-edge examples are in [validation_results.json](validation_results.json).
+
+| Dataset | Precision | Recall | False links | Missed links | Exceptions |
+|---|---:|---:|---:|---:|---:|
+| Normal | 100.000% | 100.000% | 0 | 0 | 10171 |
+| Blind | 100.000% | 100.000% | 0 | 0 | 12071 |
+| Hard | 99.154% | 85.872% | 3220 | 62121 | 104668 |
+
+Blind seed: `20261025`, with independently randomised 0.5–1.5× break rates persisted in its manifest. Hard seed: `20261104`, with equal-amount/day collisions, combined two-character name errors and truncated references, T+4/T+5 delays, ±1-paise fee differences, four/five-way splits, and duplicated or reversed bank lines.
+
+The event oracle writes original identifiers and expected links separately from degraded source fields. Matching never reads those labels; SQL scoring reads them afterward. The generator and matcher share synthetic assumptions, so this is a robustness check, not independent production validation. A labelled NBFC partner dataset and held-out institutions, dates and channels are needed next.
+
+Ambiguous references, extra transfers and out-of-window delays usually remain open for human review. Bank reversals expose a specific limitation: the original credit can still be accepted even though a later debit cancels it. Hard-mode precision measures that failure honestly; reversal-aware matching is future work, and was not added after seeing this holdout.

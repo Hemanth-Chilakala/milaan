@@ -1,0 +1,892 @@
+{
+  "measured_at_utc": "2026-10-10T07:16:50.363653+00:00",
+  "matching_fingerprints": {
+    "sql/30_pass_exact.sql": "a4f0920b9c8e1c95eacef55e2ce644e97ceef5030d44b42dda117780eb481090",
+    "sql/31_pass_pg_batch.sql": "c476c7e7450fb5b8596ee2b4a8e684a8418ceebc2416f63e2f7d6573cdb7eccd",
+    "sql/32_pass_fee_aware.sql": "a8162c49a6804e44f83cd3d4c3a2cd6a732a8dfbda1fc9efe85753363a49a5fa",
+    "sql/33_pass_tolerant.sql": "9f36015449671c01c7e7a0411ad8b420eeb7e694b56ce1337ee3141a082c4de6",
+    "sql/34_pass_fuzzy.sql": "2de6c4f049b770a4fd39647b198eed535816083a05646055b0472e276235d248",
+    "sql/35_pass_split_merge.sql": "262de0ca27a7abafe11f0952e746ab9097662b649e5028c013b78009cf4c220b",
+    "sql/36_classify.sql": "54eb1c0cd3aa53019745b2da34fcb2973edbdb65dbea29d47a689ce6bddeaf93",
+    "udf/01_similarity.sql": "fcf419815dc7fe6b44be545a59a557861e1b45c3c79f424a6da30c205b7e5a61",
+    "udf/02_subset.sql": "b9fc04deea42900d1846e9e97c979e2b7a1b07cc067b2b3039a65589826a4010",
+    "udf/03_evidence.sql": "a4e094c29cba515e6526db6d8eb8130c829c66381653a51c1a7d0a7d469ee990",
+    "udf/04_explain.sql": "df42f26182ce6cd741893e19886c692791a5a5833aa2ee2669e4a109d5052294"
+  },
+  "rules_changed": false,
+  "results": [
+    {
+      "label": "Normal",
+      "seed": 42,
+      "source_rows": 1000000,
+      "run_id": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+      "seconds": 13.706741894999823,
+      "score": {
+        "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 438576,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 0,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 1.0,
+        "AUTO_MATCH_RATE": 0.985396,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "scores": [
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "BATCH_SETTLEMENT",
+          "TRUE_POSITIVE": 2416,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "CLEAN",
+          "TRUE_POSITIVE": 420212,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "DUPLICATE_POSTING",
+          "TRUE_POSITIVE": 1749,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "FEE_NETTING",
+          "TRUE_POSITIVE": 1852,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "MISSING_IN_BANK",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "NACH_BOUNCE_MISPOSTED",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "NAME_MISMATCH",
+          "TRUE_POSITIVE": 1762,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 438576,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "PARTIAL_PAYMENT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "REFUND_REVERSAL",
+          "TRUE_POSITIVE": 1295,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "REF_TRUNCATED",
+          "TRUE_POSITIVE": 2707,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "SPLIT_PAYMENT",
+          "TRUE_POSITIVE": 4360,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "TIMING",
+          "TRUE_POSITIVE": 2223,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "d3fdcd7f-8309-4ebd-8b19-e8d4944d70b0",
+          "BREAK_TYPE": "UNIDENTIFIED_CREDIT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.985396,
+          "FALSE_MATCH_RATE": null
+        }
+      ],
+      "exception_count": 10171
+    },
+    {
+      "run_id": "2c99cbd3-eac7-4330-bcca-697a657de630",
+      "seconds": 13.421342126000127,
+      "passes": {
+        "EXACT": 3.2010681810002097,
+        "PG_BATCH": 1.1660877099998288,
+        "FEE_AWARE": 1.7687362520000534,
+        "TOLERANT": 0.2610786659997757,
+        "FUZZY": 0.3375263130001258,
+        "SPLIT_MERGE": 0.31205955499990523,
+        "CLASSIFY": 1.8409839699997974
+      },
+      "score": {
+        "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 437801,
+        "FALSE_POSITIVE": 0,
+        "FALSE_NEGATIVE": 0,
+        "PRECISION_VALUE": 1.0,
+        "RECALL_VALUE": 1.0,
+        "AUTO_MATCH_RATE": 0.982856,
+        "FALSE_MATCH_RATE": 0.0
+      },
+      "stage_times": {
+        "PREPARATION": 0.026613169000029302,
+        "RESULTS": 1.7326769749997766,
+        "SCORING": 1.659335557000304,
+        "VALIDATION": 0.4921886059996723
+      },
+      "profile_collection_seconds": 0.9215605019999202,
+      "label": "Blind",
+      "seed": 20261025,
+      "source_rows": 1000000,
+      "manifest": {
+        "seed": 20261025,
+        "requested_source_rows": 1000000,
+        "source_rows": 1000000,
+        "payment_events": 444274,
+        "days": 30,
+        "start_date": "2026-10-01",
+        "as_of_date": "2026-11-09",
+        "source_counts": {
+          "ledger": 445581,
+          "bank_statement": 440619,
+          "pg_settlement": 111025,
+          "ground_truth": 449872,
+          "nach_returns": 2775,
+          "calendar": 55
+        },
+        "event_counts": {
+          "BATCH_SETTLEMENT": 377,
+          "CLEAN": 422829,
+          "PARTIAL_PAYMENT": 2299,
+          "NACH_BOUNCE_MISPOSTED": 2775,
+          "REF_TRUNCATED": 3182,
+          "UNIDENTIFIED_CREDIT": 2058,
+          "NAME_MISMATCH": 1027,
+          "REFUND_REVERSAL": 712,
+          "TIMING": 1492,
+          "DUPLICATE_POSTING": 1826,
+          "SPLIT_PAYMENT": 1495,
+          "MISSING_IN_BANK": 3112,
+          "FEE_NETTING": 1090
+        },
+        "totals": {
+          "ledger_paise": 868177663781,
+          "bank_paise": 853316591748,
+          "gateway_gross_paise": 214660791984,
+          "fee_paise": 1719466469,
+          "gst_paise": 309505093,
+          "gateway_net_paise": 212631820422
+        },
+        "rates": {
+          "TIMING": 0.003300952216584522,
+          "FEE_NETTING": 0.0025696060272252614,
+          "BATCH_SETTLEMENT": 0.0008124483524875628,
+          "REF_TRUNCATED": 0.007016920260113798,
+          "NAME_MISMATCH": 0.0023272870604932436,
+          "PARTIAL_PAYMENT": 0.005237710098662192,
+          "SPLIT_PAYMENT": 0.003282315684532041,
+          "DUPLICATE_POSTING": 0.004182507603682837,
+          "NACH_BOUNCE_MISPOSTED": 0.006457198401428957,
+          "UNIDENTIFIED_CREDIT": 0.004562453842707313,
+          "MISSING_IN_BANK": 0.006870944332031455,
+          "REFUND_REVERSAL": 0.0016065695754222218
+        },
+        "showcase": true,
+        "fixture": false,
+        "difficulty": "normal",
+        "hard_scenarios": {},
+        "rate_multipliers": {
+          "TIMING": 0.6601904433169044,
+          "FEE_NETTING": 0.6424015068063154,
+          "BATCH_SETTLEMENT": 0.8124483524875628,
+          "REF_TRUNCATED": 1.1694867100189663,
+          "NAME_MISMATCH": 0.5818217651233109,
+          "PARTIAL_PAYMENT": 1.0475420197324383,
+          "SPLIT_PAYMENT": 0.8205789211330102,
+          "DUPLICATE_POSTING": 1.045626900920709,
+          "NACH_BOUNCE_MISPOSTED": 1.2914396802857913,
+          "UNIDENTIFIED_CREDIT": 1.1406134606768281,
+          "MISSING_IN_BANK": 1.374188866406291,
+          "REFUND_REVERSAL": 0.5355231918074073
+        },
+        "sha256": {
+          "ledger": "4adb9ae038744224decf237ab38af80a2550be5e4c1de771bcd9506a40d9601c",
+          "bank_statement": "c9da71e798eb54c5438554e5b99a6b1306e8044c9e75c36122167414de7c8ab1",
+          "pg_settlement": "3ba4280b1dc12870fe7fa03eddf863cd8c51ba1f86d0b87b8ff8b45824dc4cca",
+          "nach_returns": "63103d06da1e0facebed290f70253c31c2f730eed81865f0ff8fc746e6e17a4c",
+          "ground_truth": "ccfb06e451d75df1f727a90df46cf251598051354cd08036dbce810f4aa9f72b",
+          "calendar": "39f4fec530f616295db1c1d1dde80cb0325d21b64382a84e052cbfe00664c9bf"
+        }
+      },
+      "load_seconds": 19.796178085000065,
+      "scores": [
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "BATCH_SETTLEMENT",
+          "TRUE_POSITIVE": 1916,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "CLEAN",
+          "TRUE_POSITIVE": 422829,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "DUPLICATE_POSTING",
+          "TRUE_POSITIVE": 1826,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "FEE_NETTING",
+          "TRUE_POSITIVE": 1090,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "MISSING_IN_BANK",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "NACH_BOUNCE_MISPOSTED",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "NAME_MISMATCH",
+          "TRUE_POSITIVE": 1027,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 437801,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "PARTIAL_PAYMENT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "REFUND_REVERSAL",
+          "TRUE_POSITIVE": 712,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "REF_TRUNCATED",
+          "TRUE_POSITIVE": 3182,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "SPLIT_PAYMENT",
+          "TRUE_POSITIVE": 3727,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "TIMING",
+          "TRUE_POSITIVE": 1492,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "2c99cbd3-eac7-4330-bcca-697a657de630",
+          "BREAK_TYPE": "UNIDENTIFIED_CREDIT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.982856,
+          "FALSE_MATCH_RATE": null
+        }
+      ],
+      "exception_count": 12071,
+      "exception_categories": [
+        {
+          "CATEGORY": "DUPLICATE_POSTING",
+          "N": 1826
+        },
+        {
+          "CATEGORY": "MISSING_IN_BANK",
+          "N": 3112
+        },
+        {
+          "CATEGORY": "MISSING_IN_LEDGER",
+          "N": 1
+        },
+        {
+          "CATEGORY": "NACH_BOUNCE_MISPOSTED",
+          "N": 2775
+        },
+        {
+          "CATEGORY": "PARTIAL_PAYMENT",
+          "N": 2299
+        },
+        {
+          "CATEGORY": "UNIDENTIFIED_CREDIT",
+          "N": 2058
+        }
+      ],
+      "false_link_examples": []
+    },
+    {
+      "run_id": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+      "seconds": 20.052868130000206,
+      "passes": {
+        "EXACT": 3.204351158999998,
+        "PG_BATCH": 1.2467886939998607,
+        "FEE_AWARE": 2.1789094579999073,
+        "TOLERANT": 0.256090752000091,
+        "FUZZY": 2.3128815739996753,
+        "SPLIT_MERGE": 0.23610747200018523,
+        "CLASSIFY": 5.914209333000144
+      },
+      "score": {
+        "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+        "BREAK_TYPE": "OVERALL",
+        "TRUE_POSITIVE": 377590,
+        "FALSE_POSITIVE": 3220,
+        "FALSE_NEGATIVE": 62121,
+        "PRECISION_VALUE": 0.9915443396969618,
+        "RECALL_VALUE": 0.8587231158647385,
+        "AUTO_MATCH_RATE": 0.859634,
+        "FALSE_MATCH_RATE": 0.008455660303038261
+      },
+      "stage_times": {
+        "PREPARATION": 0.02879836100009925,
+        "RESULTS": 1.838409755000157,
+        "SCORING": 1.6082584010000573,
+        "VALIDATION": 0.51395727299996
+      },
+      "profile_collection_seconds": 1.0854027189998305,
+      "label": "Hard",
+      "seed": 20261104,
+      "source_rows": 1000000,
+      "manifest": {
+        "seed": 20261104,
+        "requested_source_rows": 1000000,
+        "source_rows": 1000000,
+        "payment_events": 420084,
+        "days": 30,
+        "start_date": "2026-10-01",
+        "as_of_date": "2026-11-09",
+        "source_counts": {
+          "ledger": 445195,
+          "bank_statement": 451162,
+          "pg_settlement": 101534,
+          "ground_truth": 458821,
+          "nach_returns": 2109,
+          "calendar": 55
+        },
+        "event_counts": {
+          "BATCH_SETTLEMENT": 441,
+          "CLEAN": 399020,
+          "NACH_BOUNCE_MISPOSTED": 2109,
+          "DUPLICATE_POSTING": 1623,
+          "UNIDENTIFIED_CREDIT": 1732,
+          "NAME_MISMATCH": 1661,
+          "REF_TRUNCATED": 2523,
+          "REFUND_REVERSAL": 1235,
+          "PARTIAL_PAYMENT": 2145,
+          "TIMING": 2098,
+          "SPLIT_PAYMENT": 1641,
+          "FEE_NETTING": 1725,
+          "MISSING_IN_BANK": 2131
+        },
+        "totals": {
+          "ledger_paise": 846366135210,
+          "bank_paise": 834041766531,
+          "gateway_gross_paise": 194905461584,
+          "fee_paise": 1563087211,
+          "gst_paise": 281356723,
+          "gateway_net_paise": 193061017650
+        },
+        "rates": {
+          "TIMING": 0.005,
+          "FEE_NETTING": 0.004,
+          "BATCH_SETTLEMENT": 0.001,
+          "REF_TRUNCATED": 0.006,
+          "NAME_MISMATCH": 0.004,
+          "PARTIAL_PAYMENT": 0.005,
+          "SPLIT_PAYMENT": 0.004,
+          "DUPLICATE_POSTING": 0.004,
+          "NACH_BOUNCE_MISPOSTED": 0.005,
+          "UNIDENTIFIED_CREDIT": 0.004,
+          "MISSING_IN_BANK": 0.005,
+          "REFUND_REVERSAL": 0.003
+        },
+        "showcase": true,
+        "fixture": false,
+        "difficulty": "hard",
+        "hard_scenarios": {
+          "AMOUNT_DAY_COLLISION": 23425,
+          "REVERSED_BANK_LINE": 3220,
+          "DUPLICATED_BANK_LINE": 2929,
+          "TWO_TYPOS_TRUNCATED_REF": 1661,
+          "DELAY_T4_T5": 2098,
+          "SPLIT_4_PLUS": 1641,
+          "FEE_ROUNDING_1_PAISE": 1725
+        },
+        "rate_multipliers": {},
+        "sha256": {
+          "ledger": "7c00719a07e746cf3c81d9387a3b741b3f24f9b6482bb8cf383582dfc48e2e14",
+          "bank_statement": "a9969cad4ea9c6202b83912d55b84ab582e0cec919759b312bd356179039b8b7",
+          "pg_settlement": "7a04f072c8b9589b3ed430005253e7422ac1baf821fa0b4ab44aa10f5e16a8d9",
+          "nach_returns": "7ba1b08f27b31e2369df605e158efa564de49d3720b7a2936f93a1a7142ddecd",
+          "ground_truth": "6f2d8aee9460344af44154a12c0f4c8cd401c65a3068e425704eb025cd5d6761",
+          "calendar": "39f4fec530f616295db1c1d1dde80cb0325d21b64382a84e052cbfe00664c9bf"
+        }
+      },
+      "load_seconds": 20.301091834999625,
+      "scores": [
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "BATCH_SETTLEMENT",
+          "TRUE_POSITIVE": 2236,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "CLEAN",
+          "TRUE_POSITIVE": 369446,
+          "FALSE_POSITIVE": 3220,
+          "FALSE_NEGATIVE": 49779,
+          "PRECISION_VALUE": 0.9913595552049288,
+          "RECALL_VALUE": 0.8812594668733973,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": 0.00864044479507119
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "DUPLICATE_POSTING",
+          "TRUE_POSITIVE": 1623,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "FEE_NETTING",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1725,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": 0.0,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "MISSING_IN_BANK",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "NACH_BOUNCE_MISPOSTED",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "NAME_MISMATCH",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1661,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": 0.0,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "OVERALL",
+          "TRUE_POSITIVE": 377590,
+          "FALSE_POSITIVE": 3220,
+          "FALSE_NEGATIVE": 62121,
+          "PRECISION_VALUE": 0.9915443396969618,
+          "RECALL_VALUE": 0.8587231158647385,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": 0.008455660303038261
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "PARTIAL_PAYMENT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "REFUND_REVERSAL",
+          "TRUE_POSITIVE": 1235,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "REF_TRUNCATED",
+          "TRUE_POSITIVE": 2523,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 1.0,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "SPLIT_PAYMENT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 7385,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": 0.0,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": null
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "TIMING",
+          "TRUE_POSITIVE": 527,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 1571,
+          "PRECISION_VALUE": 1.0,
+          "RECALL_VALUE": 0.25119161105815063,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": 0.0
+        },
+        {
+          "RUN_ID": "e0243bd6-ad39-4f4f-b50d-2f242bfdf1b2",
+          "BREAK_TYPE": "UNIDENTIFIED_CREDIT",
+          "TRUE_POSITIVE": 0,
+          "FALSE_POSITIVE": 0,
+          "FALSE_NEGATIVE": 0,
+          "PRECISION_VALUE": null,
+          "RECALL_VALUE": null,
+          "AUTO_MATCH_RATE": 0.859634,
+          "FALSE_MATCH_RATE": null
+        }
+      ],
+      "exception_count": 104668,
+      "exception_categories": [
+        {
+          "CATEGORY": "DUPLICATE_POSTING",
+          "N": 1623
+        },
+        {
+          "CATEGORY": "MISSING_IN_BANK",
+          "N": 5363
+        },
+        {
+          "CATEGORY": "MISSING_IN_LEDGER",
+          "N": 1
+        },
+        {
+          "CATEGORY": "NACH_BOUNCE_MISPOSTED",
+          "N": 2109
+        },
+        {
+          "CATEGORY": "NAME_MISMATCH",
+          "N": 49779
+        },
+        {
+          "CATEGORY": "PARTIAL_PAYMENT",
+          "N": 5511
+        },
+        {
+          "CATEGORY": "UNIDENTIFIED_CREDIT",
+          "N": 40282
+        }
+      ],
+      "false_link_examples": [
+        {
+          "MATCH_ID": "D:B000000029",
+          "LEDGER_ID": "L000000029",
+          "BANK_TXN_ID": "B000000029",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000000058",
+          "LEDGER_ID": "L000000058",
+          "BANK_TXN_ID": "B000000058",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000000261",
+          "LEDGER_ID": "L000000261",
+          "BANK_TXN_ID": "B000000261",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000000290",
+          "LEDGER_ID": "L000000290",
+          "BANK_TXN_ID": "B000000290",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000000609",
+          "LEDGER_ID": "L000000609",
+          "BANK_TXN_ID": "B000000609",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000000754",
+          "LEDGER_ID": "L000000754",
+          "BANK_TXN_ID": "B000000754",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000000783",
+          "LEDGER_ID": "L000000783",
+          "BANK_TXN_ID": "B000000783",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000000928",
+          "LEDGER_ID": "L000000928",
+          "BANK_TXN_ID": "B000000928",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000001247",
+          "LEDGER_ID": "L000001247",
+          "BANK_TXN_ID": "B000001247",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000001363",
+          "LEDGER_ID": "L000001363",
+          "BANK_TXN_ID": "B000001363",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000001508",
+          "LEDGER_ID": "L000001508",
+          "BANK_TXN_ID": "B000001508",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        },
+        {
+          "MATCH_ID": "D:B000001653",
+          "LEDGER_ID": "L000001653",
+          "BANK_TXN_ID": "B000001653",
+          "PG_KEY": "NO_PG",
+          "BREAK_TYPE": "CLEAN"
+        }
+      ]
+    }
+  ],
+  "restored_demo": {
+    "run_id": "7b466ca9-1216-457e-ac2d-e2f2b2fef524",
+    "source_rows": 10000000,
+    "score": {
+      "RUN_ID": "7b466ca9-1216-457e-ac2d-e2f2b2fef524",
+      "BREAK_TYPE": "OVERALL",
+      "TRUE_POSITIVE": 4383200,
+      "FALSE_POSITIVE": 0,
+      "FALSE_NEGATIVE": 1779,
+      "PRECISION_VALUE": 1.0,
+      "RECALL_VALUE": 0.9995942968027897,
+      "AUTO_MATCH_RATE": 0.9850231,
+      "FALSE_MATCH_RATE": 0.0
+    },
+    "seconds": 86.5227435679999
+  }
+}

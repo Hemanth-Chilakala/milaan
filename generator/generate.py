@@ -69,12 +69,22 @@ def generate(
     chunk_size: int = 20_000,
     config_path: Path = DEFAULT_CONFIG,
     fixture: bool = False,
+    difficulty: str = "normal",
+    randomise_rates: bool = False,
 ) -> dict:
     if rows < 1 or days < 1 or chunk_size < 1:
         raise ValueError("rows, days and chunk_size must be positive.")
     if out.exists() and any((out / f"{name}.csv").exists() for name in HEADERS):
         raise FileExistsError("Output already contains a dataset; choose a fresh --out directory.")
     config = load_config(config_path)
+    if difficulty not in {"normal", "hard"}:
+        raise ValueError("difficulty must be normal or hard")
+    rate_multipliers = {}
+    if randomise_rates:
+        rng = np.random.default_rng(seed)
+        for kind, rate in config["break_rates"].items():
+            rate_multipliers[kind] = float(rng.uniform(0.5, 1.5))
+            config["break_rates"][kind] = rate * rate_multipliers[kind]
     holidays = {date.fromisoformat(value) for value in config["fictional_holidays"]}
     start = date(2026, 10, 1)
     dates = business_dates(start, days, holidays)
@@ -87,6 +97,8 @@ def generate(
     counts: Counter = Counter()
     event_counts: Counter = Counter()
     sums: Counter = Counter()
+    hard_counts: Counter = Counter()
+    current_hard: list[str] = []
     cumulative = np.cumsum(list(config["break_rates"].values()))
     types = list(config["break_rates"]) + ["CLEAN"]
     started = perf_counter()
@@ -122,10 +134,19 @@ def generate(
                     sums[key] += record[index]
 
         def event(
-            i: int, kind: str, amount: int, day: date, name: str, channel: str, batch_size: int = 0
+            i: int,
+            kind: str,
+            amount: int,
+            day: date,
+            name: str,
+            channel: str,
+            batch_size: int = 0,
+            allow_hard: bool = True,
         ) -> tuple[dict, list]:
             records = {key: [] for key in HEADERS if key not in ("calendar", "ground_truth")}
             truths = []
+            current_hard.clear()
+            hard = difficulty == "hard" and allow_hard and batch_size != 37
             loan, ledger, bank, ref = (
                 f"LN-{100000 + i}",
                 f"L{i:09d}",
@@ -185,6 +206,28 @@ def generate(
                         refund,
                     ]
                 )
+
+            # Two customers in the same loan product pay the same instalment.
+            # Both banks retain only a shared reference suffix and omit the loan.
+            # The event oracle knows the original links before those fields degrade.
+            if hard and kind == "CLEAN" and i % 17 == 0:
+                current_hard.append("AMOUNT_DAY_COLLISION")
+                suffix = f"{i % 100000000:08d}"
+                for j, customer in enumerate(("Rahul Kumar", "Rahul Kumari")):
+                    lid, bid, loan_j = f"{ledger}-C{j}", f"{bank}-C{j}", f"{loan}-C{j}"
+                    full_ref = f"{5100 + j}{suffix}"
+                    records["ledger"].append(
+                        [lid, loan_j, customer, day, 1_500_000, "UPI", full_ref, day, "PAID"]
+                    )
+                    records["bank_statement"].append(
+                        [bid, day, f"UPI/CR/{suffix}/{customer}/bub/EMI ", 1_500_000, 0, suffix]
+                    )
+                    truth(lid, bid, "", True, "", 1_500_000, 1_500_000)
+                return records, truths
+
+            if hard and kind == "TIMING":
+                credit_day = add_business_days(day, 4 + i % 2, holidays)
+                current_hard.append("DELAY_T4_T5")
 
             if kind == "BATCH_SETTLEMENT":
                 size = batch_size or config["batch_size"]
@@ -258,7 +301,9 @@ def generate(
                 truth(ledger, "", "", False, kind, amount, 0)
                 return records, truths
             if kind == "SPLIT_PAYMENT":
-                n = 2 + i % 2
+                n = 4 + i % 2 if hard else 2 + i % 2
+                if hard:
+                    current_hard.append("SPLIT_4_PLUS")
                 parts = [amount // n] * (n - 1)
                 parts.append(amount - sum(parts))
                 for j, value in enumerate(parts):
@@ -276,6 +321,8 @@ def generate(
                 gst = (fee * 18 + 50) // 100
                 batch = f"B-{day:%Y%m%d}-{i:09d}"
                 credit_day = add_business_days(day, 1 + i % 2, holidays)
+                if hard and kind == "TIMING":
+                    credit_day = add_business_days(day, 4 + i % 2, holidays)
                 # Unbatched settlements carry the payment reference directly.
                 bank_ref = pg_id
                 credit = amount - fee - gst
@@ -302,6 +349,9 @@ def generate(
                     narration = f"NEFT-{bank_ref}-PAYFAST SETTLEMENT {batch}"
                 else:
                     narration = f"PAYFAST/{pg_id}/{name}/EMI {loan}"
+                if hard and kind == "FEE_NETTING":
+                    credit += -1 if i % 2 else 1
+                    current_hard.append("FEE_ROUNDING_1_PAISE")
             else:
                 bank_ref = ref
                 shown_name = name
@@ -314,6 +364,14 @@ def generate(
                     shown_name = name[:-1]
                     shown_loan = ""
                     bank_ref = "9" + ref[1:]
+                    if hard:
+                        # Two substitutions, rather than a single clipped character.
+                        chars = list(name)
+                        for pos in (0, max(1, len(chars) // 2)):
+                            chars[pos] = "Z" if chars[pos] != "Z" else "X"
+                        shown_name = "".join(chars)
+                        bank_ref = ref[-6:]
+                        current_hard.append("TWO_TYPOS_TRUNCATED_REF")
                 if channel == "NACH":
                     narration = f"NACH CR UMRN {ref} EMI {loan}"
                 elif channel == "NEFT":
@@ -321,12 +379,29 @@ def generate(
                 else:
                     narration = f"UPI/CR/{bank_ref}/{shown_name}/bub/EMI {shown_loan}"
             records["bank_statement"].append([bank, credit_day, narration, credit, 0, bank_ref])
+            reversal = hard and kind == "CLEAN" and channel == "UPI" and i % 29 == 0
+            duplicate = (
+                hard and kind == "CLEAN" and channel == "UPI" and i % 31 == 0 and not reversal
+            )
+            if reversal:
+                expected = False
+                current_hard.append("REVERSED_BANK_LINE")
+                records["bank_statement"].append(
+                    [bank + "-RV", credit_day, "REVERSAL " + narration, 0, credit, bank_ref]
+                )
+                truth("", bank + "-RV", "", False, "BANK_REVERSAL", 0, -credit)
+            elif duplicate:
+                current_hard.append("DUPLICATED_BANK_LINE")
+                records["bank_statement"].append(
+                    [bank + "-D", credit_day, narration, credit, 0, bank_ref]
+                )
+                truth("", bank + "-D", "", False, "DUPLICATE_BANK", 0, credit)
             truth(
                 "" if kind == "UNIDENTIFIED_CREDIT" else ledger,
                 bank,
                 pg_id,
                 expected,
-                "" if expected else kind,
+                "BANK_REVERSAL" if reversal else ("" if expected else kind),
                 0 if kind == "UNIDENTIFIED_CREDIT" else amount,
                 credit,
                 fee,
@@ -377,6 +452,7 @@ def generate(
                             dates[int(day_ids[offset])],
                             names[int(name_ids[offset])],
                             "UPI",
+                            allow_hard=False,
                         )
                     else:
                         kind = "UNIDENTIFIED_CREDIT"
@@ -387,6 +463,7 @@ def generate(
                             dates[int(day_ids[offset])],
                             names[int(name_ids[offset])],
                             "UPI",
+                            allow_hard=False,
                         )
                 for table, values in records.items():
                     for value in values:
@@ -394,6 +471,7 @@ def generate(
                 for truth_record in truths:
                     emit("ground_truth", truth_record)
                 event_counts[kind] += 1
+                hard_counts.update(current_hard)
                 event_id += 1
                 if source_count == rows:
                     break
@@ -419,6 +497,9 @@ def generate(
         "rates": config["break_rates"],
         "showcase": showcase,
         "fixture": fixture,
+        "difficulty": difficulty,
+        "hard_scenarios": dict(hard_counts),
+        "rate_multipliers": rate_multipliers,
         "sha256": {
             name: hashlib.file_digest((out / f"{name}.csv").open("rb"), "sha256").hexdigest()
             for name in HEADERS
@@ -447,8 +528,20 @@ def main() -> None:
     parser.add_argument("--out", type=Path, default=Path("data/1m"))
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--fixture", action="store_true")
+    parser.add_argument("--difficulty", choices=["normal", "hard"], default="normal")
+    parser.add_argument("--randomise-rates", action="store_true")
     args = parser.parse_args()
-    generate(args.out, args.rows, args.seed, args.days, args.chunk_size, args.config, args.fixture)
+    generate(
+        args.out,
+        args.rows,
+        args.seed,
+        args.days,
+        args.chunk_size,
+        args.config,
+        args.fixture,
+        args.difficulty,
+        args.randomise_rates,
+    )
 
 
 if __name__ == "__main__":

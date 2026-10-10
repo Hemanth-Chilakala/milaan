@@ -44,6 +44,12 @@ Bulk IMPORT, SQL normalisation, joins, aggregation, window functions, similarity
 
 The data is synthetic. Real operational accuracy requires independently labelled partner datasets; no production accuracy or close-time improvement is claimed.
 
+## How we validated
+
+The seeded event oracle writes known links to a separate ground-truth file before source references and names are degraded. Matching SQL never reads these labels; scoring compares its output with them afterward. We froze the rules and tested a 1M-record holdout using unseen seed `20261025` and independently randomised break rates (0.5–1.5×, saved in the manifest).
+
+A separate 1M hard dataset uses seed `20261104`: equal-amount/day collisions, two-character name errors with truncated references, T+4/T+5 delays, ±1-paise fee differences, four/five-way split payments, and reversed or duplicated bank lines. See the side-by-side [validation measurements](docs/benchmarks.md#blind-and-hard-validation) and the Accuracy page. Real validation requires an independently labelled NBFC partner dataset held out by institution, date and channel.
+
 ## Architecture
 
 ```mermaid
