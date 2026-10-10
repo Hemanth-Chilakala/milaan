@@ -81,3 +81,28 @@ Ambiguous references, extra transfers and out-of-window delays usually remain op
 The 13 October run prepares the prior close. The 14 October run handles new arrivals and carried open items. Core time includes preparation, matching, results, scoring, validation, commits and live audit snapshots. Complete call time also includes namespace checks, profiling and connection cleanup. Explanation generation follows both figures.
 
 See [daily methodology](daily.md) and [raw observations](daily_results.json).
+
+## Final editor capture observations
+
+These are additional observations on 10 October after a host restart, not
+replacements for the Phase-A size benchmark. No reconciliation rules changed.
+
+| Context | Run ID | Core seconds | Capture rate |
+|---|---|---:|---|
+| Timestamped console, no recorder | `35a1a282-dc3a-4f1b-b9ce-d44bf61d8361` | 186.383 | None |
+| First monthly capture | `932bb535-c905-4e51-8b3e-ee0aaca5a25b` | 115.169 | 30 fps |
+| First 24 fps retry | `bb198768-3419-4965-8687-a140ed1fdeba` | 102.736 | 24 fps |
+| Earlier daily capture | `54ecfed9-0d7c-4541-9156-07aeac47a654` | 77.093 | 30 fps |
+| Selected clean monthly capture | `dc22f5e2-1d69-4472-b128-5aab02f8fd8b` | 114.107 | 24 fps |
+| Selected clean daily capture | `3e69fc7d-449a-4177-ba92-1e956011450e` | 62.775 | 24 fps |
+
+The console run restored open-item tables after the restart and had slower
+preparation. The first monthly recording exceeded the 15% overhead threshold;
+the retry reduced frame rate and disabled browser animation and transitions.
+The first retry improved the result. Frame review then identified temporary browser
+magnification during high-density still capture. A clean recapture isolated still
+rendering and removed the button hover tooltip, taking 114.107 seconds: **49.86%**
+above the 76.144-second Phase-A benchmark. Native-density pass-list stills avoid
+changing the recorded browser; final idle pages and evidence are captured at 4K. Capture files remain real time; no timer was altered or compressed.
+Monthly link accuracy, membership and exception counts are unchanged. The editor
+assets provide actual run snapshots, per-pass events and all attempt measurements.

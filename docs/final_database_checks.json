@@ -1,0 +1,11 @@
+{
+  "checked_at_utc": "2026-10-10T15:23:54.196989+00:00",
+  "isolation": "Only literal schema prefix replaced in scratch source copy; matching rules unchanged",
+  "month_run_before": "f61ed2ad-b502-4a53-9375-6c0b385421d8",
+  "exit_code": 0,
+  "month_run_after": "f61ed2ad-b502-4a53-9375-6c0b385421d8",
+  "retained_month_unchanged": true,
+  "source_rows": 10000000,
+  "database_tests_passed": 10,
+  "seconds": 261.84
+}

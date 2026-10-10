@@ -37,7 +37,7 @@ The final video is assembled separately from the supplied silent footage and edi
 Bulk IMPORT, SQL normalisation, joins, aggregation, window functions, similarity and subset-sum UDFs, explanations and scoring execute inside Exasol Personal. Python orchestrates SQL and displays aggregates or 50-row pages; it does not retrieve millions of transactions for matching.
 
 <!-- MEASUREMENTS_START -->
-**10,000,000 source records in 76.14 seconds**, measured without a browser or recorder on **4 cores / 15.62 GiB RAM**. **98.502%** of source records were grouped, with **100.000% link precision**, **99.959% recall**, **0 false links** and **1,779 missed expected links**. The current dashboard run completed in **81.83 seconds** with the same accuracy and membership. Timings include results, conflict validation and SQL scoring; explanation generation and native profiling flush follow the timer. See [benchmarks](docs/benchmarks.md) for run IDs and every measured stage.
+**10,000,000 source records in 76.14 seconds**, measured without a browser or recorder on **4 cores / 15.62 GiB RAM**. **98.502%** of source records were grouped, with **100.000% link precision**, **99.959% recall**, **0 false links** and **1,779 missed expected links**. The selected silent monthly capture completed in **114.11 seconds** at 24 fps, with the same accuracy and membership. Recording attempts and quality retakes are retained in the editor metadata; the selected capture added **49.86%** versus the Phase-A benchmark. Timings include results, conflict validation and SQL scoring; explanation generation and native profiling flush follow the timer. See [benchmarks](docs/benchmarks.md) for run IDs and every measured stage.
 <!-- MEASUREMENTS_END -->
 
 ## How we validated

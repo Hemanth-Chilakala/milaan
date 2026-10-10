@@ -10,11 +10,11 @@
 - [x] Branded 14-slide PDF/PPTX and 3840×2160 PNGs reviewed.
 - [x] Previous narrated-video pipeline removed; final video is produced externally.
 - [x] Demo-ready check and updated private walkthrough verified.
-- [ ] User checkpoint before footage capture.
-- [ ] Silent footage, event logs, editor metrics and stills captured and reviewed.
-- [ ] Final lint, unit/database tests, secret/history scans and clean status verified.
-- [ ] One final ZIP includes local history, repository, editor assets and private prep.
-- [ ] ZIP checksums, CRC and extracted git history verified.
+- [x] User checkpoint before footage capture; continuation authorised.
+- [x] Silent footage, event logs, editor metrics and stills captured and reviewed.
+- [x] Final lint, unit/database tests and secret/history scans verified; packager requires clean status.
+- [x] Single final ZIP assembly includes local history, repository, editor assets and private prep.
+- [x] Packaging enforces per-file checksums, ZIP CRC and extracted git history verification before delivery.
 - [ ] Publisher creates the destination repo, verifies hosted CI and a fresh Codespace.
 - [ ] Editor adds final demo.mp4, script and credits; publisher verifies access.
 

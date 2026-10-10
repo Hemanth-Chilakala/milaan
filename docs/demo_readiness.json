@@ -1,5 +1,5 @@
 {
-  "checked_at_utc": "2026-10-10T09:38:15.084951+00:00",
+  "checked_at_utc": "2026-10-10T16:03:47.968171+00:00",
   "checks": [
     "Database connection and Python UDF",
     "10M dataset, recent completed month run and 37-payment showcase",
@@ -7,17 +7,12 @@
     "Dashboard HTTP health",
     "Every dashboard page responds; read caches warmed"
   ],
-  "month_run_id": "f61ed2ad-b502-4a53-9375-6c0b385421d8",
-  "month_seconds": 81.83047121799973,
-  "day_run_id": "74eb5fc9-bca9-47d9-9a07-1dc5123e9e9a",
+  "errors": [],
+  "month_run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
+  "month_seconds": 114.10748282399982,
+  "day_run_id": "3e69fc7d-449a-4177-ba92-1e956011450e",
   "ready": true,
-  "private_prep_documents": [
-    "DEMO_DAY_SCRIPT.md",
-    "DEMO_DAY_CHECKLIST.md",
-    "QA_PREP.md",
-    "HOW_MILAAN_WORKS.md",
-    "SHOWCASE_AND_METRICS.md"
-  ],
-  "capture_started": false,
-  "final_package_created": false
+  "capture_started": true,
+  "capture_completed": true,
+  "delivery_validation": "Final package script verifies CRC, per-file SHA-256 and extracted git history before delivery."
 }
