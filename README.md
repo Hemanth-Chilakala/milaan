@@ -1,6 +1,6 @@
 # Milaan: closing the books before noon
 
-Evidence-backed payment reconciliation for Indian NBFCs, powered by Exasol Personal.
+Help an NBFC reconciliation analyst move from chasing receipts to reviewing the exceptions that matter. Milaan reconciles a month of 10 million source records inside Exasol Personal in a measured 76.14 seconds.
 
 [![MIT](https://img.shields.io/badge/licence-MIT-teal)](LICENSE)
 [![CI](https://github.com/Hemanth-Chilakala/milaan/actions/workflows/ci.yml/badge.svg)](https://github.com/Hemanth-Chilakala/milaan/actions/workflows/ci.yml)
@@ -12,7 +12,7 @@ The Singleton · Hemanth Chilakala · ExaThon India 2026 · Track 1: Money, Risk
 
 A reconciliation analyst at a mid-sized Indian NBFC can't close the day's books on time because UPI, NACH and payment-gateway settlement files arrive in different formats with mismatched references, so they chase breaks by hand in Excel. If this worked, they'd close the books before noon and spend their time only on the exceptions that actually matter.
 
-References, settlement dates and gross versus net amounts disagree. Batch credits and returned auto-debits make a simple spreadsheet join insufficient. Suspense can delay closing and leave a paid customer looking overdue. These are illustrative workflow assumptions, not measured industry-wide statistics.
+References, settlement dates and gross versus net amounts disagree. Batch credits and returned auto-debits make a simple spreadsheet join insufficient. Suspense can delay closing and leave a paid customer looking overdue. The workflow models Sahyog Finance Ltd, a fictional NBFC.
 
 ## Demonstration
 
@@ -39,16 +39,14 @@ The video uses locally generated synthetic narration. The publisher can add an u
 Bulk IMPORT, SQL normalisation, joins, aggregation, window functions, similarity and subset-sum UDFs, explanations and scoring execute inside Exasol Personal. Python orchestrates SQL and displays aggregates or 50-row pages; it does not retrieve millions of transactions for matching.
 
 <!-- MEASUREMENTS_START -->
-10,000,000 source records reconciled in **203.88s** on **4 cores / 15.62 GiB RAM**. **98.502%** of source records were grouped; seeded link precision and recall were **100.000% / 99.959%**, with **0 false links**. The headline uses the live-recorded run when available. See [all measured benchmarks](docs/benchmarks.md) for separate import, pass and explanation timings.
+**10,000,000 source records in 76.14 seconds**, measured without a browser or recorder on **4 cores / 15.62 GiB RAM**. **98.502%** of source records were grouped, with **100.000% link precision**, **99.959% recall**, **0 false links** and **1,779 missed expected links**. The current dashboard run completed in **81.83 seconds** with the same accuracy and membership. Timings include results, conflict validation and SQL scoring; explanation generation and native profiling flush follow the timer. See [benchmarks](docs/benchmarks.md) for run IDs and every measured stage.
 <!-- MEASUREMENTS_END -->
-
-The data is synthetic. Real operational accuracy requires independently labelled partner datasets; no production accuracy or close-time improvement is claimed.
 
 ## How we validated
 
 The seeded event oracle writes known links to a separate ground-truth file before source references and names are degraded. Matching SQL never reads these labels; scoring compares its output with them afterward. We froze the rules and tested a 1M-record holdout using unseen seed `20261025` and independently randomised break rates (0.5–1.5×, saved in the manifest).
 
-A separate 1M hard dataset uses seed `20261104`: equal-amount/day collisions, two-character name errors with truncated references, T+4/T+5 delays, ±1-paise fee differences, four/five-way split payments, and reversed or duplicated bank lines. See the side-by-side [validation measurements](docs/benchmarks.md#blind-and-hard-validation) and the Accuracy page. Real validation requires an independently labelled NBFC partner dataset held out by institution, date and channel.
+A separate 1M hard dataset uses seed `20261104`: equal-amount/day collisions, two-character name errors with truncated references, T+4/T+5 delays, ±1-paise fee differences, four/five-way split payments, and reversed or duplicated bank lines. See the side-by-side [validation measurements](docs/benchmarks.md#blind-and-hard-validation) and the Accuracy page. The results are shown side by side so an analyst can see where tougher evidence needs review.
 
 ## Architecture
 
@@ -118,8 +116,6 @@ cp .env.example .env
 make demo
 ```
 
-The nested Linux Codespace path has been exercised. macOS and Windows host deployments have not been independently tested.
-
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -176,7 +172,7 @@ Ground truth records correct links and break labels. Matching never reads it. Pr
 
 [Benchmark report](docs/benchmarks.md) · [Machine-readable observations](docs/benchmark_results.json) · [Reproduction review](docs/reproducibility.md) · [Interface review](docs/ui_review.md)
 
-Reports include run IDs, pass timings and native Exasol profiling. No pandas comparison is claimed.
+Reports include run IDs, pass timings and native Exasol profiling.
 
 ```bash
 make lint test
@@ -185,9 +181,11 @@ make lint test
 
 Database tests replace active demo tables with a small synthetic fixture. Reload your demo dataset afterward. Tests cover known links, every break type, conflict rejection, batch evidence, auditing and repeatability. CI runs lint and the non-database tests; hosted CI status becomes available after publication.
 
-## Limitations and roadmap
+## Limitations and validation
 
-The generator uses distinct loan IDs and constrained corruption patterns. Perfect seeded scores should not be extrapolated to production feeds. Ambiguous candidates stay unresolved; subset matching examines at most 12 credits and only subsets of two or three. The calendar is fictional. This is a single-node Personal deployment with one reconciliation worker, no role-based access control and no real accounting connector.
+The measurements use synthetic data, distinct loan IDs and controlled corruption patterns. They establish reproducible matching behaviour on these cases; operational accuracy and close-time improvements need an independently labelled NBFC partner dataset held out by institution, date and channel. Illustrative workflow consequences are not industry statistics. Normal and blind 1M validation measured 100% precision and recall; hard mode measured **99.154% precision**, **85.872% recall** and **3,220 false links**. In particular, a credit can still match when a later bank reversal cancels it; reversal-aware matching is a required next step before operational use. Ambiguous candidates stay unresolved; subset matching examines at most 12 credits and only subsets of two or three. The calendar is fictional. This is a single-node Personal deployment with one reconciliation worker, no role-based access control and no real accounting connector.
+
+The Codespace deployment and clean-clone setup were tested, including a successful devcontainer rebuild. macOS, Windows/WSL and a fresh published Codespace have not been independently tested. The 10M dataset was not replayed day by day; sequential daily/monthly equality was tested on the 1,000-record fixture. Same-date replay and initial catch-up cost more than an incremental close. Runtime varies with indexes, caches and recording load; the 60-second month target has not been met.
 
 Next: independently labelled partner validation, configurable feed adapters, SFTP/API ingestion, a real holiday calendar, distributed worker coordination, authenticated review roles and approved ledger write-back. Larger-scale and cluster performance must be measured before claims are made.
 

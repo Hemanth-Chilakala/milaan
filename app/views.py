@@ -896,7 +896,7 @@ def accuracy(data):
         ]
     )
     markup(
-        '<div class="insight">Measured on synthetic data with known answers. Ground truth is used only for scoring. These results do not establish accuracy on real customer data.</div>'
+        '<div class="insight">Measured on synthetic data with known answers. Matching uses source evidence; separate ground truth scores the resulting links. Compare normal, blind and hard cases below.</div>'
     )
     with st.container(border=True, key="panel_accuracy"):
         validation_path = ROOT / "docs/validation_results.json"
