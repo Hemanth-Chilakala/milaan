@@ -5,7 +5,7 @@ if [ "$(uname -s)" != Linux ]; then
     printf '%s\n' 'This setup supports Linux, including Ubuntu under WSL. macOS is not verified.' >&2
     exit 1
 fi
-packages=(podman crun uidmap fuse-overlayfs slirp4netns curl ca-certificates)
+packages=(podman crun netavark uidmap fuse-overlayfs slirp4netns curl ca-certificates)
 missing=()
 for package in "${packages[@]}"; do
     dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'install ok installed' || missing+=("$package")
@@ -33,5 +33,6 @@ if [ ! -x .venv/bin/python ]; then
         "$python_path" -m venv .venv
     fi
 fi
+.venv/bin/python -c 'import sys; assert sys.version_info[:2] == (3, 12), "Existing .venv must use Python 3.12"'
 .venv/bin/python -m pip install -r requirements-dev.txt
 printf '%s\n' 'Dependencies ready. Run: ACCEPT_EXASOL_EULA=yes make bootstrap'

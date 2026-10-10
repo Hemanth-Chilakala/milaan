@@ -1,17 +1,74 @@
-# Reproduction review
+# Reproducibility review
 
-A new local clone of the committed repository was created with `git clone --no-hardlinks`. The four `MILAAN_*` schemas were rebuilt from scratch. Source CSVs and measured benchmark reports in the original checkout were retained.
+## Fresh checkout and deployment
 
-The clean checkout ran these documented targets successfully:
+On 10 October 2026, a clean source checkout was created with `git clone
+--no-hardlinks` from the local repository. It installed a new Python 3.12 virtual
+environment from `requirements-dev.txt`, including the separate runtime lock.
+A new Exasol Personal deployment directory and database port were used. Only
+already downloaded container images were reused. The retained 10M deployment
+was stopped during this test and its schemas and source data were preserved.
+
+The README path was exercised:
 
 ```bash
-make setup data load recon explain lint test
+ACCEPT_EXASOL_EULA=yes make bootstrap
+make demo
 ```
 
-The seeded generator created 1,000,000 source records. Bulk imports, all seven matching passes, SQL scoring and database-generated explanations completed. The fresh-schema run took 16.083 seconds for reconciliation and measured 100% precision and 100% recall against its synthetic ground truth. These are observations from that run, not a performance guarantee.
+For this isolated same-host test, `EXASOL_DEPLOYMENT_DIR` selected the new
+scratch deployment, `EXASOL_PORT=8564` avoided the demo port and
+`EXASOL_STORAGE_CONFIG` selected the existing native image store. The normal
+quick start needs none of these overrides. Bootstrap installed and activated the
+Python SLC, executed `SELECT 1` and the Python `PING()` UDF, pinned the local TLS
+certificate, and created `.env` with mode `0600`. A second bootstrap preserved
+both the environment file and the completed dataset/run. Without
+`ACCEPT_EXASOL_EULA=yes`, bootstrap exited before installation and printed the
+EULA link.
 
-The dashboard from that checkout was started on a separate local port. Browser verification confirmed that the daily close displayed the reconciled million-record dataset without a view error. Ruff passed and all 24 non-database tests passed. Separately, all five database integration tests passed, including conflict detection, run-linked decision auditing, batch evidence, repeatability and false-link scoring.
+The fresh demo generated **1,000,000 source records**, bulk-imported all sources,
+normalised in SQL, ran all seven passes, scored against ground truth, generated
+explanations in Exasol and started the dashboard. Reconciliation took
+**11.699 seconds**, with **100% precision**, **100% recall**, **zero false or
+missed links**, and **10,171 exceptions**. This is the observed fresh-deployment
+smoke test, distinct from the measured size benchmarks.
 
-This was a clean source checkout and a fresh-schema test on the existing Exasol Personal deployment. It reused the installed, pinned Python environment to keep the 32 GB Codespace disk above Exasol's free-space threshold. It does not constitute a new-container dependency installation test. A fresh Codespace, hosted GitHub Actions, macOS and WSL installation remain to be checked after publication. The Linux environment and nested-container deployment details are recorded in [environment.md](environment.md).
+Every page passed browser checks at **1920×1080** and **1366×768**, including
+visible evidence, local typography and the absence of layout overflow or
+Streamlit chrome in presentation mode. Raw results and layout measurements are
+in [reproduction_results.json](reproduction_results.json).
 
-The attempted backup of earlier synthetic audit rows exported field names instead of values, so those earlier rows were not recoverable. The export procedure was corrected. A new audit history is generated and verified by subsequent test and demonstration runs. The existing 10-million-record source dataset was reloaded for the submission recording.
+The initial fresh install exposed a port argument error: the launcher requires
+`db:8564`, rather than a bare `8564`. The wrapper was corrected using the
+[official local-port parser](https://github.com/exasol/exasol-personal/blob/main/internal/deploy/local_ports.go).
+The incomplete test-only initialisation was preserved separately and the
+successful run started with an empty deployment directory. Existing credentials
+are never overwritten; install details stay in ignored private logs.
+
+Lint, formatting, all **30 non-database tests** and all **10 database tests**
+passed in the clean checkout. The database suite includes the sequential
+daily/monthly comparison and Reset/replay checks.
+
+## Container rebuild
+
+The original parent Codespace had no selected devcontainer configuration; its
+pre-existing `.devcontainer/devcontainer` file did not have the `.json` name.
+A temporary parent `devcontainer.json` uses the project's image, privileged
+setting, features, machine requirements and forwarding rules, and calls the
+project's post-create script through its `milaan/` subfolder. It leaves the
+pre-existing parent file untouched. This allows a rebuild to exercise the
+project setup while development remains in its own folder.
+
+The rebuild result is recorded after the clean-deployment test completes.
+
+## Other platforms
+
+Ubuntu nested-container deployment has been exercised in this Codespace. A
+fresh published Codespace, macOS and Windows/WSL installations have not been
+independently verified. macOS uses the official launcher workflow rather than
+the Linux sudo wrapper. The existing deployment fixes are documented in
+[environment.md](environment.md) and README Troubleshooting.
+
+Python packages and synthetic CSVs can be regenerated. Local history, source
+changes and private demo preparation should be backed up with the project
+folder, including `.git`.

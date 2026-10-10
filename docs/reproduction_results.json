@@ -1,0 +1,197 @@
+{
+  "clean_clone_commit": "d6136d1",
+  "fresh_python_environment": true,
+  "fresh_deployment_directory": true,
+  "downloaded_container_images_reused": true,
+  "sql_and_python_udf": "passed",
+  "bootstrap_repeat_preserves_environment_and_run": true,
+  "env_permissions": "0600",
+  "snapshot": {
+    "RUN_ID": "705acf82-4562-4480-9334-73851df531dc",
+    "STATUS": "COMPLETE",
+    "CURRENT_PASS": "SCORING",
+    "STARTED_EPOCH_MS": 1791623605329,
+    "ELAPSED_SECONDS": 11.69920566200017,
+    "LINKS_FOUND": 438576,
+    "MEMBERS": 985396,
+    "SOURCE_ROWS": 1000000,
+    "OPEN_PAISE": 16212923519,
+    "BEFORE_PAISE": 866096811427,
+    "UPDATED_EPOCH_MS": 1791623617026,
+    "PASSES": [
+      {
+        "PASS_NAME": "EXACT",
+        "SECONDS": 2.4067640399989614,
+        "LINKS_ADDED": 316563
+      },
+      {
+        "PASS_NAME": "PG_BATCH",
+        "SECONDS": 0.9663113179994981,
+        "LINKS_ADDED": 3711
+      },
+      {
+        "PASS_NAME": "FEE_AWARE",
+        "SECONDS": 1.342328513999746,
+        "LINKS_ADDED": 107785
+      },
+      {
+        "PASS_NAME": "TOLERANT",
+        "SECONDS": 0.17133633000048576,
+        "LINKS_ADDED": 4395
+      },
+      {
+        "PASS_NAME": "FUZZY",
+        "SECONDS": 0.31307574499987817,
+        "LINKS_ADDED": 1762
+      },
+      {
+        "PASS_NAME": "SPLIT_MERGE",
+        "SECONDS": 0.23294379800063325,
+        "LINKS_ADDED": 4360
+      },
+      {
+        "PASS_NAME": "CLASSIFY",
+        "SECONDS": 1.4060934019998967,
+        "LINKS_ADDED": 0
+      }
+    ]
+  },
+  "score": {
+    "RUN_ID": "705acf82-4562-4480-9334-73851df531dc",
+    "BREAK_TYPE": "OVERALL",
+    "TRUE_POSITIVE": 438576,
+    "FALSE_POSITIVE": 0,
+    "FALSE_NEGATIVE": 0,
+    "PRECISION_VALUE": 1.0,
+    "RECALL_VALUE": 1.0,
+    "AUTO_MATCH_RATE": 0.985396,
+    "FALSE_MATCH_RATE": 0.0
+  },
+  "exceptions": 10171,
+  "dashboard_layouts": [
+    {
+      "page": "home",
+      "width": 1920,
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1656,
+      "mainScroll": 1656,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "home",
+      "width": 1366,
+      "viewport": 1366,
+      "documentWidth": 1366,
+      "mainWidth": 1102,
+      "mainScroll": 1102,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "queue",
+      "width": 1920,
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1656,
+      "mainScroll": 1656,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "queue",
+      "width": 1366,
+      "viewport": 1366,
+      "documentWidth": 1366,
+      "mainWidth": 1102,
+      "mainScroll": 1102,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "detail",
+      "width": 1920,
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1656,
+      "mainScroll": 1656,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "detail",
+      "width": 1366,
+      "viewport": 1366,
+      "documentWidth": 1366,
+      "mainWidth": 1102,
+      "mainScroll": 1102,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "accuracy",
+      "width": 1920,
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1656,
+      "mainScroll": 1656,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "accuracy",
+      "width": 1366,
+      "viewport": 1366,
+      "documentWidth": 1366,
+      "mainWidth": 1102,
+      "mainScroll": 1102,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "architecture",
+      "width": 1920,
+      "viewport": 1920,
+      "documentWidth": 1920,
+      "mainWidth": 1656,
+      "mainScroll": 1656,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    },
+    {
+      "page": "architecture",
+      "width": 1366,
+      "viewport": 1366,
+      "documentWidth": 1366,
+      "mainWidth": 1102,
+      "mainScroll": 1102,
+      "headingY": 104.09375,
+      "clipped": [],
+      "visibleChrome": [],
+      "fontFamily": "Inter, sans-serif"
+    }
+  ],
+  "lint": "passed",
+  "non_database_tests": 30,
+  "database_tests": 10,
+  "database_test_summary": "10 passed, 30 deselected in 120.47s (0:02:00)"
+}
