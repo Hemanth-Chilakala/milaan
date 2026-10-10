@@ -59,7 +59,25 @@ project's post-create script through its `milaan/` subfolder. It leaves the
 pre-existing parent file untouched. This allows a rebuild to exercise the
 project setup while development remains in its own folder.
 
-The rebuild result is recorded after the clean-deployment test completes.
+The Codespace rebuild completed on **10 October 2026**. The persisted creation
+log records the Python 3.12 image build finishing at 09:20:37 UTC, execution of
+`bash milaan/.devcontainer/post-create.sh`, and dependency installation completing
+at 09:21:59 UTC. The Codespaces post-create report marks every step succeeded.
+Python 3.12.15, Podman, crun, the Exasol launcher and runtime/test imports were
+verified in the rebuilt container. Lint, formatting and all 30 non-database tests
+passed again (2.00 seconds for tests).
+
+The original deployment had been intentionally stopped for the isolated test.
+Its first launcher restart returned container exit status 126. Starting the
+preserved Nano container directly with the same private storage/runtime
+configuration, then retrying the launcher start, restored SQL availability.
+The existing TLS-pinned Python connection and `MILAAN_CHECK.PING()` worked;
+no credentials or source files were replaced. The retained monthly table still
+contains **10,000,000 records** and the completed live snapshot is
+`f61ed2ad-b502-4a53-9375-6c0b385421d8`, **81.830 seconds**. Streamlit was restarted
+on port 8501. Browser binaries are disposable and were reinstalled after rebuild.
+
+See [rebuild_results.json](rebuild_results.json) for the recovery observations.
 
 ## Other platforms
 

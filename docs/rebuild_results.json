@@ -1,0 +1,18 @@
+{
+  "date_utc": "2026-10-10",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "build_finished_utc": "09:20:37",
+  "post_create_finished_utc": "09:21:59",
+  "post_create_status": "succeeded",
+  "python_version": "3.12.15",
+  "lint": "passed",
+  "non_database_tests": 30,
+  "test_seconds": 2.0,
+  "initial_database_restart": "exit status 126",
+  "recovery": "Start preserved Nano container with original storage configuration, then launcher start",
+  "python_udf": "pong",
+  "source_rows": 10000000,
+  "retained_run_id": "f61ed2ad-b502-4a53-9375-6c0b385421d8",
+  "retained_core_seconds": 81.83047121799973,
+  "data_reloaded": false
+}
