@@ -4,7 +4,7 @@ DATA ?= data/$(ROWS)
 BENCH_ARGS ?=
 DATE ?= 2026-10-14
 
-.PHONY: bootstrap setup data load recon recon-day explain score bench demo test lint app
+.PHONY: bootstrap setup data load recon recon-day explain score bench demo demo-ready test lint app
 bootstrap:
 	bash scripts/bootstrap.sh
 setup:
@@ -23,6 +23,8 @@ score:
 	$(PYTHON) -m milaan.pipeline score
 bench:
 	$(PYTHON) -m scripts.benchmark $(BENCH_ARGS)
+demo-ready:
+	$(PYTHON) -m scripts.demo_ready
 demo: setup data load recon explain app
 test:
 	$(PYTHON) -m pytest -m 'not db'

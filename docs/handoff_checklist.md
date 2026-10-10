@@ -7,9 +7,9 @@
 - [x] Performance optimisation, blind/hard validation and daily carry-forward measured.
 - [x] Presentation-mode dashboard reviewed at desktop and laptop widths.
 - [x] README leads with measured outcomes and contains one limitations section.
-- [ ] Branded 14-slide PDF/PPTX and 3840×2160 PNGs reviewed.
+- [x] Branded 14-slide PDF/PPTX and 3840×2160 PNGs reviewed.
 - [x] Previous narrated-video pipeline removed; final video is produced externally.
-- [ ] Demo-ready check and updated private walkthrough verified.
+- [x] Demo-ready check and updated private walkthrough verified.
 - [ ] User checkpoint before footage capture.
 - [ ] Silent footage, event logs, editor metrics and stills captured and reviewed.
 - [ ] Final lint, unit/database tests, secret/history scans and clean status verified.

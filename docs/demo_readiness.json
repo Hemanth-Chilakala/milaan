@@ -1,0 +1,23 @@
+{
+  "checked_at_utc": "2026-10-10T09:38:15.084951+00:00",
+  "checks": [
+    "Database connection and Python UDF",
+    "10M dataset, recent completed month run and 37-payment showcase",
+    "Completed daily close retained alongside monthly results",
+    "Dashboard HTTP health",
+    "Every dashboard page responds; read caches warmed"
+  ],
+  "month_run_id": "f61ed2ad-b502-4a53-9375-6c0b385421d8",
+  "month_seconds": 81.83047121799973,
+  "day_run_id": "74eb5fc9-bca9-47d9-9a07-1dc5123e9e9a",
+  "ready": true,
+  "private_prep_documents": [
+    "DEMO_DAY_SCRIPT.md",
+    "DEMO_DAY_CHECKLIST.md",
+    "QA_PREP.md",
+    "HOW_MILAAN_WORKS.md",
+    "SHOWCASE_AND_METRICS.md"
+  ],
+  "capture_started": false,
+  "final_package_created": false
+}

@@ -151,8 +151,11 @@ The local environment check writes `.env` with owner-only permissions and preser
 | `make app` | Start dashboard on port 8501 |
 | `make bench` | Measure 1M and 10M runs; update benchmark artifacts |
 | `make demo` | Setup, data, load, reconcile, explain and app |
+| `make demo-ready` | Verify database, retained data, recent results and dashboard; warm every page |
 | `make test` | Run tests without a database |
 | `make lint` | Ruff lint and formatting checks |
+
+Before a presentation, start `make app` and run `make demo-ready` in another terminal. It uses the development Playwright browser to warm dashboard pages; install it with `.venv/bin/python -m playwright install --with-deps chromium` if needed. Open the forwarded URL with `?present=1` for presentation mode.
 
 For custom scenario rates, edit `generator/config.yaml` and choose a fresh output folder. Direct generator options are available with `.venv/bin/python -m generator.generate --help`.
 
