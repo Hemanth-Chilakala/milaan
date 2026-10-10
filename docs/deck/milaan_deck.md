@@ -1,160 +1,160 @@
 ---
 marp: true
-theme: default
+theme: milaan
 paginate: true
 size: 16:9
 footer: 'Milaan · The Singleton · ExaThon India 2026'
-style: |
-  section { background: #f7fafb; color: #172b3a; font-family: 'DejaVu Sans', sans-serif; font-size: 27px; padding: 52px 64px; }
-  h1 { color: #0f766e; font-size: 46px; letter-spacing: -1.2px; }
-  h2 { color: #334155; font-size: 34px; }
-  blockquote { border-left: 7px solid #14b8a6; padding: 12px 24px; color: #172b3a; font-size: 29px; }
-  footer { color: #64748b; font-size: 14px; }
-  table { font-size: 22px; }
-  .big { font-size: 82px; color: #0f766e; font-weight: bold; }
-  .equation { background: white; border: 2px solid #d7e7e5; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px; }
-  .equation strong { color: #0f766e; font-size: 38px; }
-  .flow { text-align: center; line-height: 2.2; background: white; border-radius: 16px; padding: 22px; }
-  .screens { display:flex; gap:18px; }
-  .screens img { width:48%; height:300px; object-fit:contain; background:white; border:1px solid #d7e7e5; }
-  .metrics { display:flex; gap:24px; padding:20px 0; }
-  .metrics div { flex:1; background:white; padding:22px; border-radius:16px; }
-  .metrics strong { font-size:46px; color:#0f766e; }
 ---
 
-# Milaan
-## Closing the books before noon
+<img class='logo' src='../brand/logo.svg'>
+
+# Closing the books<br>before noon
+
+<div class='lead'>Payment reconciliation for the analyst who has four files and one close to finish.</div>
 
 The Singleton · Hemanth Chilakala
 
-ExaThon India 2026 · Track 1: Money, Risk & Regulation
-
-**An accountable close, powered by Exasol Personal.**
+ExaThon India 2026 · Track 1
 
 ---
 
-# Meet the reconciliation analyst
+# Meet the analyst
 
 > A reconciliation analyst at a mid-sized Indian NBFC can't close the day's books on time because UPI, NACH and payment-gateway settlement files arrive in different formats with mismatched references, so they chase breaks by hand in Excel. If this worked, they'd close the books before noon and spend their time only on the exceptions that actually matter.
 
 Milaan reconciles synthetic receipts for the fictional Sahyog Finance Ltd,
 using Exasol Personal for normalisation, matching, scoring and audit records.
 
-The person: a finance analyst at a mid-sized Indian NBFC.
-The desired outcome: investigate meaningful exceptions instead of every receipt.
+---
+
+# One credit. 37 payments.
+
+<div class='equation'><b>37 PayFast payments</b><span>Gross ₹6,07,085.27</span><span>− fees ₹4,856.70 − GST ₹874.21</span><strong>Bank credit ₹6,01,354.36</strong></div>
+
+**36 ledger receipts present · 1 missing**
+
+Loan LN-100000-36 · missing receipt ₹16,425.71
 
 ---
 
-# One credit can represent 37 payments
+# Why spreadsheets fail
 
-<div class='equation'><b>37 PayFast payments</b><span>gross ₹6,07,085.27</span><span>− fees ₹4,856.70 − GST ₹874.21</span><strong>One bank credit: ₹6,01,354.36</strong></div>
+<div class='cards'><div><b>References disagree</b><p>Truncated bank narrations and different receipt identifiers.</p></div><div><b>Amounts disagree</b><p>Gross EMIs, net settlements, fees and GST.</p></div><div><b>Dates disagree</b><p>Delayed credits, holidays and next-day NACH returns.</p></div></div>
 
-Four channels · different formats · T+1/T+2 timing · truncated references · NACH returns
-
-Measured synthetic showcase; 36 receipts are present and one is missing.
+Illustrative consequences: suspense balances, wrong customer follow-ups and slower audit review.
 
 ---
 
-# The cost of an unresolved close
+# Milaan in one picture
 
-**Money in suspense** delays explanation of the cash balance.
+<div class='flow'><b>Ledger · Bank · Gateway · NACH</b><br>↓ bulk IMPORT<br><strong>EXASOL PERSONAL</strong><br>SQL normalisation → seven passes + UDFs → ranked exceptions<br>↓ small result sets<br><b>Analyst review → decision audit in Exasol</b></div>
 
-**Misstated customer dues** can prompt a call to someone who already paid.
-
-**Unclear evidence** adds effort to accounting review and audit.
-
-Illustrative workflow consequences. No industry cost or productivity statistic is claimed.
+Separate ground truth → SQL scoring
 
 ---
 
-# Everything heavy runs inside Exasol
+# Watch the close progress
 
-<div class='flow'><b>Four source CSVs</b> → <b>Bulk IMPORT</b> → <b>SQL normalisation</b><br>↓<br><b>7 matching passes + UDFs</b> → <b>Ranked exceptions</b><br>↓<br><b>Streamlit analyst review</b> → <b>Exasol decision audit</b></div>
+<img class='hero' src='../screenshots/home.png'>
 
-Ground truth enters only the SQL scoring path. Python orchestrates; the database reconciles.
-
----
-
-# Seven passes, measured at 10M
-
-| Pass | Receipt links | Time |
-|---|---:|---:|
-| EXACT | 3,164,644 | 25.34s |
-| PG_BATCH | 35,303 | 18.67s |
-| FEE_AWARE | 1,079,439 | 17.20s |
-| TOLERANT | 43,689 | 6.47s |
-| FUZZY | 16,025 | 4.78s |
-| SPLIT_MERGE | 44,100 | 31.60s |
-| CLASSIFY | 0 | 39.61s |
-
-Passes use remaining keys only. One-to-many and many-to-one relationships share a single group ID.
+Full month for scale · Today's close for arriving records and carried open items
 
 ---
 
-# Why Exasol Personal
+# Seven passes. One shrinking queue.
 
-<div class='big'>203.88 seconds</div>
+<div class='pass'><span>EXACT</span><i style='width:100.00%'></i><b>3,164,644</b><small>3,164,644 cumulative</small></div>
+<div class='pass'><span>PG_BATCH</span><i style='width:2.00%'></i><b>35,303</b><small>3,199,947 cumulative</small></div>
+<div class='pass'><span>FEE_AWARE</span><i style='width:34.11%'></i><b>1,079,439</b><small>4,279,386 cumulative</small></div>
+<div class='pass'><span>TOLERANT</span><i style='width:2.00%'></i><b>43,689</b><small>4,323,075 cumulative</small></div>
+<div class='pass'><span>FUZZY</span><i style='width:2.00%'></i><b>16,025</b><small>4,339,100 cumulative</small></div>
+<div class='pass'><span>SPLIT_MERGE</span><i style='width:2.00%'></i><b>44,100</b><small>4,383,200 cumulative</small></div>
+<div class='pass'><span>CLASSIFY</span><i style='width:2.00%'></i><b>0</b><small>4,383,200 cumulative</small></div>
 
-**10,000,000 source records** across four files.
-
-SQL joins, aggregation and windows · bulk IMPORT · Python scalar and SET UDFs
-
-Measured on 4 cores / 15.62 GiB RAM.
-Timing includes results, conflict validation and SQL scoring; explanations and profiling flush are separate. Live-recorded run when available; timings vary between runs.
+<div class='caption'>Measured 10M run · counts are receipt links · CLASSIFY labels remaining exceptions</div>
 
 ---
 
-# Review the money that needs attention
+# Why Exasol
+
+<div class='big'>76.14<span> seconds</span></div>
+
+**10,000,000 source records · 4 cores · 15.62 GiB RAM**
+
+Bulk IMPORT · hash joins · REGEXP · windows · Python scalar · Lua SET UDFs
+
+<div class='caption'>EXACT: 19.27s · PG_BATCH: 6.04s · FEE_AWARE: 7.15s · TOLERANT: 1.56s · FUZZY: 1.13s · SPLIT_MERGE: 3.04s · CLASSIFY: 12.77s</div>
+
+Database-side results, validation and scoring included. Explanations and profiling flush follow the timer.
+
+---
+
+# Review the money that matters
 
 <div class='screens'><img src='../screenshots/queue.png'><img src='../screenshots/detail.png'></div>
 
-Rank by amount × business-day age × risk. Inspect source evidence. Accept a recommendation, reject it or assign an owner.
+**Prioritise → inspect evidence → accept, reject or assign**
+
+Every review records the analyst, timestamp and reasoning in Exasol.
 
 ---
 
-# Accuracy against known answers
+# Accuracy, tested three ways
 
-<div class='metrics'><div><strong>100.000%</strong><br>precision</div><div><strong>99.959%</strong><br>recall</div><div><strong>98.502%</strong><br>source records grouped</div></div>
+| 1M dataset | Precision | Recall | False links |
+|---|---:|---:|---:|
+| Normal | 100.000% | 100.000% | 0 |
+| Blind | 100.000% | 100.000% | 0 |
+| Hard | 99.154% | 85.872% | 3,220 |
 
-0 false links · 1,779 missed expected links · 103,564 exceptions
+**10M normal:** 100.000% precision · 99.959% recall · 98.502% source membership
 
-Conflict validation rejects records assigned to multiple groups. These seeded results do not establish real-world accuracy; corruption patterns and distinct loans are deliberately constrained.
+Blind: unseen seed and break rates. Hard: collisions, reversals, longer delays and extra splits.
 
 ---
 
 # Trust comes from evidence
 
-**Deterministic explanations:** amounts, dates and rules come from stored evidence.
+<div class='cards'><div><b>Deterministic explanations</b><p>Amounts, dates and rules come from stored evidence. No external inference service.</p></div><div><b>Human review</b><p>The analyst accepts a recommendation, rejects it or assigns an owner.</p></div><div><b>Auditable decisions</b><p>Run-linked evidence and review history remain in Exasol.</p></div></div>
 
-**Human review:** decisions are recorded, not silently posted to a real ledger.
-
-**Run-linked audit:** analyst, timestamp, assignment and note stay in Exasol.
-
-No external inference API. PII masking is tested for a future optional rewrite; that integration is not shipped.
+A final membership check rejects conflicting match groups.
 
 ---
 
-# A practical path to operational impact
+# A practical path to impact
 
-**First:** validate with an NBFC partner using independently labelled, anonymised cases.
+**First:** independently labelled validation with an NBFC partner.
 
-**Next:** live SFTP/API feeds, real business calendars, review roles and approved ledger write-back.
+**Next:** live feeds, real holiday calendars, authenticated review roles and approved ledger write-back.
 
-**Then:** measure larger datasets and distributed coordination.
+**Then:** measure larger datasets and concurrent operations.
 
-The same pattern may help banks, insurers, fintechs and gateway-based merchants. Applicability is a hypothesis to test.
+Similar reconciliation workflows exist in banks, insurers, fintechs and gateway-based merchants.
 
 ---
 
-# Close the books with confidence
+<img class='logo' src='../brand/logo.svg'>
 
-**Milaan · The Singleton · Hemanth Chilakala**
+# Close with confidence
 
-Repository destination:
+The Singleton · Hemanth Chilakala
+
 https://github.com/Hemanth-Chilakala/milaan
 
-Demo: `docs/video/demo.mp4`
+Demo video: docs/video/demo.mp4
 
-MIT · synthetic data only · Exasol Personal
+MIT · All data is synthetic
 
-Thank you.
+---
+
+# Appendix: limitations & methodology
+
+- Seeded, controlled data; production accuracy needs independent partner labels.
+- Frozen normal/blind/hard rules; bank reversals explain hard-mode false links.
+- Split search: at most 12 candidates, subsets of two or three.
+- Single node and one worker; no real ledger connector or review authentication.
+- Timing includes preparation, results, validation and scoring; browser/recording load changes it.
+- Daily/monthly equivalence tested on 1,000 records; full 10M daily replay remains unmeasured.
+- Codespace rebuild and clean checkout tested; macOS/WSL remain unverified.
+
+Run IDs, profiles and raw observations: docs/benchmarks.md
