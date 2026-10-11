@@ -38,4 +38,11 @@ A prior native-volume enlargement failed while retaining filesystem reserve. Onl
 
 ## S03 replay comparison baseline
 
-Same-day replay: 31.572s core, 8.666s scoring/validation and 40.244s total; explicit reset cost 8.115s before the timer. Run `7247c9be-693b-4e4f-a02c-6ff3ef9bb885`. This is separate from the first-arrival close above. Fresh footage and actual overhead remain pending.
+Same-day replay: 31.572s core, 8.666s scoring/validation and 40.244s total; explicit reset cost 8.115s before the timer. Run `7247c9be-693b-4e4f-a02c-6ff3ef9bb885`. This is separate from the first-arrival close above. Current recorded observations are listed below.
+
+
+## Selected footage measurements
+
+Selected recorded S02: **111.801s**, **26.72%** above the equivalent prepared 88.229s month baseline. Selected S03: **37.280s core**, **11.325s scoring/validation**, **48.611s total**, **20.79%** above the 40.244s same-day reset/replay baseline. These recorded observations are separate from the first-arrival daily close. Reset preparation and explanation generation remain outside the reconciliation timer.
+
+Month run `8d48b1e4-dfbe-4c82-997f-481640891c11`; day run `9eebea6f-2492-4b51-a911-2c92721c58e6`. Both live shots are 1080p/24 fps. Idle clips are 1440p/30 fps after a 4K test missed sampling intervals; native 4K page states and evidence crops are supplied separately. No recording is sped up or replayed. Every selected clip was decoded end to end, with synchronization markers, frame counts and visual frame sequences checked. Frame-count deficits and retakes are disclosed in the editor manifest and event logs.

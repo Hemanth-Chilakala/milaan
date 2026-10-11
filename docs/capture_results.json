@@ -1,29 +1,348 @@
 {
-  "checked_at_utc": "2026-10-10T16:14:49.890681+00:00",
-  "month_run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
-  "month_recorded_seconds": 114.10748282399982,
-  "month_unrecorded_seconds": 76.14352938399998,
-  "recording_overhead_pct": 49.85841048757218,
-  "day_run_id": "3e69fc7d-449a-4177-ba92-1e956011450e",
-  "day_recorded_seconds": 62.77476807400035,
-  "silent_clips": [
+  "month": {
+    "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+    "recorded_s02_seconds": 111.8009502470004,
+    "recording_overhead_pct": 26.71694877602,
+    "unrecorded_benchmark": {
+      "run_id": "9298a547-5446-4cce-bbb4-902fdfeef3b8",
+      "seconds": 88.228884397,
+      "pass_timings": [
+        {
+          "PASS_NAME": "EXACT",
+          "SECONDS": 22.15158257700023,
+          "LINKS_ADDED": 3166424
+        },
+        {
+          "PASS_NAME": "PG_BATCH",
+          "SECONDS": 7.629351960999885,
+          "LINKS_ADDED": 35303
+        },
+        {
+          "PASS_NAME": "FEE_AWARE",
+          "SECONDS": 9.148378009000227,
+          "LINKS_ADDED": 1079439
+        },
+        {
+          "PASS_NAME": "TOLERANT",
+          "SECONDS": 1.7948732330000894,
+          "LINKS_ADDED": 43689
+        },
+        {
+          "PASS_NAME": "FUZZY",
+          "SECONDS": 0.910500193000189,
+          "LINKS_ADDED": 16024
+        },
+        {
+          "PASS_NAME": "SPLIT_MERGE",
+          "SECONDS": 3.11014504700006,
+          "LINKS_ADDED": 44100
+        },
+        {
+          "PASS_NAME": "CLASSIFY",
+          "SECONDS": 9.88048146600022,
+          "LINKS_ADDED": 0
+        }
+      ],
+      "reset_before_run_seconds": 27.01058792999993,
+      "starting_state": "Demo reset; open tables prepared before timer"
+    }
+  },
+  "day": {
+    "run_id": "9eebea6f-2492-4b51-a911-2c92721c58e6",
+    "recorded_s03": {
+      "run_id": "9eebea6f-2492-4b51-a911-2c92721c58e6",
+      "core_matching_seconds": 37.28010739899946,
+      "scoring_validation_seconds": 11.32459553700028,
+      "total_seconds": 48.61134105800011
+    },
+    "recording_overhead_pct": 20.790308327486407,
+    "unrecorded_benchmark": {
+      "run_id": "7247c9be-693b-4e4f-a02c-6ff3ef9bb885",
+      "core_matching_seconds": 31.57234889099982,
+      "scoring_validation_seconds": 8.665634689999933,
+      "total_seconds": 40.24440514399976
+    },
+    "incremental_unrecorded_benchmark": {
+      "run_id": "72bebcf3-340b-401f-b8ad-b8401534b9f7",
+      "core_matching_seconds": 29.487378461999924,
+      "scoring_validation_seconds": 9.9655904440001,
+      "total_seconds": 39.45927425799982
+    }
+  },
+  "capture_attempts": [
     {
       "shot": "S01_home_before",
-      "run_id": "9ad54336-32f3-4c43-9ba5-5a9f340b947c",
-      "sync_marker_frame": 49,
+      "resolution": [
+        3840,
+        2160
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 15.1,
+        "frames": 304,
+        "expected_frames": 453,
+        "frame_count_difference": -149
+      },
+      "selected": false,
+      "reason": "4K CPU-affined capture missed 149 sampling intervals; retry idle shots at 1440p30 per capture specification."
+    },
+    {
+      "shot": "S01_home_before",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 14.533333,
+        "frames": 436,
+        "expected_frames": 436,
+        "frame_count_difference": 0
+      },
+      "selected": false,
+      "reason": "1440p idle fallback preserves the full hold with no sampling deficit."
+    },
+    {
+      "shot": "S01_home_before",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 14.533333,
+        "frames": 436,
+        "expected_frames": 436,
+        "frame_count_difference": 0
+      },
+      "run_id": "f15f1e74-60b6-445d-a616-a7ff8576dfef",
+      "selected": false,
+      "reason": "Reset-state caption corrected; affected shots recaptured."
+    },
+    {
+      "shot": "S02_run_month_10M",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 24,
+      "raw_probe": {
+        "duration": 137.791667,
+        "frames": 3283,
+        "expected_frames": 3307,
+        "frame_count_difference": -24
+      },
+      "run_id": "b0e82dbe-4d7d-4481-afe9-fb6b4ff84ebd",
+      "selected": false,
+      "reason": "Reset-state caption corrected; affected shots recaptured.",
+      "seconds": 114.20842245199948
+    },
+    {
+      "shot": "S03_run_today",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 24,
+      "raw_probe": {
+        "duration": 67.458333,
+        "frames": 1618,
+        "expected_frames": 1619,
+        "frame_count_difference": -1
+      },
+      "run_id": "287ac649-be8c-4c5a-bddc-06e1f7ae3dd5",
+      "selected": false,
+      "reason": "Reset-state caption corrected; affected shots recaptured.",
+      "seconds": 49.06106827599979,
+      "daily_timing": {
+        "RUN_ID": "287ac649-be8c-4c5a-bddc-06e1f7ae3dd5",
+        "CORE_SECONDS": 38.174385106000955,
+        "REVIEW_SECONDS": 8.342630605000522,
+        "SCORING_VALIDATION_SECONDS": 10.880962342000204,
+        "TOTAL_SECONDS": 49.06106827599979
+      }
+    },
+    {
+      "shot": "S01_home_before",
+      "selected": true,
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "run_id": "1bb18fcb-0356-4b6e-bee8-4409f03c8cbf",
+      "raw_probe": {
+        "duration": 14.533333,
+        "frames": 436,
+        "expected_frames": 436,
+        "frame_count_difference": 0
+      },
+      "reason": "Final corrected presentation capture."
+    },
+    {
+      "shot": "S02_run_month_10M",
+      "selected": true,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 24,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "raw_probe": {
+        "duration": 135.166667,
+        "frames": 3222,
+        "expected_frames": 3244,
+        "frame_count_difference": -22
+      },
+      "reason": "Final corrected presentation capture.",
+      "seconds": 111.8009502470004
+    },
+    {
+      "shot": "S03_run_today",
+      "selected": true,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fps": 24,
+      "run_id": "9eebea6f-2492-4b51-a911-2c92721c58e6",
+      "raw_probe": {
+        "duration": 67.708333,
+        "frames": 1622,
+        "expected_frames": 1625,
+        "frame_count_difference": -3
+      },
+      "reason": "Final corrected presentation capture.",
+      "seconds": 48.61134105800011,
+      "daily_timing": {
+        "RUN_ID": "9eebea6f-2492-4b51-a911-2c92721c58e6",
+        "CORE_SECONDS": 37.28010739899946,
+        "REVIEW_SECONDS": 7.717963730999146,
+        "SCORING_VALIDATION_SECONDS": 11.32459553700028,
+        "TOTAL_SECONDS": 48.61134105800011
+      }
+    },
+    {
+      "shot": "S06_showcase_detail",
+      "selected": true,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 52.633333,
+        "frames": 1569,
+        "expected_frames": 1579,
+        "frame_count_difference": -10
+      },
+      "reason": "Selected real-time analyst workflow capture."
+    },
+    {
+      "shot": "S07_decision",
+      "selected": true,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 18.8,
+        "frames": 536,
+        "expected_frames": 564,
+        "frame_count_difference": -28
+      },
+      "reason": "Selected real-time analyst workflow capture."
+    },
+    {
+      "shot": "S08_accuracy",
+      "selected": true,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 44.3,
+        "frames": 1311,
+        "expected_frames": 1329,
+        "frame_count_difference": -18
+      },
+      "reason": "Selected real-time analyst workflow capture."
+    },
+    {
+      "shot": "S09_how_it_works",
+      "selected": true,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 17.133333,
+        "frames": 512,
+        "expected_frames": 514,
+        "frame_count_difference": -2
+      },
+      "reason": "Selected real-time analyst workflow capture."
+    },
+    {
+      "shot": "S05_queue",
+      "selected": true,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 31.1,
+        "frames": 910,
+        "expected_frames": 933,
+        "frame_count_difference": -23
+      },
+      "reason": "Selected real-time analyst workflow capture."
+    },
+    {
+      "shot": "S04_home_after",
+      "selected": true,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "resolution": [
+        2560,
+        1440
+      ],
+      "fps": 30,
+      "raw_probe": {
+        "duration": 28.066667,
+        "frames": 841,
+        "expected_frames": 842,
+        "frame_count_difference": -1
+      },
+      "reason": "Selected real-time analyst workflow capture."
+    }
+  ],
+  "selected_clip_verification": [
+    {
+      "shot": "S01_home_before",
+      "run_id": "1bb18fcb-0356-4b6e-bee8-4409f03c8cbf",
+      "sync_marker_frame": 48,
       "final_probe": {
-        "duration": 14.066667,
-        "frames": 422,
+        "duration": 14.533333,
+        "frames": 436,
         "fps": 30.0,
-        "expected_frames": 422,
+        "expected_frames": 436,
         "frame_count_difference": 0,
-        "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 452,
-        "raw_capture_duration": 15.1,
+        "raw_capture_frame_count_difference": 0,
+        "raw_capture_frames": 436,
+        "raw_capture_duration": 14.533333,
         "start_time": 0.0,
-        "width": 3840,
-        "height": 2160,
-        "bytes": 792191,
+        "width": 2560,
+        "height": 1440,
+        "bytes": 488534,
         "audio_streams": 0,
         "capture_logged_dropped_frames": 0,
         "capture_logged_duplicate_frames": 0,
@@ -33,23 +352,23 @@
     },
     {
       "shot": "S02_run_month_10M",
-      "run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
       "sync_marker_frame": 39,
       "final_probe": {
-        "duration": 137.916667,
-        "frames": 3309,
-        "fps": 23.99274924471299,
-        "expected_frames": 3310,
-        "frame_count_difference": -1,
-        "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 3309,
-        "raw_capture_duration": 137.916667,
+        "duration": 135.166667,
+        "frames": 3222,
+        "fps": 23.837237977805177,
+        "expected_frames": 3244,
+        "frame_count_difference": -22,
+        "raw_capture_frame_count_difference": -22,
+        "raw_capture_frames": 3222,
+        "raw_capture_duration": 135.166667,
         "start_time": 0.0,
         "width": 1920,
         "height": 1080,
-        "bytes": 1783816,
+        "bytes": 1743785,
         "audio_streams": 0,
-        "capture_logged_dropped_frames": 0,
+        "capture_logged_dropped_frames": 21,
         "capture_logged_duplicate_frames": 0,
         "note": "One-frame boundary differences may reflect initial presentation timestamp; no time compression or rate change is used."
       },
@@ -57,23 +376,23 @@
     },
     {
       "shot": "S03_run_today",
-      "run_id": "3e69fc7d-449a-4177-ba92-1e956011450e",
+      "run_id": "9eebea6f-2492-4b51-a911-2c92721c58e6",
       "sync_marker_frame": 39,
       "final_probe": {
-        "duration": 83.291667,
-        "frames": 1998,
-        "fps": 23.9879939969985,
-        "expected_frames": 1999,
-        "frame_count_difference": -1,
-        "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 1998,
-        "raw_capture_duration": 83.291667,
+        "duration": 67.708333,
+        "frames": 1622,
+        "fps": 23.955692307692306,
+        "expected_frames": 1625,
+        "frame_count_difference": -3,
+        "raw_capture_frame_count_difference": -3,
+        "raw_capture_frames": 1622,
+        "raw_capture_duration": 67.708333,
         "start_time": 0.0,
         "width": 1920,
         "height": 1080,
-        "bytes": 1140946,
+        "bytes": 1037903,
         "audio_streams": 0,
-        "capture_logged_dropped_frames": 0,
+        "capture_logged_dropped_frames": 2,
         "capture_logged_duplicate_frames": 0,
         "note": "One-frame boundary differences may reflect initial presentation timestamp; no time compression or rate change is used."
       },
@@ -81,21 +400,21 @@
     },
     {
       "shot": "S04_home_after",
-      "run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
-      "sync_marker_frame": 49,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "sync_marker_frame": 47,
       "final_probe": {
-        "duration": 28.6,
-        "frames": 857,
-        "fps": 29.965034965034967,
-        "expected_frames": 858,
+        "duration": 28.066667,
+        "frames": 841,
+        "fps": 29.96437054631829,
+        "expected_frames": 842,
         "frame_count_difference": -1,
         "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 857,
-        "raw_capture_duration": 28.6,
+        "raw_capture_frames": 841,
+        "raw_capture_duration": 28.066667,
         "start_time": 0.0,
-        "width": 3840,
-        "height": 2160,
-        "bytes": 1774333,
+        "width": 2560,
+        "height": 1440,
+        "bytes": 939186,
         "audio_streams": 0,
         "capture_logged_dropped_frames": 0,
         "capture_logged_duplicate_frames": 0,
@@ -105,23 +424,23 @@
     },
     {
       "shot": "S05_queue",
-      "run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
       "sync_marker_frame": 49,
       "final_probe": {
-        "duration": 32.133333,
-        "frames": 963,
-        "fps": 29.96887966804979,
-        "expected_frames": 964,
-        "frame_count_difference": -1,
-        "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 963,
-        "raw_capture_duration": 32.133333,
+        "duration": 31.1,
+        "frames": 910,
+        "fps": 29.260450160771704,
+        "expected_frames": 933,
+        "frame_count_difference": -23,
+        "raw_capture_frame_count_difference": -23,
+        "raw_capture_frames": 910,
+        "raw_capture_duration": 31.1,
         "start_time": 0.0,
-        "width": 3840,
-        "height": 2160,
-        "bytes": 2073983,
+        "width": 2560,
+        "height": 1440,
+        "bytes": 1482388,
         "audio_streams": 0,
-        "capture_logged_dropped_frames": 0,
+        "capture_logged_dropped_frames": 22,
         "capture_logged_duplicate_frames": 0,
         "note": "One-frame boundary differences may reflect initial presentation timestamp; no time compression or rate change is used."
       },
@@ -129,23 +448,23 @@
     },
     {
       "shot": "S06_showcase_detail",
-      "run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
       "sync_marker_frame": 49,
       "final_probe": {
-        "duration": 27.6,
-        "frames": 827,
-        "fps": 29.963768115942027,
-        "expected_frames": 828,
-        "frame_count_difference": -1,
-        "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 827,
-        "raw_capture_duration": 27.6,
+        "duration": 52.633333,
+        "frames": 1569,
+        "fps": 29.810006333122228,
+        "expected_frames": 1579,
+        "frame_count_difference": -10,
+        "raw_capture_frame_count_difference": -10,
+        "raw_capture_frames": 1569,
+        "raw_capture_duration": 52.633333,
         "start_time": 0.0,
-        "width": 3840,
-        "height": 2160,
-        "bytes": 2290650,
+        "width": 2560,
+        "height": 1440,
+        "bytes": 2617995,
         "audio_streams": 0,
-        "capture_logged_dropped_frames": 0,
+        "capture_logged_dropped_frames": 9,
         "capture_logged_duplicate_frames": 0,
         "note": "One-frame boundary differences may reflect initial presentation timestamp; no time compression or rate change is used."
       },
@@ -153,23 +472,23 @@
     },
     {
       "shot": "S07_decision",
-      "run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
-      "sync_marker_frame": 48,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "sync_marker_frame": 49,
       "final_probe": {
-        "duration": 18.6,
-        "frames": 557,
-        "fps": 29.946236559139784,
-        "expected_frames": 558,
-        "frame_count_difference": -1,
-        "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 557,
-        "raw_capture_duration": 18.6,
+        "duration": 18.8,
+        "frames": 536,
+        "fps": 28.51063829787234,
+        "expected_frames": 564,
+        "frame_count_difference": -28,
+        "raw_capture_frame_count_difference": -28,
+        "raw_capture_frames": 536,
+        "raw_capture_duration": 18.8,
         "start_time": 0.0,
         "width": 2560,
         "height": 1440,
-        "bytes": 783837,
+        "bytes": 600895,
         "audio_streams": 0,
-        "capture_logged_dropped_frames": 0,
+        "capture_logged_dropped_frames": 27,
         "capture_logged_duplicate_frames": 0,
         "note": "One-frame boundary differences may reflect initial presentation timestamp; no time compression or rate change is used."
       },
@@ -177,23 +496,23 @@
     },
     {
       "shot": "S08_accuracy",
-      "run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
       "sync_marker_frame": 49,
       "final_probe": {
-        "duration": 48.133333,
-        "frames": 1443,
-        "fps": 29.979224376731302,
-        "expected_frames": 1444,
-        "frame_count_difference": -1,
-        "raw_capture_frame_count_difference": -1,
-        "raw_capture_frames": 1443,
-        "raw_capture_duration": 48.133333,
+        "duration": 44.3,
+        "frames": 1311,
+        "fps": 29.59367945823928,
+        "expected_frames": 1329,
+        "frame_count_difference": -18,
+        "raw_capture_frame_count_difference": -18,
+        "raw_capture_frames": 1311,
+        "raw_capture_duration": 44.3,
         "start_time": 0.0,
-        "width": 3840,
-        "height": 2160,
-        "bytes": 2255676,
+        "width": 2560,
+        "height": 1440,
+        "bytes": 1463295,
         "audio_streams": 0,
-        "capture_logged_dropped_frames": 0,
+        "capture_logged_dropped_frames": 17,
         "capture_logged_duplicate_frames": 0,
         "note": "One-frame boundary differences may reflect initial presentation timestamp; no time compression or rate change is used."
       },
@@ -201,46 +520,29 @@
     },
     {
       "shot": "S09_how_it_works",
-      "run_id": "dc22f5e2-1d69-4472-b128-5aab02f8fd8b",
-      "sync_marker_frame": 49,
+      "run_id": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+      "sync_marker_frame": 48,
       "final_probe": {
-        "duration": 17.566667,
-        "frames": 527,
-        "fps": 30.0,
-        "expected_frames": 527,
-        "frame_count_difference": 0,
-        "raw_capture_frame_count_difference": 0,
-        "raw_capture_frames": 527,
-        "raw_capture_duration": 17.566667,
+        "duration": 17.133333,
+        "frames": 512,
+        "fps": 29.883268482490273,
+        "expected_frames": 514,
+        "frame_count_difference": -2,
+        "raw_capture_frame_count_difference": -2,
+        "raw_capture_frames": 512,
+        "raw_capture_duration": 17.133333,
         "start_time": 0.0,
-        "width": 3840,
-        "height": 2160,
-        "bytes": 1187073,
+        "width": 2560,
+        "height": 1440,
+        "bytes": 695053,
         "audio_streams": 0,
-        "capture_logged_dropped_frames": 0,
+        "capture_logged_dropped_frames": 1,
         "capture_logged_duplicate_frames": 0,
         "note": "One-frame boundary differences may reflect initial presentation timestamp; no time compression or rate change is used."
       },
       "full_decode_verified": true
     }
   ],
-  "visual_review": "Full decoding plus timestamped frame sequences across all nine clips; evidence crops inspected at full size",
-  "capture_notes": [
-    "Selected S02/S03 at 1080p/24 fps; 4K idle shots except 1440p audit-write fallback",
-    "Raw frame deltas are zero or minus one; missed-interval takes excluded",
-    "S01 trailing screenshot-render cleanup trimmed after the stationary hold",
-    "4K page/evidence stills; native 1080p live pass-list crops",
-    "Native hover tooltips can appear briefly during actions; no editorial labels added",
-    "The final live display may continue during explanation preparation; stored core timers identify benchmark and recorded measurements separately"
-  ],
-  "source_checks": {
-    "ruff": "passed",
-    "unit_tests": 30,
-    "database_tests": 10,
-    "database_isolation_report": "final_database_checks.json",
-    "secret_scan": "No leaks in history or public source/editor/prep text; exact packaged tree is scanned again by the packager",
-    "authors": "Hemanth-Chilakala <hemanthiam@gmail.com>",
-    "forbidden_tracked_files": false
-  },
-  "delivery_verification": "scripts/package_submission.py enforces clean status, final HEAD in metrics, staged secret scan, every file hash, ZIP CRC and extracted git history before delivery"
+  "console_run_id": "145327a7-6c82-416a-a47e-4b62e5396ba7",
+  "console_seconds": 121.60320102900003
 }

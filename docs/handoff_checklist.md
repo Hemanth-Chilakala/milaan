@@ -1,10 +1,10 @@
-# Round-two handoff checklist
+# Round-three handoff checklist
 
 - [x] MIT licence; local authored history preserved without rewriting.
 - [x] Problem statement retained verbatim in file, README and deck.
 - [x] Exasol Personal runs after the verified Codespace rebuild.
-- [x] Fresh local checkout, new deployment and all 40 tests passed in Phase E.
-- [x] Performance optimisation, blind/hard validation and daily carry-forward measured.
+- [x] Fresh local checkout, new deployment and all 40 tests passed in the earlier Phase E; current verification covers 34 unit and 11 database checks.
+- [x] Performance optimisation, all four accuracy sets, reversal handling and daily carry-forward measured.
 - [x] Presentation-mode dashboard reviewed at desktop and laptop widths.
 - [x] README leads with measured outcomes and contains one limitations section.
 - [x] Branded 14-slide PDF/PPTX and 3840×2160 PNGs reviewed.

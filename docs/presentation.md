@@ -16,7 +16,7 @@ Current canonical results and run IDs are in [benchmarks](benchmarks.md), [daily
 
 Normal and reused blind regression sets have 100% link precision and recall. Hard (tuned) has 100% precision and 85.872% recall; newly blind hard has 100% precision and 85.867% recall. Both hard sets have zero false links after reversal exclusion. These are controlled synthetic results, not independent production validation.
 
-Capture mode uses one-second dashboard and event polling. Xvfb, Chromium and ffmpeg are pinned to core 3, with one tab, disabled GPU/smooth scrolling and a single running-pass spinner. Live shots use 1080p24. No new footage has been recorded; recorded timings and overhead remain pending. See [capture configuration](capture_configuration.md).
+Capture mode uses one-second dashboard and event polling. Xvfb, Chromium and ffmpeg are pinned to core 3, with one tab, disabled GPU/smooth scrolling and a single running-pass spinner. Live shots use 1080p24. All nine shots were re-captured. Selected month: 111.801s and 26.72% overhead. Selected day: 48.611s total and 20.79% overhead. Idle clips use 1440p30; native 4K editor stills are separate. See [capture configuration](capture_configuration.md).
 
 ## Verification
 

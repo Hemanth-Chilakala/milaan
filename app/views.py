@@ -421,12 +421,16 @@ def home_content(data):
     )
     presentation = st.query_params.get("present") == "1" or os.getenv("MILAAN_PRESENT") == "1"
     status = (
-        "Reconciliation complete"
-        if presentation and run
+        "Ready for reconciliation"
+        if run and run["STATUS"] == "READY"
         else (
-            f"Last run · {run['SECONDS']:.2f}s"
-            if run and run["SECONDS"] is not None
-            else "Awaiting first reconciliation"
+            "Reconciliation complete"
+            if presentation and run and run["STATUS"] == "COMPLETED"
+            else (
+                f"Last run · {run['SECONDS']:.2f}s"
+                if run and run["SECONDS"] is not None
+                else "Awaiting first reconciliation"
+            )
         )
     )
     st.caption(

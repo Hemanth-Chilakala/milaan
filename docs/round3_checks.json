@@ -1,0 +1,16 @@
+{
+  "checked_at_utc": "2026-10-11T07:33:09.952059+00:00",
+  "unit_tests": 34,
+  "database_tests": 11,
+  "database_test_basis": "10 integration tests passed in 274.70s; additional self-contained late-reversal/reset-guard integration test passed in 23.26s. Matching rules unchanged since those checks.",
+  "unit_test_seconds": 3.9,
+  "selected_clip_count": 9,
+  "all_clips_full_decode_verified": true,
+  "selected_month_run": "8d48b1e4-dfbe-4c82-997f-481640891c11",
+  "selected_day_run": "9eebea6f-2492-4b51-a911-2c92721c58e6",
+  "selected_day_month_all_seven_link_column_differences": 0,
+  "retained_source_rows": 10000000,
+  "matching_fingerprints_unchanged": true,
+  "explainer_template_update_documented": true,
+  "native_4k_slide_count": 14
+}

@@ -147,20 +147,20 @@ def main():
         if report.get("output_trim_note"):
             manifest.append(f"- {report['shot']}: {report['output_trim_note']}")
     manifest.append(
-        "- Native button/KPI hover tooltips can appear briefly during recorded actions; no editorial labels were added. Core timers stop at the stored result/scoring duration; the live display can continue while explanations are prepared. Both bases are documented in the run events."
+        "- Native button/KPI hover tooltips can appear briefly during recorded actions; no editorial labels were added. The live timer is provisional while the audit update/profile flush is pending; it can briefly exceed the final stored duration before settling to that value. Daily core matching and scoring/validation are separate audit fields. Explanation generation follows the stored reconciliation timer. The native reset toast can appear briefly before live actions; Accept confirmation is part of the product. Both bases are documented in the run events."
     )
     manifest += [
         "",
         "## Files and measurement basis",
         "",
-        "- `metrics.json`: database totals, selected month/day runs, 1M normal/blind/hard accuracy, recording attempts and the full showcase. Paise are integers; use Indian rupee formatting.",
+        "- `metrics.json`: database totals, selected month/day runs, all four 1M accuracy sets, recording attempts and the full showcase. Paise are integers; use Indian rupee formatting.",
         "- `S*.events.json`: click/hover/scroll targets, CSS rectangles, pass observations, run IDs and exact sync marker frame.",
-        "- `stills/`: 4K PNG page states and KPI/evidence crops. Mid-run pass-list stills use native 1080p density to avoid altering the recording; their names include native_1080. S01 still is extracted from its native 4K capture; completed month/day states are separate 4K screenshots. Live-run clips are 1080p; idle clips are 4K except the 1440p audit-write fallback. Its evidence still is 4K.",
+        "- `stills/`: 4K PNG page states and KPI/evidence crops. Mid-run pass-list stills use native 1080p density to avoid altering the recording; their source clips are S02/S03. Idle page states are native 4K. Live-run clips are 1080p; idle clips use the resolution listed above. Additional completed month/day states are captured at 4K after reconciliation.",
         "- `recon_console.log`: actual, timestamped `make recon` output from a separate unrecorded run before capture. `console_run.json` records that run.",
         "- `sql_snippets/`: six short source excerpts, including exact matching, batch grouping, the Lua SET call and classification.",
         "- `diagrams/`: editable SVG architecture and real 37-payment settlement arithmetic.",
         "- `brand/`: wordmark, colour tokens, locally served Inter font, OFL licence and app CSS.",
-        "- `deck_slides/`: all fourteen slide PNGs at 3840×2160; the deck uses the unrecorded Phase-A benchmark.",
+        "- `deck_slides/`: all fourteen slide PNGs at 3840×2160; the deck uses the current unrecorded benchmark.",
         "",
         "## Recording notes",
         "",

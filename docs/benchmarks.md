@@ -42,7 +42,7 @@ Daily run: `72bebcf3-340b-401f-b8ad-b8401534b9f7`. All seven link columns agree 
 
 ## Previous observations and recording
 
-The previous identifier scheme measured 76.144s unrecorded and 114.107s recorded (49.86% overhead). These are historical observations on different identifiers. The previous daily path measured 47.778s core, 5.669s scoring/validation and 53.447s total. After incremental preparation it measured 28.625s core, 9.759s scoring/validation and 38.390s total. Fresh capture timings and overhead remain pending; current footage has not been re-recorded.
+The previous identifier scheme measured 76.144s unrecorded and 114.107s recorded (49.86% overhead). These are historical observations on different identifiers. The previous daily path measured 47.778s core, 5.669s scoring/validation and 53.447s total. After incremental preparation it measured 28.625s core, 9.759s scoring/validation and 38.390s total. Current recorded observations are listed below; historical clips were replaced.
 
 These are individual observations, with potentially warm caches and indexes. No fixed-latency or cold-cache claim is made. Precision/recall count links; auto-match rate counts source memberships and has a different denominator. Synthetic generator and matcher share assumptions. [Performance details](performance.md).
 
@@ -51,3 +51,10 @@ These are individual observations, with potentially warm caches and indexes. No 
 The month benchmark starts after an explicit demo reset, like S02. Reset cost: 27.011s, outside the click-to-results timer. The full unprepared rerun measured 207.039s including 68.221s to restore open tables; [raw observation](unprepared_repeat.json). Both source files and normalization were already loaded. We do not attribute warm-state differences solely to capture configuration.
 
 S03 comparison uses the same-day reset/replay baseline: 31.572s core, 8.666s scoring/validation, 40.244s total, with 8.115s reset outside the timer. This is separate from the first incremental 14 Oct close above. Native audit run: `7247c9be-693b-4e4f-a02c-6ff3ef9bb885`.
+
+
+## Selected footage measurements
+
+Selected recorded S02: **111.801s**, **26.72%** above the equivalent prepared 88.229s month baseline. Selected S03: **37.280s core**, **11.325s scoring/validation**, **48.611s total**, **20.79%** above the 40.244s same-day reset/replay baseline. These recorded observations are separate from the first-arrival daily close. Reset preparation and explanation generation remain outside the reconciliation timer.
+
+Month run `8d48b1e4-dfbe-4c82-997f-481640891c11`; day run `9eebea6f-2492-4b51-a911-2c92721c58e6`. Both live shots are 1080p/24 fps. Idle clips are 1440p/30 fps after a 4K test missed sampling intervals; native 4K page states and evidence crops are supplied separately. No recording is sped up or replayed. Every selected clip was decoded end to end, with synchronization markers, frame counts and visual frame sequences checked. Frame-count deficits and retakes are disclosed in the editor manifest and event logs.
