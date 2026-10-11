@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import shlex
 import subprocess
 import time
 from contextlib import contextmanager
@@ -15,7 +16,8 @@ from milaan.config import ROOT
 from milaan.db import connect, scope
 from milaan.live import snapshot
 
-URL = "http://127.0.0.1:8501/?present=1"
+URL = "http://127.0.0.1:8501/?present=1&capture=1"
+CAPTURE_CORE = 3 if 3 in os.sched_getaffinity(0) else max(os.sched_getaffinity(0))
 REGIONS = {
     "kpi_tiles": ".metric-grid",
     "kpi_matched_pct": "#live-matched",
@@ -53,6 +55,9 @@ def screen(width, height, log_dir):
     output = (log_dir / "xvfb.log").open("a")
     process = subprocess.Popen(
         [
+            "taskset",
+            "-c",
+            str(CAPTURE_CORE),
             "Xvfb",
             ":99",
             "-screen",
@@ -111,6 +116,9 @@ class Shot:
             "css_viewport": [1920, 1080],
             "device_scale_factor": dsf,
             "fps": fps,
+            "capture_cpu_core": CAPTURE_CORE,
+            "dashboard_poll_interval_seconds": 1.0,
+            "events_poll_interval_seconds": 1.0,
             "events": [],
             "regions_css": {},
             "run_id": None,
@@ -119,6 +127,9 @@ class Shot:
         self.data["capture_started_epoch_ms"] = time.time() * 1000
         self.process = subprocess.Popen(
             [
+                "taskset",
+                "-c",
+                str(CAPTURE_CORE),
                 "nice",
                 "-n",
                 "19",
@@ -317,10 +328,10 @@ def watch_run(shot, scope_name):
                         "run_end",
                         seconds=state["ELAPSED_SECONDS"],
                         run_id=state["RUN_ID"],
-                        timer_basis="database core timer; UI explanation preparation follows",
+                        timer_basis="database reconciliation total; daily core/scoring are separate audit fields; explanations follow",
                     )
                     break
-            shot.page.wait_for_timeout(350)
+            shot.page.wait_for_timeout(1000)
         else:
             raise RuntimeError("The recorded run exceeded ten minutes")
         shot.page.get_by_text(
@@ -335,7 +346,7 @@ def workflow(page, folder, names, display, width, height, dsf, fps):
     for name in names:
         print("PREPARING " + name, flush=True)
         if name in {"S01_home_before", "S02_run_month_10M", "S04_home_after", "S03_run_today"}:
-            page.get_by_test_id("stSidebar").get_by_role("button", name="Today's close").click()
+            page.get_by_test_id("stSidebar").get_by_role("button", name="Close overview").click()
             page.wait_for_timeout(1000)
             requested = "Today's close" if name == "S03_run_today" else "Full month (10M)"
             page.get_by_test_id("stRadio").get_by_text(requested, exact=True).click()
@@ -473,7 +484,17 @@ def main():
     for name in ("raw", "footage", "stills"):
         (folder / name).mkdir(parents=True, exist_ok=True)
     with screen(args.width, args.height, folder / "raw") as display, sync_playwright() as p:
+        browser_wrapper = folder / "raw" / "chromium-affinity.sh"
+        browser_wrapper.write_text(
+            "#!/bin/sh\nexec taskset -c "
+            + str(CAPTURE_CORE)
+            + " "
+            + shlex.quote(p.chromium.executable_path)
+            + ' "$@"\n'
+        )
+        browser_wrapper.chmod(0o700)
         context = p.chromium.launch_persistent_context(
+            executable_path=str(browser_wrapper),
             user_data_dir=str(folder / "raw" / "browser-profile"),
             headless=False,
             env={**os.environ, "DISPLAY": display},
@@ -488,6 +509,7 @@ def main():
                 "--window-size=1920,1080",
                 "--window-position=0,0",
                 "--disable-gpu",
+                "--disable-smooth-scrolling",
                 "--disable-dev-shm-usage",
             ],
         )
@@ -503,7 +525,7 @@ def main():
         )
         if args.fps == 24:
             page.add_init_script(
-                """document.addEventListener('DOMContentLoaded',()=>{const s=document.createElement('style');s.textContent='*,*::before,*::after{animation:none!important;transition:none!important}';document.documentElement.appendChild(s);});"""
+                """document.addEventListener('DOMContentLoaded',()=>{const s=document.createElement('style');s.textContent='*,*::before,*::after{animation:none!important;transition:none!important}.live-pass.running .state{animation:spin 1s linear infinite!important}';document.documentElement.appendChild(s);});"""
             )
         page.goto(URL)
         page.get_by_role("heading", name="Full month close", exact=True).wait_for(timeout=90000)

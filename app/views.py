@@ -303,7 +303,7 @@ def run_reconciliation():
             if panel_key != previous_panel:
                 panel.html(live_panel(snapshot, elapsed))
                 previous_panel = panel_key
-            sleep(0.35)
+            sleep(1.0 if st.query_params.get("capture") == "1" else 0.35)
         result = task.result()
     st.cache_data.clear()
     st.session_state["completed_run"] = result["run_id"]
