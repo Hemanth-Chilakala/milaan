@@ -134,7 +134,7 @@ def reconcile_incremental(progress=None, started=None):
             connection.commit()
             stage_times["RESULTS"] = perf_counter() - tick
             matching_before_review = perf_counter() - started
-            # Review generation inspects active rows. Historical matches remain append-only.
+            # Review generation inspects active rows. Only explicit reversals reopen closed groups.
             tick = perf_counter()
             if progress:
                 progress("CLASSIFY", None, None)

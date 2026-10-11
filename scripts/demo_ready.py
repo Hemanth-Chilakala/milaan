@@ -95,7 +95,7 @@ def check(url="http://127.0.0.1:8501"):
                 ("Exception detail", "Exception detail"),
                 ("Accuracy & performance", "Accuracy & performance"),
                 ("How it works", "How Milaan works"),
-                ("Today's close", "Full month close"),
+                ("Close overview", "Full month close"),
             ):
                 page.get_by_test_id("stSidebar").get_by_role("button", name=name).click()
                 page.get_by_role("heading", name=title, exact=True).wait_for(timeout=60000)

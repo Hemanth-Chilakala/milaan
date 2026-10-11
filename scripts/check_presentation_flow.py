@@ -9,6 +9,7 @@ from milaan import live
 from milaan.analytics import showcase_id
 from milaan.config import ROOT
 from milaan.db import query, scope
+from milaan.explain import rupees
 from scripts.check_ui import settle
 
 
@@ -21,7 +22,8 @@ def layout(page):
 
 
 def main():
-    folder = ROOT / "private/ui-review"
+    folder = (ROOT / "private/ui-review").resolve()
+    folder.mkdir(parents=True, exist_ok=True)
     identifier = showcase_id()
     monthly_run = query("SELECT run_id FROM MILAAN_AUDIT.RUN ORDER BY started_at DESC LIMIT 1")[0][
         "RUN_ID"
@@ -35,7 +37,20 @@ def main():
         page.get_by_role("button", name="Review the 37-payment batch").click()
         page.get_by_role("heading", name="Gateway receipt missing from ledger").wait_for()
         settle(page)
-        for value in ("₹6,07,085.27", "₹4,856.70", "₹874.21", "₹6,01,354.36"):
+        evidence = json.loads(
+            query(
+                'SELECT evidence FROM MILAAN_RES."EXCEPTION" WHERE exception_id={id!s}',
+                {"id": identifier},
+            )[0]["EVIDENCE"]
+        )
+        assert (
+            evidence["gross_total_paise"] - evidence["fee_paise"] - evidence["gst_paise"]
+            == evidence["bank_paise"]
+        )
+        for value in (
+            rupees(evidence[k])
+            for k in ("gross_total_paise", "fee_paise", "gst_paise", "bank_paise")
+        ):
             assert value in page.locator("#settlement-equation").inner_text()
         before = query(
             "SELECT COUNT(*) N FROM MILAAN_AUDIT.DECISION WHERE exception_id={id!s} AND run_id={run!s}",

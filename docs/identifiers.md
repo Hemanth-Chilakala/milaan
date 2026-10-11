@@ -1,5 +1,7 @@
 # Fictional identifiers and validation
 
+These are the identifier-migration observations, before bank reversal handling. Current four-set accuracy and run IDs are in [benchmarks](benchmarks.md) and [reversal validation](reversals.md).
+
 Source IDs use seeded bijections over bounded namespaces. Loan IDs have a fictional
 Sahyog product code and seven digits; gateway IDs have twelve mixed-case letters
 and digits after `pf_`; RRNs have twelve digits; settlement UTRs begin `BUBN`;

@@ -66,3 +66,17 @@ def ist_timestamp(value):
         return datetime.fromisoformat(str(value)).strftime("%d %b %Y · %H:%M") + " IST"
     except (TypeError, ValueError):
         return "—"
+
+
+def display_evidence(value):
+    """Format evidence dates for readers without changing stored values or amounts."""
+    if isinstance(value, dict):
+        return {
+            key: business_date(item)
+            if item is not None and (key.lower() == "date" or key.lower().endswith("_date"))
+            else display_evidence(item)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [display_evidence(item) for item in value]
+    return value

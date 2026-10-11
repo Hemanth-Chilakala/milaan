@@ -29,6 +29,19 @@ def reset_demo(scope_name="month", day="2026-10-14"):
             raise RuntimeError("Wait for the current reconciliation to finish") from error
         if scope_name == "day":
             with scope("month"):
+                with connect() as connection:
+                    exists = connection.execute(
+                        "SELECT COUNT(*) N FROM EXA_ALL_TABLES WHERE table_schema='MILAAN_DAY_AUDIT' AND table_name='DAY_STATE'"
+                    ).fetchone()["N"]
+                    last = (
+                        connection.execute("SELECT * FROM MILAAN_DAY_AUDIT.DAY_STATE").fetchone()
+                        if exists
+                        else None
+                    )
+                    if not last or str(last["CLOSE_DATE"]) != str(day):
+                        raise ValueError(
+                            "Run the selected close date before resetting its demonstration."
+                        )
                 prepare(date.fromisoformat(day))
         with scope(scope_name), connect() as connection:
             if scope_name == "month":

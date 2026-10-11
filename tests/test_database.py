@@ -281,6 +281,7 @@ def test_reversal_cancels_month_and_previously_closed_daily_credit(tmp_path):
     from generator.generate import add_business_days
     from milaan.daily import recon_day
     from milaan.db import scope
+    from milaan.demo import reset_demo
 
     folder = tmp_path / "bank-reversal"
     generate(folder, 1000, fixture=True)
@@ -319,6 +320,7 @@ def test_reversal_cancels_month_and_previously_closed_daily_credit(tmp_path):
     manifest["source_counts"]["bank_statement"] += 1
     manifest["source_rows"] += 1
     manifest_path.write_text(json.dumps(manifest))
+    setup()
     load(folder)
     result = recon()
     assert result["score"]["FALSE_POSITIVE"] == 0
@@ -334,6 +336,8 @@ def test_reversal_cancels_month_and_previously_closed_daily_credit(tmp_path):
         assert query(
             "SELECT * FROM MILAAN_RES.LINK WHERE bank_txn_id={id!s}", {"id": credit["bank_txn_id"]}
         )
+    with pytest.raises(ValueError, match="Run the selected close date"):
+        reset_demo("day", str(debit_day))
     recon_day(str(debit_day), warmup=False)
     with scope("day"):
         assert not query(

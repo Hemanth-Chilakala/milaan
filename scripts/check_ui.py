@@ -8,7 +8,7 @@ from milaan.config import ROOT
 from milaan.db import query
 
 PAGES = [
-    ("Today's close", "home", "Full month close"),
+    ("Close overview", "home", "Full month close"),
     ("Exceptions queue", "queue", "Exceptions queue"),
     ("Exception detail", "detail", "Exception detail"),
     ("Accuracy & performance", "accuracy", "Accuracy & performance"),

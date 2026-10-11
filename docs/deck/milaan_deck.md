@@ -29,11 +29,11 @@ using Exasol Personal for normalisation, matching, scoring and audit records.
 
 # One credit. 37 payments.
 
-<div class='equation'><b>37 PayFast payments</b><span>Gross ₹6,07,085.27</span><span>− fees ₹4,856.70 − GST ₹874.21</span><strong>Bank credit ₹6,01,354.36</strong></div>
+<div class='equation'><b>37 PayFast payments</b><span>Gross ₹10,02,336.29</span><span>− fees ₹8,018.71 − GST ₹1,443.38</span><strong>Bank credit ₹9,92,874.20</strong></div>
 
 **36 ledger receipts present · 1 missing**
 
-Loan LN-100000-36 · missing receipt ₹16,425.71
+Loan SFL-BL-3979018 · missing receipt ₹31,698.77
 
 ---
 
@@ -57,19 +57,21 @@ Separate ground truth → SQL scoring
 
 <img class='hero' src='../screenshots/home.png'>
 
+14 Oct 2026 · 29.49s core · 9.97s scoring · 39.46s total
+
 Full month for scale · Today's close for arriving records and carried open items
 
 ---
 
 # Seven passes. One shrinking queue.
 
-<div class='pass'><span>EXACT</span><i style='width:100.00%'></i><b>3,164,644</b><small>3,164,644 cumulative</small></div>
-<div class='pass'><span>PG_BATCH</span><i style='width:2.00%'></i><b>35,303</b><small>3,199,947 cumulative</small></div>
-<div class='pass'><span>FEE_AWARE</span><i style='width:34.11%'></i><b>1,079,439</b><small>4,279,386 cumulative</small></div>
-<div class='pass'><span>TOLERANT</span><i style='width:2.00%'></i><b>43,689</b><small>4,323,075 cumulative</small></div>
-<div class='pass'><span>FUZZY</span><i style='width:2.00%'></i><b>16,025</b><small>4,339,100 cumulative</small></div>
-<div class='pass'><span>SPLIT_MERGE</span><i style='width:2.00%'></i><b>44,100</b><small>4,383,200 cumulative</small></div>
-<div class='pass'><span>CLASSIFY</span><i style='width:2.00%'></i><b>0</b><small>4,383,200 cumulative</small></div>
+<div class='pass'><span>EXACT</span><i style='width:100.00%'></i><b>3,166,424</b><small>3,166,424 cumulative</small></div>
+<div class='pass'><span>PG_BATCH</span><i style='width:2.00%'></i><b>35,303</b><small>3,201,727 cumulative</small></div>
+<div class='pass'><span>FEE_AWARE</span><i style='width:34.09%'></i><b>1,079,439</b><small>4,281,166 cumulative</small></div>
+<div class='pass'><span>TOLERANT</span><i style='width:2.00%'></i><b>43,689</b><small>4,324,855 cumulative</small></div>
+<div class='pass'><span>FUZZY</span><i style='width:2.00%'></i><b>16,024</b><small>4,340,879 cumulative</small></div>
+<div class='pass'><span>SPLIT_MERGE</span><i style='width:2.00%'></i><b>44,100</b><small>4,384,979 cumulative</small></div>
+<div class='pass'><span>CLASSIFY</span><i style='width:2.00%'></i><b>0</b><small>4,384,979 cumulative</small></div>
 
 <div class='caption'>Measured 10M run · counts are receipt links · CLASSIFY labels remaining exceptions</div>
 
@@ -77,13 +79,13 @@ Full month for scale · Today's close for arriving records and carried open item
 
 # Why Exasol
 
-<div class='big'>76.14<span> seconds</span></div>
+<div class='big'>88.23<span> seconds</span></div>
 
 **10,000,000 source records · 4 cores · 15.62 GiB RAM**
 
 Bulk IMPORT · hash joins · REGEXP · windows · Python scalar · Lua SET UDFs
 
-<div class='caption'>EXACT: 19.27s · PG_BATCH: 6.04s · FEE_AWARE: 7.15s · TOLERANT: 1.56s · FUZZY: 1.13s · SPLIT_MERGE: 3.04s · CLASSIFY: 12.77s</div>
+<div class='caption'>EXACT: 22.15s · PG_BATCH: 7.63s · FEE_AWARE: 9.15s · TOLERANT: 1.79s · FUZZY: 0.91s · SPLIT_MERGE: 3.11s · CLASSIFY: 9.88s</div>
 
 Database-side results, validation and scoring included. Explanations and profiling flush follow the timer.
 
@@ -99,17 +101,18 @@ Every review records the analyst, timestamp and reasoning in Exasol.
 
 ---
 
-# Accuracy, tested three ways
+# Accuracy, tested four ways
 
 | 1M dataset | Precision | Recall | False links |
 |---|---:|---:|---:|
 | Normal | 100.000% | 100.000% | 0 |
 | Blind | 100.000% | 100.000% | 0 |
-| Hard | 99.154% | 85.872% | 3,220 |
+| Hard (tuned) | 100.000% | 85.872% | 0 |
+| Hard (blind) | 100.000% | 85.867% | 0 |
 
-**10M normal:** 100.000% precision · 99.959% recall · 98.502% source membership
+**10M normal:** 100.000% precision · 100.000% recall · 98.538% source membership
 
-Blind: unseen seed and break rates. Hard: collisions, reversals, longer delays and extra splits.
+Normal and reused blind are regression checks. Hard (tuned) informed reversal handling; hard (blind) uses newly unseen seed 20261105.
 
 ---
 
@@ -150,11 +153,11 @@ MIT · All data is synthetic
 # Appendix: limitations & methodology
 
 - Seeded, controlled data; production accuracy needs independent partner labels.
-- Frozen normal/blind/hard rules; bank reversals explain hard-mode false links.
+- Reversal pairs excluded before matching; late debits reopen prior groups.
 - Split search: at most 12 candidates, subsets of two or three.
 - Single node and one worker; no real ledger connector or review authentication.
 - Timing includes preparation, results, validation and scoring; browser/recording load changes it.
-- Daily/monthly equivalence tested on 1,000 records; full 10M daily replay remains unmeasured.
+- Fixture and three consecutive 10M closes agree with month; full 30-day 10M replay unmeasured.
 - Codespace rebuild and clean checkout tested; macOS/WSL remain unverified.
 
 Run IDs, profiles and raw observations: docs/benchmarks.md

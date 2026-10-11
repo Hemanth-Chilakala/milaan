@@ -1,6 +1,6 @@
 # Milaan: closing the books before noon
 
-Help an NBFC reconciliation analyst move from chasing receipts to reviewing the exceptions that matter. Milaan reconciles a month of 10 million source records inside Exasol Personal in a measured 76.14 seconds.
+Help an NBFC reconciliation analyst move from chasing receipts to reviewing the exceptions that matter. Milaan reconciles a month of 10 million source records inside Exasol Personal in a measured 88.23 seconds.
 
 [![MIT](https://img.shields.io/badge/licence-MIT-teal)](LICENSE)
 [![CI](https://github.com/Hemanth-Chilakala/milaan/actions/workflows/ci.yml/badge.svg)](https://github.com/Hemanth-Chilakala/milaan/actions/workflows/ci.yml)
@@ -18,7 +18,7 @@ References, settlement dates and gross versus net amounts disagree. Batch credit
 
 Demo video: docs/video/demo.mp4 · [Deck PDF](docs/deck/milaan_deck.pdf) · [PowerPoint](docs/deck/milaan_deck.pptx)
 
-![Daily close](docs/screenshots/home.png)
+![Close overview](docs/screenshots/home.png)
 ![Exception evidence](docs/screenshots/detail.png)
 ![Priority queue](docs/screenshots/queue.png)
 
@@ -37,14 +37,23 @@ The final video is assembled separately from the supplied silent footage and edi
 Bulk IMPORT, SQL normalisation, joins, aggregation, window functions, similarity and subset-sum UDFs, explanations and scoring execute inside Exasol Personal. Python orchestrates SQL and displays aggregates or 50-row pages; it does not retrieve millions of transactions for matching.
 
 <!-- MEASUREMENTS_START -->
-**10,000,000 source records in 76.14 seconds**, measured without a browser or recorder on **4 cores / 15.62 GiB RAM**. **98.502%** of source records were grouped, with **100.000% link precision**, **99.959% recall**, **0 false links** and **1,779 missed expected links**. The selected silent monthly capture completed in **114.11 seconds** at 24 fps, with the same accuracy and membership. Recording attempts and quality retakes are retained in the editor metadata; the selected capture added **49.86%** versus the Phase-A benchmark. Timings include results, conflict validation and SQL scoring; explanation generation and native profiling flush follow the timer. See [benchmarks](docs/benchmarks.md) for run IDs and every measured stage.
+**10,000,000 source records in 88.23 seconds**, measured without a browser or recorder on **4 cores / 15.62 GiB RAM**. **98.538%** of source records were grouped, with **100.000% link precision**, **100.000% recall**, **0 false links** and **0 missed expected links**. Timings include preparation, results, conflict validation, commits and SQL scoring; explanations and native profiling flush follow the timer. Fresh recorded timings and overhead are pending the footage checkpoint.
+
+14 Oct 2026: **29.487s core matching**, **9.966s scoring and validation**, **39.459s total**. The core includes preparation, active sets, all matching passes, result append and classification. The 10-second core target was missed. The separately labelled 13 Oct catch-up took 88.387s total. See [benchmarks](docs/benchmarks.md) for run IDs and measured stages. The prepared-state month excludes the explicit 27.011s demo reset before the timer; the full rerun including open-item restoration took 207.039s. Both observations are preserved, and footage overhead will compare equivalent prepared starting states.
 <!-- MEASUREMENTS_END -->
 
 ## How we validated
 
-The seeded event oracle writes known links to a separate ground-truth file before source references and names are degraded. Matching SQL never reads these labels; scoring compares its output with them afterward. We froze the rules and tested a 1M-record holdout using unseen seed `20261025` and independently randomised break rates (0.5–1.5×, saved in the manifest).
+The event oracle records the known links separately before source fields are corrupted. Matching never reads those labels. Normal and reused blind seed 20261025 are regression checks. The earlier hard seed 20261104 informed reversal handling, so it is labelled **hard (tuned)**. Seed 20261105 was unused before this measurement and is labelled **hard (blind)**. SQL/UDF hashes were frozen before all four current runs.
 
-A separate 1M hard dataset uses seed `20261104`: equal-amount/day collisions, two-character name errors with truncated references, T+4/T+5 delays, ±1-paise fee differences, four/five-way split payments, and reversed or duplicated bank lines. See the side-by-side [validation measurements](docs/benchmarks.md#blind-and-hard-validation) and the Accuracy page. The results are shown side by side so an analyst can see where tougher evidence needs review.
+| 1M dataset | Seed | Precision | Recall | False links | Missed links | Exceptions |
+|---|---:|---:|---:|---:|---:|---:|
+| Normal | 42 | 100.000% | 100.000% | 0 | 0 | 10,171 |
+| Blind | 20261025 | 100.000% | 100.000% | 0 | 0 | 12,071 |
+| Hard (tuned) | 20261104 | 100.000% | 85.872% | 0 | 62,123 | 107,891 |
+| Hard (blind) | 20261105 | 100.000% | 85.867% | 0 | 62,132 | 108,103 |
+
+Bank debit/credit pairs with the same normalised reference and amount are excluded before matching. A late reversal reopens its previous daily match for review. Ambiguous reversal relationships are held for review rather than assigned an arbitrary pair. These controlled synthetic results do not establish production accuracy; an independently labelled NBFC partner dataset is needed. See [raw validation](docs/validation_results.json).
 
 ## Architecture
 
@@ -184,7 +193,7 @@ Database tests replace active demo tables with a small synthetic fixture. Reload
 
 ## Limitations and validation
 
-The measurements use synthetic data, distinct loan IDs and controlled corruption patterns. They establish reproducible matching behaviour on these cases; operational accuracy and close-time improvements need an independently labelled NBFC partner dataset held out by institution, date and channel. Illustrative workflow consequences are not industry statistics. Normal and blind 1M validation measured 100% precision and recall; hard mode measured **99.154% precision**, **85.872% recall** and **3,220 false links**. In particular, a credit can still match when a later bank reversal cancels it; reversal-aware matching is a required next step before operational use. Ambiguous candidates stay unresolved; subset matching examines at most 12 credits and only subsets of two or three. The calendar is fictional. This is a single-node Personal deployment with one reconciliation worker, no role-based access control and no real accounting connector.
+The measurements use synthetic data, distinct loan IDs and controlled corruption patterns. They establish reproducible matching behaviour on these cases; operational accuracy and close-time improvements need an independently labelled NBFC partner dataset held out by institution, date and channel. Illustrative workflow consequences are not industry statistics. The four current accuracy measurements are listed above. Reversal checks now exclude cancelled credits and reopen affected daily groups. Ambiguous candidates stay unresolved; subset matching examines at most 12 credits and only subsets of two or three. The calendar is fictional. This is a single-node Personal deployment with one reconciliation worker, no role-based access control and no real accounting connector.
 
 The Codespace deployment and clean-clone setup were tested, including a successful devcontainer rebuild. macOS, Windows/WSL and a fresh published Codespace have not been independently tested. Three consecutive daily closes at 10M scale matched the monthly links eligible on those dates; a complete 30-day 10M replay remains unmeasured. Sequential daily/monthly equality was also tested on the 1,000-record fixture. See [daily observations](docs/daily.md). Same-date replay and initial catch-up cost more than an incremental close. Runtime varies with indexes, caches and recording load; the 60-second month target has not been met.
 

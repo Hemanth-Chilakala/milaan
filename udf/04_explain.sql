@@ -41,7 +41,7 @@ def explain(category: str, evidence: str | dict) -> str:
         if category == "BANK_REVERSAL":
             return (
                 f"The {amount} bank credit for {loan} was cancelled by an equal debit "
-                f"with the same reference on {day}. {e.get('reason') or ''}. "
+                f"with the same reference. This source evidence is dated {day}. {e.get('reason') or ''}. "
                 "Both bank lines are excluded from automatic matching. "
                 "Action: verify the cancelling debit and reverse any paid posting after approval."
             )

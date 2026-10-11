@@ -1613,5 +1613,11 @@
       "false_link_examples": []
     }
   ],
-  "retained_demo_unchanged": true
+  "retained_demo_unchanged": true,
+  "subsequent_nonmatching_template_update": {
+    "source": "udf/04_explain.sql",
+    "measured_template_sha256": "bf505f6ee11b8cc7c72d84648db5bb216550c092e7b65317d36fa46c413769f7",
+    "current_template_sha256": "eb9ceb22a6f696fa966ee27950038eddab63d8c614b692a08617833584fbe23d",
+    "reason": "Clarify that the date describes the source evidence, not necessarily the cancelling debit. Matching SQL, similarity/subset UDFs and result scores are unchanged."
+  }
 }

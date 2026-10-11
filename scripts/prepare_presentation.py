@@ -12,6 +12,7 @@ def main():
     payload = json.loads((ROOT / "docs/benchmark_results.json").read_text())
     measured = next(r for r in payload["results"] if r["source_rows"] == 10000000)
     score = measured["score"]
+    day = json.loads((ROOT / "docs/daily_results.json").read_text())["results"][-1]
     validation = json.loads((ROOT / "docs/validation_results.json").read_text())
     batch = json.loads(
         query(
@@ -31,7 +32,9 @@ def main():
     cumulative = 0
     for row in measured["pass_details"]:
         cumulative += row["LINKS_ADDED"]
-        width = max(2, 100 * row["LINKS_ADDED"] / 3164644)
+        width = max(
+            2, 100 * row["LINKS_ADDED"] / max(r["LINKS_ADDED"] for r in measured["pass_details"])
+        )
         pass_rows.append(
             f"<div class='pass'><span>{row['PASS_NAME']}</span><i style='width:{width:.2f}%'></i><b>{row['LINKS_ADDED']:,}</b><small>{cumulative:,} cumulative</small></div>"
         )
@@ -46,17 +49,17 @@ def main():
         f"# One credit. 37 payments.\n\n<div class='equation'><b>37 PayFast payments</b><span>Gross {rupees(batch['gross_total_paise'])}</span><span>− fees {rupees(batch['fee_paise'])} − GST {rupees(batch['gst_paise'])}</span><strong>Bank credit {rupees(batch['bank_paise'])}</strong></div>\n\n**36 ledger receipts present · 1 missing**\n\nLoan {batch['loan_id']} · missing receipt {rupees(batch['amount_paise'])}",
         "# Why spreadsheets fail\n\n<div class='cards'><div><b>References disagree</b><p>Truncated bank narrations and different receipt identifiers.</p></div><div><b>Amounts disagree</b><p>Gross EMIs, net settlements, fees and GST.</p></div><div><b>Dates disagree</b><p>Delayed credits, holidays and next-day NACH returns.</p></div></div>\n\nIllustrative consequences: suspense balances, wrong customer follow-ups and slower audit review.",
         "# Milaan in one picture\n\n<div class='flow'><b>Ledger · Bank · Gateway · NACH</b><br>↓ bulk IMPORT<br><strong>EXASOL PERSONAL</strong><br>SQL normalisation → seven passes + UDFs → ranked exceptions<br>↓ small result sets<br><b>Analyst review → decision audit in Exasol</b></div>\n\nSeparate ground truth → SQL scoring",
-        "# Watch the close progress\n\n<img class='hero' src='../screenshots/home.png'>\n\nFull month for scale · Today's close for arriving records and carried open items",
+        f"# Watch the close progress\n\n<img class='hero' src='../screenshots/home.png'>\n\n14 Oct 2026 · {day['core_matching_seconds']:.2f}s core · {day['scoring_validation_seconds']:.2f}s scoring · {day['total_seconds']:.2f}s total\n\nFull month for scale · Today's close for arriving records and carried open items",
         "# Seven passes. One shrinking queue.\n\n"
         + "\n".join(pass_rows)
         + "\n\n<div class='caption'>Measured 10M run · counts are receipt links · CLASSIFY labels remaining exceptions</div>",
         f"# Why Exasol\n\n<div class='big'>{measured['seconds']:.2f}<span> seconds</span></div>\n\n**10,000,000 source records · 4 cores · 15.62 GiB RAM**\n\nBulk IMPORT · hash joins · REGEXP · windows · Python scalar · Lua SET UDFs\n\n<div class='caption'>{timing}</div>\n\nDatabase-side results, validation and scoring included. Explanations and profiling flush follow the timer.",
         "# Review the money that matters\n\n<div class='screens'><img src='../screenshots/queue.png'><img src='../screenshots/detail.png'></div>\n\n**Prioritise → inspect evidence → accept, reject or assign**\n\nEvery review records the analyst, timestamp and reasoning in Exasol.",
-        f"# Accuracy, tested three ways\n\n| 1M dataset | Precision | Recall | False links |\n|---|---:|---:|---:|\n{checks}\n\n**10M normal:** {score['PRECISION_VALUE'] * 100:.3f}% precision · {score['RECALL_VALUE'] * 100:.3f}% recall · {score['AUTO_MATCH_RATE'] * 100:.3f}% source membership\n\nBlind: unseen seed and break rates. Hard: collisions, reversals, longer delays and extra splits.",
+        f"# Accuracy, tested four ways\n\n| 1M dataset | Precision | Recall | False links |\n|---|---:|---:|---:|\n{checks}\n\n**10M normal:** {score['PRECISION_VALUE'] * 100:.3f}% precision · {score['RECALL_VALUE'] * 100:.3f}% recall · {score['AUTO_MATCH_RATE'] * 100:.3f}% source membership\n\nNormal and reused blind are regression checks. Hard (tuned) informed reversal handling; hard (blind) uses newly unseen seed 20261105.",
         "# Trust comes from evidence\n\n<div class='cards'><div><b>Deterministic explanations</b><p>Amounts, dates and rules come from stored evidence. No external inference service.</p></div><div><b>Human review</b><p>The analyst accepts a recommendation, rejects it or assigns an owner.</p></div><div><b>Auditable decisions</b><p>Run-linked evidence and review history remain in Exasol.</p></div></div>\n\nA final membership check rejects conflicting match groups.",
         "# A practical path to impact\n\n**First:** independently labelled validation with an NBFC partner.\n\n**Next:** live feeds, real holiday calendars, authenticated review roles and approved ledger write-back.\n\n**Then:** measure larger datasets and concurrent operations.\n\nSimilar reconciliation workflows exist in banks, insurers, fintechs and gateway-based merchants.",
         f"{logo}\n\n# Close with confidence\n\nThe Singleton · Hemanth Chilakala\n\nhttps://github.com/Hemanth-Chilakala/milaan\n\nDemo video: docs/video/demo.mp4\n\nMIT · All data is synthetic",
-        "# Appendix: limitations & methodology\n\n- Seeded, controlled data; production accuracy needs independent partner labels.\n- Frozen normal/blind/hard rules; bank reversals explain hard-mode false links.\n- Split search: at most 12 candidates, subsets of two or three.\n- Single node and one worker; no real ledger connector or review authentication.\n- Timing includes preparation, results, validation and scoring; browser/recording load changes it.\n- Daily/monthly equivalence tested on 1,000 records; full 10M daily replay remains unmeasured.\n- Codespace rebuild and clean checkout tested; macOS/WSL remain unverified.\n\nRun IDs, profiles and raw observations: docs/benchmarks.md",
+        "# Appendix: limitations & methodology\n\n- Seeded, controlled data; production accuracy needs independent partner labels.\n- Reversal pairs excluded before matching; late debits reopen prior groups.\n- Split search: at most 12 candidates, subsets of two or three.\n- Single node and one worker; no real ledger connector or review authentication.\n- Timing includes preparation, results, validation and scoring; browser/recording load changes it.\n- Fixture and three consecutive 10M closes agree with month; full 30-day 10M replay unmeasured.\n- Codespace rebuild and clean checkout tested; macOS/WSL remain unverified.\n\nRun IDs, profiles and raw observations: docs/benchmarks.md",
     ]
     css = f"""/* @theme milaan */
 @import 'default';

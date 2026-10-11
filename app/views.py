@@ -12,6 +12,7 @@ import streamlit as st
 from app.presentation import (
     business_date,
     compact_money,
+    display_evidence,
     ist_timestamp,
     label,
     percent,
@@ -437,7 +438,12 @@ def home_content(data):
         st.caption(
             f"Core matching · {daily_timing['CORE_SECONDS']:.2f} s · Scoring and validation · {daily_timing['SCORING_VALIDATION_SECONDS']:.2f} s · Total · {daily_timing['TOTAL_SECONDS']:.2f} s"
         )
-    if st.button("Reset demo", icon=":material/restart_alt:", disabled=is_running()):
+    reset_available = current_scope() == "month" or str(data.get("AS_OF_DATE")) == str(
+        st.session_state.get("close_date", date(2026, 10, 14))
+    )
+    if st.button(
+        "Reset demo", icon=":material/restart_alt:", disabled=is_running() or not reset_available
+    ):
         reset_demo(current_scope(), str(st.session_state.get("close_date", date(2026, 10, 14))))
         st.cache_data.clear()
         st.session_state.pop("completed_run", None)
@@ -800,7 +806,7 @@ def exception_detail(data):
                 height=350,
             )
         with st.expander("Bank narration and original source records"):
-            st.json(records)
+            st.json(display_evidence(records))
     with st.container(border=True, key="panel_decision"):
         section("Record a decision", "Saved to the Exasol audit trail")
         st.caption(
@@ -861,7 +867,7 @@ def exception_detail(data):
                 width="stretch",
             )
     with st.expander("Structured evidence & references"):
-        st.json(evidence)
+        st.json(display_evidence(evidence))
 
 
 def accuracy(data):

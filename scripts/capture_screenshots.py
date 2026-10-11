@@ -15,7 +15,7 @@ def main():
     folder.mkdir(exist_ok=True)
     with sync_playwright() as p:
         browser = p.chromium.launch(args=["--no-sandbox"])
-        page = browser.new_page(viewport={"width": 1920, "height": 1080}, device_scale_factor=1)
+        page = browser.new_page(viewport={"width": 1920, "height": 1080}, device_scale_factor=2)
         page.goto("http://127.0.0.1:8501/?present=1")
         page.get_by_role("heading", name="Full month close", exact=True).wait_for(timeout=60000)
         for label, filename, title in [
