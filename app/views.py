@@ -28,7 +28,7 @@ from milaan.explain import generate_explanations, rupees
 from milaan.pipeline import PASSES, recon
 
 PAGES = {
-    "Today's close": ":material/dashboard:",
+    "Close overview": ":material/dashboard:",
     "Exceptions queue": ":material/format_list_bulleted:",
     "Exception detail": ":material/compare_arrows:",
     "Accuracy & performance": ":material/monitoring:",
@@ -128,9 +128,9 @@ def render():
         markup(
             '<style>[data-testid="stHeader"], [data-testid="stDecoration"], [data-testid="stSidebarHeader"], [data-testid="stSidebarResizeHandle"], [data-testid="stSidebarCollapseButton"]{display:none!important;} html{font-size:17.6px;} [data-testid="stMainBlockContainer"]{padding-top:1.7rem;} .metric-value{font-size:34px;} .hero-sub{font-size:15.4px;} .metric-card{padding:24px 20px;}</style>'
         )
-    page = st.session_state.setdefault("workspace", "Today's close")
+    page = st.session_state.setdefault("workspace", "Close overview")
     if page not in PAGES:
-        page = "Today's close"
+        page = "Close overview"
         st.session_state["workspace"] = page
     with st.sidebar:
         logo = (ROOT / "docs/brand/logo.svg").read_text().replace("#20352f", "#effff5")
@@ -159,11 +159,16 @@ def render():
             key="reconciliation_mode",
         )
         if selected_mode == "Today's close":
-            st.date_input("Close date", value=date(2026, 10, 14), key="close_date")
+            selected_date = st.text_input("Close date", value="14 Oct 2026", key="close_date_text")
+            try:
+                st.session_state["close_date"] = datetime.strptime(selected_date, "%d %b %Y").date()
+            except ValueError:
+                st.error("Enter a date such as 27 Oct 2026.")
+                st.stop()
         markup(
             '<div class="sidebar-account"><strong>Sahyog Finance Ltd</strong><br>Collections &amp; daily close<br><span style="color:#87a995">Demonstration workspace</span></div>'
         )
-        now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d %b · %H:%M IST")
+        now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%d %b %Y · %H:%M IST")
         markup(
             f'<div class="sidebar-footer" style="margin-top:24px"><span class="online-dot"></span>Exasol Personal<br>Evidence-backed explanations<br><span style="color:#708f7e">{now}</span></div>'
         )
@@ -207,7 +212,7 @@ def render():
                 st.code("make setup data load recon explain")
             return
         views = {
-            "Today's close": home,
+            "Close overview": home,
             "Exceptions queue": queue,
             "Exception detail": exception_detail,
             "Accuracy & performance": accuracy,
@@ -413,10 +418,15 @@ def home_content(data):
             ),
         ]
     )
+    presentation = st.query_params.get("present") == "1" or os.getenv("MILAAN_PRESENT") == "1"
     status = (
-        f"Last run · {run['SECONDS']:.2f}s"
-        if run and run["SECONDS"] is not None
-        else "Awaiting first reconciliation"
+        "Reconciliation complete"
+        if presentation and run
+        else (
+            f"Last run · {run['SECONDS']:.2f}s"
+            if run and run["SECONDS"] is not None
+            else "Awaiting first reconciliation"
+        )
     )
     st.caption(
         status
@@ -902,21 +912,21 @@ def accuracy(data):
         ]
     )
     markup(
-        '<div class="insight">Measured on synthetic data with known answers. Matching uses source evidence; separate ground truth scores the resulting links. Compare normal, blind and hard cases below.</div>'
+        '<div class="insight">Measured on synthetic data with known answers. Matching uses source evidence; separate ground truth scores the resulting links. Compare normal, reused blind, hard (tuned) and hard (blind) cases below.</div>'
     )
     with st.container(border=True, key="panel_accuracy"):
         validation_path = ROOT / "docs/validation_results.json"
         if validation_path.exists():
             from scripts.validate_holdout import comparison_rows
 
-            section("Normal, blind and hard", "Unchanged matching rules · 1M records each")
+            section("Four accuracy sets", "Rules frozen before these runs · 1M records each")
             st.dataframe(
                 comparison_rows(json.loads(validation_path.read_text())),
                 hide_index=True,
                 width="stretch",
             )
             st.caption(
-                "Blind seed 20261025 uses unseen, randomised break rates. Hard mode adds ambiguous references, longer delays, extra split transfers and bank reversals."
+                "Normal and seed 20261025 are regression checks. Hard seed 20261104 informed reversal handling; newly unseen hard seed 20261105 was measured after freezing the rules."
             )
         section("Accuracy by scenario", "— = no expected or predicted links")
         st.dataframe(

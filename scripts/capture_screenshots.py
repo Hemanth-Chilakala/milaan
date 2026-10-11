@@ -19,7 +19,7 @@ def main():
         page.goto("http://127.0.0.1:8501/?present=1")
         page.get_by_role("heading", name="Full month close", exact=True).wait_for(timeout=60000)
         for label, filename, title in [
-            ("Today's close", "home", "Full month close"),
+            ("Close overview", "home", "Full month close"),
             ("Exceptions queue", "queue", "Exceptions queue"),
             ("Exception detail", "detail", "Exception detail"),
             ("Accuracy & performance", "accuracy", "Accuracy & performance"),

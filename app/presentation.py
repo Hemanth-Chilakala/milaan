@@ -6,6 +6,7 @@ from html import escape
 from milaan.explain import rupees
 
 LABELS = {
+    "BANK_REVERSAL": "Bank credit reversed",
     "NACH_BOUNCE_MISPOSTED": "NACH return posted as paid",
     "MISSING_IN_BANK": "Receipt missing from bank",
     "MISSING_IN_LEDGER": "Gateway receipt missing from ledger",
@@ -62,6 +63,6 @@ def percent(value, decimals=2):
 def ist_timestamp(value):
     """Format a timestamp already converted to IST by the query."""
     try:
-        return datetime.fromisoformat(str(value)).strftime("%d %b · %H:%M") + " IST"
+        return datetime.fromisoformat(str(value)).strftime("%d %b %Y · %H:%M") + " IST"
     except (TypeError, ValueError):
         return "—"

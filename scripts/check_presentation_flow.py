@@ -53,7 +53,7 @@ def main():
         assert after == before + 1
         report["audit_write_verified"] = True
         page.screenshot(path=str(folder / "decision.png"))
-        page.get_by_test_id("stSidebar").get_by_role("button", name="Today's close").click()
+        page.get_by_test_id("stSidebar").get_by_role("button", name="Close overview").click()
         page.get_by_test_id("stRadio").get_by_text("Today's close", exact=True).click()
         page.get_by_text("New records today", exact=True).wait_for()
         settle(page)
