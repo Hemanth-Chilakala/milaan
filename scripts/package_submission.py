@@ -21,7 +21,7 @@ def digest(path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=Path("/workspaces/milaan_final.zip"))
+    parser.add_argument("--out", type=Path, default=Path("/workspaces/milaan_final_r3.zip"))
     args = parser.parse_args()
     target = args.out.resolve()
     if target.exists():
@@ -88,49 +88,62 @@ The Singleton · Hemanth Chilakala · ExaThon India 2026 · Track 1
 - `video_assets/metrics.json`: measured amounts, counts, timings and accuracy.
 - `prep/`: private rehearsal, Q&A and SQL walkthrough; do not publish this folder.
 
-## What changed in round two
+## What changed in round three
 
-Shrinking open-item tables, stored reference suffixes and a native Lua SET UDF
-improved reconciliation. Frozen blind/hard validation measures ambiguity and
-reversals. Daily closes carry open items forward. The branded presentation-mode
-dashboard shows live audit snapshots and the 37-payment exception. Bootstrap,
-a new-deployment clean checkout and an actual Codespace rebuild were verified.
-The documentation, 14-slide deck and private preparation were updated. The old
-narrated-video pipeline was removed; an external editor assembles the final video.
+Seeded realistic identifiers replace sequential showcase IDs. Persistent daily
+open items limit the active scope to new arrivals plus unresolved history.
+Reference/amount debit-credit reversal pairs are excluded before matching;
+a late reversal reopens its previously closed daily group for review.
+Dates and navigation are consistent. All nine shots were recaptured with
+CPU-affined capture processes and slower polling, using real database runs.
+Documentation, slides, screenshots and private preparation use current measurements.
 
-## Final measured references
+## Current measured references and previous observations
 
-- Unrecorded Phase-A 10M benchmark: **{baseline["seconds"]:.3f} s**, run `{baseline["run_id"]}`.
-- Selected recorded month: **{month["seconds"]:.3f} s**, run `{month["run_id"]}`, {month["recording_fps"]} fps.
-- Recorded versus Phase-A overhead: **{month["recording_overhead_pct"]:.2f}%**. Every attempt is recorded in metrics.json.
-- Recorded daily close: **{day["seconds"]:.3f} s**, run `{day["run_id"]}`.
-- Month source membership **{month["score"]["AUTO_MATCH_RATE"] * 100:.3f}%**; link precision **{month["score"]["PRECISION_VALUE"] * 100:.3f}%**, recall **{month["score"]["RECALL_VALUE"] * 100:.3f}%**, {month["score"]["FALSE_POSITIVE"]:,} false links and {month["score"]["FALSE_NEGATIVE"]:,} missed links.
-- Normal/blind 1M: 100% precision and recall. Hard 1M: 99.154% precision, 85.872% recall, 3,220 false links and 62,121 missed links.
+- Unrecorded prepared 10M close: **{baseline["seconds"]:.3f}s**, run `{baseline["run_id"]}`; explicit prior reset **{baseline["reset_before_run_seconds"]:.3f}s**, outside the timer.
+- Full unprepared rerun, including open-table restoration: **207.039s**.
+- Recorded S02: **{month["seconds"]:.3f}s**, run `{month["run_id"]}` at {month["recording_fps"]} fps; overhead **{month["recording_overhead_pct"]:.2f}%** against the equivalent prepared baseline.
+- First-arrival 14 Oct unrecorded: **{day["incremental_unrecorded_benchmark"]["core_matching_seconds"]:.3f}s core**, **{day["incremental_unrecorded_benchmark"]["scoring_validation_seconds"]:.3f}s scoring/validation**, **{day["incremental_unrecorded_benchmark"]["total_seconds"]:.3f}s total**.
+- Equivalent same-day replay baseline for S03: **{day["unrecorded_benchmark"]["core_matching_seconds"]:.3f}s core**, **{day["unrecorded_benchmark"]["scoring_validation_seconds"]:.3f}s scoring/validation**, **{day["unrecorded_benchmark"]["total_seconds"]:.3f}s total**.
+- Recorded S03: **{day["recorded_s03"]["core_matching_seconds"]:.3f}s core**, **{day["recorded_s03"]["scoring_validation_seconds"]:.3f}s scoring/validation**, **{day["recorded_s03"]["total_seconds"]:.3f}s total**; total overhead **{day["recording_overhead_pct"]:.2f}%**.
+- Month membership **{month["score"]["AUTO_MATCH_RATE"] * 100:.3f}%**, precision/recall **100%/100%**, **0 false links**.
+- Normal and reused blind: 100% precision and recall. Hard tuned: 100% precision, 85.872% recall. New hard blind seed 20261105: 100% precision, 85.867% recall. All four sets have zero false links.
+- Previous identifiers: month 76.144s unrecorded / 114.107s recorded (49.86% overhead). Earlier daily: 47.778s core / 5.669s scoring / 53.447s total. Earlier hard set had 3,220 false links.
 - Host: 4 cores / 15.62 GiB RAM, Exasol Personal 2026.2.0-nano.3.
 
-README and deck use the unrecorded benchmark. Capture metadata separately states
-recording overhead and its actual run. Timers include results, validation and
-SQL scoring; explanations and profiling flush follow the core timer. The raw
-terminal console is a separate actual unrecorded run, identified in metrics.
+README/deck keep the unrecorded benchmark; actual footage numbers are separately
+identified. Timers include preparation, results, conflict validation, commits and
+SQL scoring. Explanations/profiling flush follow. The console is a separate
+real unrecorded run, not the selected benchmark or recorded run.
 
-## Validation and known gaps
+## Validation, failures and missed targets
 
-Lint and all 30 unit tests passed. All 10 database tests passed in isolated
-verification schemas, preserving the 10M demo; fresh checkout/new deployment
-reproduction and the Codespace rebuild passed. Clips were fully decoded,
-frame-count and sync-marker checked, and visually reviewed in frame sequences.
-Source files and git history were scanned for secrets. The exact staged package
-was scanned again before compression. Per-file hashes are in
-CHECKSUMS.sha256; the ZIP CRC and extracted local history were verified.
+Lint, 34 unit tests and 11 database tests passed. Fixture sequential daily/monthly
+links agree across all seven columns. Three consecutive days at 10M scale also
+agreed; full 30-day 10M replay remains unmeasured. Reversal testing includes
+invalidating a previously closed daily credit and refusing reset on an unclosed
+date. Earlier clean checkout/new deployment and container rebuild passed.
+Clips were decoded end to end, synchronization/frame-count checked and visually
+reviewed. The manifest discloses capture sampling deficits and any retakes.
+All files and history were scanned for secrets; the staged package was scanned
+again. CHECKSUMS.sha256 covers every packaged file except itself.
 
-The 60-second month goal was not met. All data is synthetic; bank reversals
-expose hard-mode false matches. Split matching is bounded to 12 candidates and
-subsets of two or three. Daily/monthly equality was tested on a small fixture;
-10M day-by-day replay remains unmeasured. There is no production authentication
-or real ledger write-back. macOS/WSL and a newly published Codespace remain
-unverified. The optional whole-sequence Lua wrapper and S10 were omitted; the
-native Lua SET UDF is included. The final narrated video is intentionally not
-included: the editor adds demo.mp4, script.md and credits before submission.
+The 60s month and 10s daily-core targets were missed: active-set preparation,
+classification, result materialisation, validation and scoring remain substantial.
+The minimum month goal of under 90s was met only in the prepared starting state.
+Capture overhead target was {"met" if month["recording_overhead_pct"] < 20 and day["recording_overhead_pct"] < 20 else "missed"}; measured values above replace estimates.
+Hard recall is limited by ambiguous references, long delays and larger splits.
+Synthetic validation does not establish production accuracy. Split matching is
+bounded to 12 candidates and subsets of two or three. No production authentication
+or real ledger write-back exists. macOS/WSL and a newly published Codespace remain
+unverified. Whole-sequence Lua wrapper and optional S10 were omitted.
+
+A restart cleared temporary environments/assets and left stale container runtime
+state. The pinned environment, CSVs and editor assets were regenerated; stale
+runtime state was retired and the same persistent Exasol deployment was restarted.
+No retained 10M sources, working database volume or necessary images were removed.
+No finished narrated video is included: an external editor adds demo.mp4, script
+and credits. The final submission must include that video, at most 3:00.
 
 ## Publish and finish outside this Codespace
 
@@ -158,7 +171,7 @@ do not delete it until the published repository is verified.
             "--source",
             str(stage),
             "--report-path",
-            str(ROOT / "private/round2/final-package-secrets.json"),
+            str(ROOT / "private/round3/final-package-secrets.json"),
             "--redact",
             "--no-banner",
         ],
@@ -167,7 +180,7 @@ do not delete it until the published repository is verified.
     footprint = sum(p.stat().st_size for p in stage.rglob("*") if p.is_file())
     # Compress on the separate temporary volume, then check actual ZIP headroom.
     pending = stage / "handoff.pending.zip"
-    with (ROOT / "private/round2/package-build.log").open("w") as output:
+    with (ROOT / "private/round3/package-build.log").open("w") as output:
         subprocess.run(
             [
                 "zip",
@@ -185,22 +198,14 @@ do not delete it until the published repository is verified.
             stderr=subprocess.STDOUT,
             check=True,
         )
-    free = shutil.disk_usage(target.parent).free
-    if shutil.disk_usage(ROOT).free < 6_000_000_000:
-        raise SystemExit("The workspace must retain at least 6 GB free.")
-    if free < pending.stat().st_size + 6_000_000_000:
-        raise SystemExit(
-            f"Need actual ZIP size plus 6 GB reserve: zip={pending.stat().st_size}, free={free}; staging={stage}"
-        )
-    shutil.copy2(pending, target)
-    if target.stat().st_size >= 1_500_000_000:
+    if pending.stat().st_size >= 1_500_000_000:
         raise SystemExit("The ZIP exceeds the 1.5 GB target.")
-    with (ROOT / "private/round2/package-crc.log").open("w") as output:
+    with (ROOT / "private/round3/package-crc.log").open("w") as output:
         subprocess.run(
-            ["unzip", "-t", str(target)], stdout=output, stderr=subprocess.STDOUT, check=True
+            ["unzip", "-t", str(pending)], stdout=output, stderr=subprocess.STDOUT, check=True
         )
     verify = Path(tempfile.mkdtemp(prefix="milaan-zip-verify-"))
-    subprocess.run(["unzip", "-q", str(target), "-d", str(verify)], check=True)
+    subprocess.run(["unzip", "-q", str(pending), "-d", str(verify)], check=True)
     for line in (verify / "CHECKSUMS.sha256").read_text().splitlines():
         expected, name = line.split("  ", 1)
         assert digest(verify / name) == expected, name
@@ -211,6 +216,21 @@ do not delete it until the published repository is verified.
     )
     assert not subprocess.check_output(["git", "status", "--porcelain"], cwd=extracted).strip()
     subprocess.run(["git", "log", "-5", "--oneline"], cwd=extracted, check=True)
+    old = target.parent / "milaan_final.zip"
+    old_bytes = old.stat().st_size if old.is_file() else 0
+    free = shutil.disk_usage(target.parent).free
+    if free + old_bytes < pending.stat().st_size + 6_000_000_000:
+        raise SystemExit(
+            f"Need ZIP plus 6 GB reserve after replacing old ZIP: zip={pending.stat().st_size}, free={free}, old={old_bytes}; staging={stage}"
+        )
+    if old.is_file():
+        retired = stage / "previous-handoff.zip"
+        shutil.copy2(old, retired)
+        assert digest(retired) == digest(old)
+        old.unlink()
+    shutil.copy2(pending, target)
+    assert digest(target) == digest(pending)
+    assert shutil.disk_usage(ROOT).free >= 6_000_000_000
     report = {
         "file": str(target),
         "bytes": target.stat().st_size,
@@ -224,7 +244,7 @@ do not delete it until the published repository is verified.
         "workspace_free_after_bytes": shutil.disk_usage(ROOT).free,
         "archive_volume_free_after_bytes": shutil.disk_usage(target.parent).free,
     }
-    (ROOT / "private/round2/final-package-verification.json").write_text(
+    (ROOT / "private/round3/final-package-verification.json").write_text(
         json.dumps(report, indent=2) + "\n"
     )
     print(json.dumps(report, indent=2))
