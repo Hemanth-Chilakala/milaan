@@ -4,18 +4,19 @@ SELECT * FROM MILAAN_CORE.OPEN_LEDGER;
 CREATE OR REPLACE TABLE MILAAN_CORE.REMAINING_CANDIDATE AS
 SELECT DISTINCT ledger_id,bank_txn_id,amount_paise FROM (
 SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
-JOIN MILAAN_CORE.BANK b ON l.ref_norm=b.ref_norm AND b.day_index-l.day_index BETWEEN 0 AND 3
+JOIN MILAAN_CORE.SAFE_BANK b ON l.ref_norm=b.ref_norm AND b.day_index-l.day_index BETWEEN 0 AND 3
 UNION ALL
 SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
-JOIN MILAAN_CORE.BANK b ON l.loan_id=b.loan_id AND b.day_index-l.day_index BETWEEN 0 AND 3
+JOIN MILAAN_CORE.SAFE_BANK b ON l.loan_id=b.loan_id AND b.day_index-l.day_index BETWEEN 0 AND 3
 UNION ALL
 SELECT l.ledger_id,b.bank_txn_id,b.amount_paise FROM MILAAN_CORE.REMAINING_LEDGER l
-JOIN MILAAN_CORE.BANK b ON l.ref_suffix8=b.ref_suffix8 AND l.amount_paise=b.amount_paise AND b.day_index-l.day_index BETWEEN 0 AND 3
+JOIN MILAAN_CORE.SAFE_BANK b ON l.ref_suffix8=b.ref_suffix8 AND l.amount_paise=b.amount_paise AND b.day_index-l.day_index BETWEEN 0 AND 3
 );
 
 CREATE OR REPLACE TABLE MILAAN_CORE.UNMATCHED_LEDGER AS
 SELECT l.*,b.bank_txn_id,b.amount_paise bank_paise,n.return_reason,
- CASE WHEN l.duplicate_rank>1 THEN 'DUPLICATE_POSTING'
+ CASE WHEN r.ref_norm IS NOT NULL THEN 'BANK_REVERSAL'
+ WHEN l.duplicate_rank>1 THEN 'DUPLICATE_POSTING'
  WHEN n.umrn IS NOT NULL THEN 'NACH_BOUNCE_MISPOSTED'
  WHEN b.amount_paise>0 AND b.amount_paise<l.amount_paise THEN 'PARTIAL_PAYMENT'
  WHEN b.amount_paise=l.amount_paise THEN 'NAME_MISMATCH'
@@ -24,14 +25,16 @@ SELECT l.*,b.bank_txn_id,b.amount_paise bank_paise,n.return_reason,
 FROM MILAAN_CORE.REMAINING_LEDGER l
 CROSS JOIN MILAAN_AUDIT.DATASET d JOIN MILAAN_CORE.CALENDAR c ON c.calendar_date=d.as_of_date
 LEFT JOIN MILAAN_CORE.REMAINING_CANDIDATE b ON l.ledger_id=b.ledger_id
+LEFT JOIN (SELECT DISTINCT ref_norm,amount_paise FROM MILAAN_CORE.BANK_REVERSAL) r ON r.ref_norm=l.ref_norm AND r.amount_paise=l.amount_paise
 LEFT JOIN MILAAN_CORE.NACH n ON l.ref_norm=n.ref_norm AND l.loan_id=n.loan_id
 QUALIFY ROW_NUMBER() OVER (PARTITION BY l.ledger_id ORDER BY ABS(l.amount_paise-COALESCE(b.amount_paise,0)),b.bank_txn_id)=1;
 
 INSERT INTO MILAAN_RES."EXCEPTION"
 SELECT 'L:'||ledger_id,'@RUN_ID@','LEDGER',ledger_id,category,loan_id,channel,amount_paise,age_business_days,
- CASE WHEN category IN ('NACH_BOUNCE_MISPOSTED','MISSING_IN_BANK') THEN 5 ELSE 2 END,
- amount_paise/100.0*GREATEST(age_business_days,1)*CASE WHEN category IN ('NACH_BOUNCE_MISPOSTED','MISSING_IN_BANK') THEN 5 ELSE 2 END,
- CASE WHEN category='NACH_BOUNCE_MISPOSTED' THEN 'Reverse the paid status after verifying the NACH return; contact the collections owner.'
+ CASE WHEN category IN ('NACH_BOUNCE_MISPOSTED','MISSING_IN_BANK','BANK_REVERSAL') THEN 5 ELSE 2 END,
+ amount_paise/100.0*GREATEST(age_business_days,1)*CASE WHEN category IN ('NACH_BOUNCE_MISPOSTED','MISSING_IN_BANK','BANK_REVERSAL') THEN 5 ELSE 2 END,
+ CASE WHEN category='BANK_REVERSAL' THEN 'Verify the cancelling bank debit and reverse the paid status after approval.'
+ WHEN category='NACH_BOUNCE_MISPOSTED' THEN 'Reverse the paid status after verifying the NACH return; contact the collections owner.'
  WHEN category='DUPLICATE_POSTING' THEN 'Check the duplicate receipt and reverse the extra posting after approval.'
  WHEN category='PARTIAL_PAYMENT' THEN 'Allocate the received amount and investigate the unpaid balance.'
  WHEN category='NAME_MISMATCH' THEN 'Verify the candidate payer and payment reference before approving a match.'
@@ -54,7 +57,7 @@ WHERE p.gross_paise>0 AND lr.external_ref IS NULL;
 
 CREATE OR REPLACE TABLE MILAAN_CORE.BANK_LINK_COUNT AS
 SELECT x.bank_txn_id,COUNT(*) matched_count FROM MILAAN_RES.LINK x
-JOIN (SELECT DISTINCT b.bank_txn_id FROM MILAAN_CORE.BANK b
+JOIN (SELECT DISTINCT b.bank_txn_id FROM MILAAN_CORE.SAFE_BANK b
  JOIN MILAAN_CORE.MISSING_PG p ON b.batch_id=p.settlement_batch_id AND b.bank_ref=p.settlement_utr) eligible
 ON x.bank_txn_id=eligible.bank_txn_id GROUP BY x.bank_txn_id;
 
@@ -65,6 +68,15 @@ SELECT 'PG:'||p.pg_payment_id,'@RUN_ID@','PG',p.pg_payment_id,'MISSING_IN_LEDGER
  MILAAN_CORE.EVIDENCE(NULL,b.bank_txn_id,p.pg_payment_id,p.loan_id,p.gross_paise,b.amount_paise,g.fee_paise,g.gst_paise,g.refund_paise,p.payment_date,'Gateway payment has no ledger receipt','PG',p.settlement_batch_id,g.payment_count,
  COALESCE(lc.matched_count,0),g.gross_paise,g.net_paise)
 FROM MILAAN_CORE.MISSING_PG p JOIN MILAAN_CORE.BATCH g ON p.settlement_batch_id=g.batch_id AND p.settlement_utr=g.settlement_utr
-LEFT JOIN MILAAN_CORE.BANK b ON b.batch_id=p.settlement_batch_id AND b.bank_ref=p.settlement_utr
+LEFT JOIN MILAAN_CORE.SAFE_BANK b ON b.batch_id=p.settlement_batch_id AND b.bank_ref=p.settlement_utr
 LEFT JOIN MILAAN_CORE.BANK_LINK_COUNT lc ON b.bank_txn_id=lc.bank_txn_id
 CROSS JOIN MILAAN_AUDIT.DATASET d JOIN MILAAN_CORE.CALENDAR c ON c.calendar_date=d.as_of_date;
+
+INSERT INTO MILAAN_RES."EXCEPTION"
+SELECT 'RV:'||r.credit_id||':'||r.debit_id,'@RUN_ID@','BANK',r.credit_id,'BANK_REVERSAL',r.loan_id,r.channel,r.amount_paise,
+ GREATEST(0,c.business_day_index-r.day_index),5,r.amount_paise/100.0*GREATEST(c.business_day_index-r.day_index,1)*5,
+ 'Verify the cancelling bank debit and reverse any paid posting after approval.',
+ MILAAN_CORE.EVIDENCE(NULL,r.credit_id,NULL,r.loan_id,r.amount_paise,r.amount_paise,NULL,NULL,NULL,r.reversal_date,
+ 'Cancelled by debit '||r.debit_id||'; same reference and amount','UPI',NULL,NULL,NULL,NULL,NULL)
+FROM MILAAN_CORE.BANK_REVERSAL r CROSS JOIN MILAAN_AUDIT.DATASET d
+JOIN MILAAN_CORE.CALENDAR c ON c.calendar_date=d.as_of_date;

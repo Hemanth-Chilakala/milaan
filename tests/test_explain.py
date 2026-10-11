@@ -42,3 +42,19 @@ def test_masking_nested_evidence():
     assert masked["loan_id"].endswith("8213") and "SFL-" not in masked["loan_id"]
     assert masked["records"][0]["bank_ref"] == "*****6789"
     assert source["customer_name"] == "Hemanth Chilakala"
+
+
+def test_reversal_explanation_is_explicit_and_formats_the_date():
+    text = explain(
+        "BANK_REVERSAL",
+        {
+            "amount_paise": 48215000,
+            "bank_txn_id": "BUB-TXN-91827364",
+            "loan_id": "SFL-HL-4827316",
+            "date": "2026-10-27",
+            "reason": "Cancelled by debit BUB-TXN-91827364-RV",
+        },
+    )
+    assert "27 Oct 2026" in text and "2026-10-27" not in text
+    assert "₹4,82,150" in text and "Both bank lines are excluded" in text
+    assert "BUB-TXN-91827364-RV" in text

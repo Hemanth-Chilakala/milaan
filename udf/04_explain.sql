@@ -1,5 +1,6 @@
 CREATE OR REPLACE PYTHON3 SCALAR SCRIPT MILAAN_CORE.EXPLAIN(category VARCHAR(40), evidence VARCHAR(10000)) RETURNS VARCHAR(10000) AS
 import json
+from datetime import date
 def rupees(paise: int | None) -> str:
     value = int(paise or 0)
     whole, fraction = divmod(abs(value), 100)
@@ -20,7 +21,10 @@ def explain(category: str, evidence: str | dict) -> str:
             raise ValueError("Missing amount evidence")
         amount = rupees(e["amount_paise"])
         loan = e.get("loan_id") or "an unidentified loan"
-        day = e.get("date") or "an unrecorded date"
+        try:
+            day = date.fromisoformat(str(e.get("date"))[:10]).strftime("%d %b %Y")
+        except (ValueError, TypeError):
+            day = "an unrecorded date"
         if category == "MISSING_IN_LEDGER" and e.get("batch_id"):
             count, matched = e.get("payment_count", 0), e.get("matched_count", 0)
             refund = (
@@ -33,6 +37,13 @@ def explain(category: str, evidence: str | dict) -> str:
                 f"the ledger; {count - matched} did not. Payment {e.get('pg_payment_id')} for "
                 f"{loan}, {amount}, paid on {day}, has no ledger receipt. "
                 f"Action: verify the gateway payment and post the missing receipt to {loan}."
+            )
+        if category == "BANK_REVERSAL":
+            return (
+                f"The {amount} bank credit for {loan} was cancelled by an equal debit "
+                f"with the same reference on {day}. {e.get('reason') or ''}. "
+                "Both bank lines are excluded from automatic matching. "
+                "Action: verify the cancelling debit and reverse any paid posting after approval."
             )
         if category == "NACH_BOUNCE_MISPOSTED":
             return (

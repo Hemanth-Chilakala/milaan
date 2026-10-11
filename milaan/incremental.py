@@ -28,6 +28,9 @@ def reconcile_incremental(progress=None, started=None):
         try:
             stage_times["ARRIVAL_PREPARATION"] = perf_counter() - started
             work_started = perf_counter()
+            from milaan.reversals import prepare as prepare_reversals
+
+            prepare_reversals(connection, daily=True)
             connection.execute(
                 "CREATE OR REPLACE TABLE MILAAN_CORE.DELTA_LINK AS SELECT * FROM MILAAN_RES.LINK WHERE 1=0"
             )
@@ -142,7 +145,7 @@ def reconcile_incremental(progress=None, started=None):
             connection.execute('TRUNCATE TABLE MILAAN_RES."EXCEPTION"')
             connection.execute("TRUNCATE TABLE MILAAN_RES.EXPLANATION")
             for sql in statements(ROOT / "sql/36_classify.sql"):
-                sql = sql.replace("MILAAN_CORE.BANK ", "MILAAN_CORE.WORK_BANK ").replace(
+                sql = sql.replace("MILAAN_CORE.SAFE_BANK ", "MILAAN_CORE.WORK_BANK ").replace(
                     "MILAAN_CORE.PG ", "MILAAN_CORE.WORK_PG "
                 )
                 connection.execute(

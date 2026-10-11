@@ -162,6 +162,9 @@ def _recon(progress=None, daily=False, started=None) -> dict:
                     connection.execute(
                         f"/* MILAAN:{run_id}:PREPARATION */ CREATE OR REPLACE TABLE MILAAN_CORE.OPEN_{source} AS SELECT {columns} FROM MILAAN_CORE.{source}"
                     )
+            from milaan.reversals import prepare as prepare_reversals
+
+            prepare_reversals(connection)
             stage_times["PREPARATION"] = perf_counter() - tick
             members = live.begin(connection, run_id, daily, perf_counter() - started)
             previous = 0

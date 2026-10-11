@@ -275,3 +275,73 @@ def test_daily_replay_and_reset_preserve_the_day_and_month(reconciled):
         query("SELECT * FROM MILAAN_RES.LINK ORDER BY match_id,ledger_id,bank_txn_id,pg_payment_id")
         == monthly
     )
+
+
+def test_reversal_cancels_month_and_previously_closed_daily_credit(tmp_path):
+    from generator.generate import add_business_days
+    from milaan.daily import recon_day
+    from milaan.db import scope
+
+    folder = tmp_path / "bank-reversal"
+    generate(folder, 1000, fixture=True)
+
+    def read(name):
+        with (folder / f"{name}.csv").open() as stream:
+            return list(csv.DictReader(stream))
+
+    ledger, bank, truth = read("ledger"), read("bank_statement"), read("ground_truth")
+    upi = {row["ledger_id"] for row in ledger if row["channel"] == "UPI"}
+    target = next(
+        row
+        for row in truth
+        if row["break_type"] == "CLEAN" and row["ledger_id"] in upi and row["expected_match"] == "1"
+    )
+    credit = next(row for row in bank if row["bank_txn_id"] == target["bank_txn_id"])
+    debit_day = add_business_days(date.fromisoformat(credit["value_date"]), 1, set())
+    debit = dict(
+        credit,
+        bank_txn_id=credit["bank_txn_id"] + "-RV",
+        value_date=str(debit_day),
+        narration="REVERSAL " + credit["narration"],
+        credit_paise="0",
+        debit_paise=credit["credit_paise"],
+    )
+    bank.append(debit)
+    target["expected_match"] = "0"
+    target["expected_category"] = "BANK_REVERSAL"
+    for name, rows in (("bank_statement", bank), ("ground_truth", truth)):
+        with (folder / f"{name}.csv").open("w") as stream:
+            writer = csv.DictWriter(stream, fieldnames=rows[0].keys(), lineterminator="\n")
+            writer.writeheader()
+            writer.writerows(rows)
+    manifest_path = folder / "manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest["source_counts"]["bank_statement"] += 1
+    manifest["source_rows"] += 1
+    manifest_path.write_text(json.dumps(manifest))
+    load(folder)
+    result = recon()
+    assert result["score"]["FALSE_POSITIVE"] == 0
+    assert not query(
+        "SELECT * FROM MILAAN_RES.LINK WHERE bank_txn_id={id!s}", {"id": credit["bank_txn_id"]}
+    )
+    assert query(
+        "SELECT * FROM MILAAN_RES.\"EXCEPTION\" WHERE category='BANK_REVERSAL' AND txn_key={id!s}",
+        {"id": credit["bank_txn_id"]},
+    )
+    recon_day(credit["value_date"], restart=True, warmup=False)
+    with scope("day"):
+        assert query(
+            "SELECT * FROM MILAAN_RES.LINK WHERE bank_txn_id={id!s}", {"id": credit["bank_txn_id"]}
+        )
+    recon_day(str(debit_day), warmup=False)
+    with scope("day"):
+        assert not query(
+            "SELECT * FROM MILAAN_RES.LINK WHERE bank_txn_id={id!s}", {"id": credit["bank_txn_id"]}
+        )
+        assert query(
+            "SELECT * FROM MILAAN_RES.\"EXCEPTION\" WHERE category='BANK_REVERSAL' AND txn_key={id!s}",
+            {"id": credit["bank_txn_id"]},
+        )
+        with connect() as connection:
+            validate(connection)
