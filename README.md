@@ -16,7 +16,7 @@ References, settlement dates and gross versus net amounts disagree. Batch credit
 
 ## Demonstration
 
-[Demo video (2:10)](docs/video/demo.mp4) · [Narration script](docs/video/script.md) · [Deck PDF](docs/deck/milaan_deck.pdf) · [PowerPoint](docs/deck/milaan_deck.pptx)
+**[Watch the demo video (2:10)](https://drive.google.com/file/d/1kGAxMMSWJb37wQ_lMM5eHd7PreDVZaOq/view?usp=sharing)** · [Download MP4](docs/video/demo.mp4) · [Narration script](docs/video/script.md) · [Deck PDF](docs/deck/milaan_deck.pdf) · [PowerPoint](docs/deck/milaan_deck.pptx)
 
 ![Close overview](docs/screenshots/home.png)
 ![Exception evidence](docs/screenshots/detail.png)

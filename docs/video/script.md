@@ -1,6 +1,6 @@
 # Demo video: narration script
 
-Final cut: [demo.mp4](demo.mp4), 1920x1080, 30 fps, 2:10. Captions are burned in, so the video can be followed without sound.
+Final cut: [watch online](https://drive.google.com/file/d/1kGAxMMSWJb37wQ_lMM5eHd7PreDVZaOq/view?usp=sharing) or [demo.mp4](demo.mp4), 1920x1080, 30 fps, 2:10. Captions are burned in, so the video can be followed without sound.
 
 All figures quoted come from measured runs on synthetic data. The month and daily timings are the unrecorded benchmark results in [benchmarks.md](../benchmarks.md). The dashboard footage is a separate recorded run, sped up in the edit and labelled on screen.
 
