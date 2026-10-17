@@ -16,13 +16,13 @@ References, settlement dates and gross versus net amounts disagree. Batch credit
 
 ## Demonstration
 
-Demo video: docs/video/demo.mp4 · [Deck PDF](docs/deck/milaan_deck.pdf) · [PowerPoint](docs/deck/milaan_deck.pptx)
+[Demo video (2:10)](docs/video/demo.mp4) · [Narration script](docs/video/script.md) · [Deck PDF](docs/deck/milaan_deck.pdf) · [PowerPoint](docs/deck/milaan_deck.pptx)
 
 ![Close overview](docs/screenshots/home.png)
 ![Exception evidence](docs/screenshots/detail.png)
 ![Priority queue](docs/screenshots/queue.png)
 
-The final video is assembled separately from the supplied silent footage and editor assets. The editor will add the final video, script and credits.
+The demo video is edited from real dashboard recordings. Recorded segments are sped up in the edit and labelled as such on screen; the headline timings quoted in the narration are the unrecorded benchmark figures above. Music, voice and font credits are listed in [docs/video/credits.md](docs/video/credits.md).
 
 ## What Milaan does
 

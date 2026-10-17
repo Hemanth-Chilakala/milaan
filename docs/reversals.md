@@ -10,7 +10,7 @@ Reversal checks run inside Exasol before matching. All positive credits paired w
 | Hard (tuned) | 100.000% | 85.872% | 0 | 62,123 |
 | Hard (blind) | 100.000% | 85.867% | 0 | 62,132 |
 
-Seed 20261104 informed the change and is explicitly tuned. Seed 20261105 had never been generated before these frozen-rule runs and is explicitly blind. The brief suggested 20261104 as an unseen seed, but it had already been measured. All extra measurement CSV folders and isolated schemas were removed; the retained 10M demo dataset was unchanged. Full hashes, exact values, manifests and run IDs: [validation_results.json](validation_results.json).
+Seed 20261104 informed the change and is explicitly tuned. Seed 20261105 had never been generated before these frozen-rule runs and is explicitly blind. The original plan suggested 20261104 as an unseen seed, but it had already been measured. All extra measurement CSV folders and isolated schemas were removed; the retained 10M demo dataset was unchanged. Full hashes, exact values, manifests and run IDs: [validation_results.json](validation_results.json).
 
 All 10 prior integration tests passed in 274.70s. The additional late-reversal test passed in 23.26s against the final Lua runtime and explanation template, with self-contained schema setup. Unit tests: 34 passed. The same test verifies that resetting an unclosed date is rejected before arrivals can be prepared twice. No conflict groups or cancelled credit links remained in the new test.
 

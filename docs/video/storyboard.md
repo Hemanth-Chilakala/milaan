@@ -2,7 +2,7 @@
 
 The final video is produced separately. Silent footage is captured last, after
 the product checkpoint. Shots use presentation mode, real-time reconciliation
-and per-shot event logs. The editor adds narration, captions and graphics.
+and per-shot event logs. Narration, captions and graphics are added in the edit; see [script.md](script.md).
 
 | Shot | Content |
 |---|---|
@@ -18,4 +18,4 @@ and per-shot event logs. The editor adds narration, captions and graphics.
 
 Every number comes from measured runs. The footage manifest and metrics are
 provided alongside the repository in `video_assets/`; they are not committed.
-A synchronization marker precedes each shot and is trimmed by the editor.
+A synchronization marker precedes each shot and is trimmed in the edit.

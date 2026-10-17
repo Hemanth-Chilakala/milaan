@@ -16,7 +16,7 @@
 - [x] Single final ZIP assembly includes local history, repository, editor assets and private prep.
 - [x] Packaging enforces per-file checksums, ZIP CRC and extracted git history verification before delivery.
 - [ ] Publisher creates the destination repo, verifies hosted CI and a fresh Codespace.
-- [ ] Editor adds final demo.mp4, script and credits; publisher verifies access.
+- [x] Final demo.mp4 (2:10), narration script and credits added.
 
 No GitHub repository is created or pushed from this Codespace. Download the
 project folder including `.git` as a daily backup. Stop the Codespace after

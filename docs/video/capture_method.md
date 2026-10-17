@@ -45,4 +45,4 @@ Assets live beside the repository in `video_assets/`. Commit source and reports
 before refreshing exported metrics and running `scripts/package_submission.py`.
 The package script includes complete local history, excludes runtime data and
 secrets, hashes every file, tests ZIP CRC, extracts it and verifies hashes and git.
-The external editor adds the final video, narration script and credits.
+The edited video is [demo.mp4](demo.mp4), with its [narration script](script.md) and [credits](credits.md).
